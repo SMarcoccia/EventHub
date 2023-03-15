@@ -26,7 +26,15 @@ export const ListEventsUser = () => {
     });
     const [loading, setLoading]=useState(false);
     const [pageCurrent, setPageCurrent]=useState(0);
-    const [offset, setOffset]=useState(4);
+    const [offset, setOffset]=useState(10);
+    const [startCount, setStartCount] = useState(0)
+    let pages=events.totalPages;
+    let isOnClick = false;
+    let isPreviousPage =false; let isNextPage = false;
+    let count=0;
+    //let isCountEgalIdx = false
+    let [isCountEgalIdx, setIsCountEgalIdx] = useState(false)
+    let start = 0;
 
     // Récupération de tous les événements d'un utilisateur.
     const fetchEvents = async(url)=>{
@@ -75,48 +83,113 @@ export const ListEventsUser = () => {
         navigation(slug);
     }
 
+    const onClickEvent = (idx) => {
+        fetchEvents(URL_GetEventsPage+idx); 
+        isOnClick = true;
+        console.log("onclickevent avant if count : ", count, " === ", idx, " idx : ");
+        if (count === idx ) {
+            setIsCountEgalIdx(true);
+            setStartCount(count-offset)
+        }else{
+            setIsCountEgalIdx(false)
+        }
+        setPageCurrent(idx)
+        console.log("onclickevent isCountEgalIdx : ", isCountEgalIdx);
+        console.log("onClickEvent isCountEgalIdx : ", isCountEgalIdx)
+        
+    }
+
     const pagination = ()=>{
         const li=[];
-        console.log("events.totalPages : ", events.totalPages, "events.totalElement : ", events.totalElements);
-        const pages = events.totalPages;
-        const middle = Math.trunc(pages/2);
-
-        for (let i = 0; i < events.totalPages ; i++) 
-        {
-            if (i<offset || (i>=middle && i<middle+offset) || (i>=pages-offset && i<pages)) {
-                li.push(
-                    <li key={i}>
-                    <a onClick={() => {fetchEvents(URL_GetEventsPage+i); setPageCurrent(i); /*si on a cliqué sur le dernier chiffre setOffset(offset+1);*/ console.log("i : ", i, "pagination : "+URL+URI_GetEvents+user.id+"?page="+i);}} className="cursor-pointer px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{i+1}</a>
-                    </li>
-                )
+        //let count = 0;
+        if (pageCurrent >= pages-offset) {
+            count = pages-offset;
+        }else{
+            if (pageCurrent < 0) {
+                count=0;
             }else{
-                if (i == offset || i == middle+offset) {
-                    li.push(<li key={i}>
-                        <span className="cursor-pointer px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">...</span>
-                    </li>)
+                count = pageCurrent;
+            }
+        }
+
+        //console.log("pagecurrent : ", pageCurrent, " === ", pages-offset, " : pages-offset", "isPreviousPage : ", isPreviousPage, "isNextPage : ", isNextPage);
+        //if(pageCurrent === pages-offset && isPreviousPage){
+        //    console.log("count=pageCurrent-offset : ", count, " - pageCurrent-offset : ", pageCurrent-offset);
+        //    count=pageCurrent-offset+1;
+        //}
+
+
+        console.log("pagination isCountEgalIdx : ", isCountEgalIdx);
+
+        if(isCountEgalIdx === false){
+            console.log("pagination avant for if start : ", start, " pagecurrent : ", pageCurrent, " === ", start+offset-1, " : start+offset-1 - pages : ", pages);
+            if (pageCurrent === start+offset-1) {
+                start = count;
+                //count+=offset;
+            }else if(pageCurrent > start+offset-1){
+                count = pageCurrent
+                if (count + offset >= pages-1) {
+                    count = pages-offset;
                 }
+                start=count
+            }
+            else{
+                count=0;
+            }
+            //start=count 
+            
+            console.log("pagination apres for if start : ", start);
+        }else {
+            start=startCount+1; 
+            count=startCount+1
+            if (start < 0 ) {
+                start = 0; 
+            }
+            if (count < 0) {
+                count = 0;
+            }
+            console.log("pagination avant for else start : ", start, "count : ", count, " count+offset : ", count+offset);
+        }
+        //for (let i = (count !== startCount ? count : startCount); i < count+offset ; i++) // ceci marche
+        for (let i=start; i < count+offset ; i++) // ceci marche
+        {
+            console.log("pagination for if i < count+offset : ", i, " < ", count+offset);
+            if(i < count+offset) {
+                {li.push(
+                    <li key={i}>
+                    <a onClick={()=>{onClickEvent(i)}} className={`cursor-pointer px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-green-100 hover:text-gray-700 ${pageCurrent === i ? "dark:bg-green-800":"dark:bg-gray-800"} dark:border-gray-700 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white`}>{i+1}</a>
+                    </li>
+                )}
             }
         }
         return li;
     }
-
-    // faire < 1 2 3 ... 7 8 9 ... 13 14 15 >
-
+    
     const previousPage=()=>{
         let count = pageCurrent-1;
         if (count < 0) {count=0}
         fetchEvents(URL_GetEventsPage+count);
         setPageCurrent(count)
+        isPreviousPage = true;
+        isNextPage = false;
+        console.log("previousPage avant if start===count start : ", start, " === ", count, ", count");
+        if (start === count) {
+            setIsCountEgalIdx(false)
+        }
     }
-
+    
     const nextPage=()=>{
         let count = pageCurrent+1
-        console.log("nextpage count : ", count, "events.totalpages-1 : ", events.totalPages-1);
-        if(count > events.totalPages-1){count-=1}
+        console.log("nextpage count : ", count, "pages-1 : ", pages-1, "start : ", start);
+        if(pageCurrent+1 > pages-1){count-=1} // Evite de voir disparaitre la dernière page.
+        //if(count < offset)
         fetchEvents(URL_GetEventsPage+count);
         setPageCurrent(count)
+        isNextPage = true;
+        isPreviousPage = false
+        setIsCountEgalIdx(false)
     }
-
+    
     useEffect(()=>{
         //console.log("useEffect : "+URL+URI_GetEvents+user.id);
         fetchEvents(URL+URI_GetEvents+user.id);
@@ -174,7 +247,7 @@ export const ListEventsUser = () => {
                     </div>
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                    <p>{event.titre}</p>
+                    <p>{event.titre.substring(0, 45)}</p>
                 </td>
                 <td className="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
                     <span>{event.resume}</span>
