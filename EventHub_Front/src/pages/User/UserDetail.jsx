@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
-import BackButton from '../components/BackButton';
+import BackButton from '../../components/BackButton';
 
 export const UserDetail = () => {
   const user=JSON.parse(localStorage.getItem("user"))
