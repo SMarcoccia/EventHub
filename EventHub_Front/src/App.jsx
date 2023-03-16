@@ -1,18 +1,17 @@
-import { useState } from 'react'
-import Footer from './components/Footer'
-import Header from './components/Header'
-import { Home } from './pages/Home'
-import { Login } from './pages/Login'
-import { Events } from './pages/Public/Events'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useState } from 'react'
+import { Footer } from './components/Footer'
+import { Header } from './components/Header'
+import { Home } from './pages/public/Home'
+import { Login } from './pages/public/Login'
+import { Events } from './pages/Public/Events'
 import { NotFound } from './utils/NotFound'
 import { UserDetail } from './pages/User/UserDetail'
-import EventDetails from './pages/Public/EventDetails'
-import { Logout } from './pages/Logout'
-import Signin from './pages/Register'
-import Register from './pages/Register'
-import { ListEventsUser } from './pages/ListEventsUser'
+
+import { ListEventsUser } from './pages/user/ListEventsUser'
 import { EditCreateEvent } from './pages/User/EditCreateEvent'
+import { Register } from './pages/Public/Register'
+import { EventDetails } from './pages/Public/EventDetails'
 
 
 function App() {
@@ -31,7 +30,6 @@ function App() {
         <Routes>
           <Route index element={<Home />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/logout' element={<Logout />} />
           <Route path='/register' element={<Register />} />
           <Route path='/events' element={<Events />} />
           <Route path='/events/:slug' element={<EventDetails />} />

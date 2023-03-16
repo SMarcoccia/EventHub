@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Footer = () => {
+export const Footer = () => {
     const date = new Date().getFullYear()
   return (
     <footer className='py-4 bg-gradient-to-r from-blue-300 to-blue-400'>
@@ -11,4 +11,3 @@ const Footer = () => {
   )
 }
 
-export default Footer

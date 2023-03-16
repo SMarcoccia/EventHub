@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const EventCard = ({event}) => {
+export const EventCard = ({event}) => {
     const navigate = useNavigate()
     localStorage.setItem("path", window.location.pathname);
     const goToEvent = () => {
@@ -33,4 +33,3 @@ const EventCard = ({event}) => {
     )
 }
 
-export default EventCard

@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 
-function Register() {
+export function Register() {
 
     const [pseudo, setPseudo] = useState("");
     const [name, setName] = useState("");
@@ -92,4 +92,3 @@ function Register() {
   )
 }
 
-export default Register

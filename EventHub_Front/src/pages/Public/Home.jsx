@@ -1,9 +1,9 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import EventCard from "../components/EventCard"
-import Loading from "../components/Loading"
-import Separateur from "../components/Separateur"
+import { EventCard } from "../../components/EventCard"
+import { Loading } from "../../components/Loading"
+import { Separateur } from "../../components/Separateur"
 
 export const Home = () => {
 
