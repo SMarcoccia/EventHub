@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import Loading from "../components/Loading"
-import EventCard from "../components/EventCard"
+import Loading from "../../components/Loading"
+import EventCard from "../../components/EventCard"
 
 export const Events = () => {
   const API_URL = "http://localhost:8081/api/events"

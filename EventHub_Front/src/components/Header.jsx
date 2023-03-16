@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import HeaderItem from './HeaderItem'
+import "./header.css"
 
 const Header = ({title = "EventHub"}) => {
     const user=JSON.parse(localStorage.getItem("user"))

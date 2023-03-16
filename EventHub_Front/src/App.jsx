@@ -3,16 +3,16 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import { Home } from './pages/Home'
 import { Login } from './pages/Login'
-import { Events } from './pages/Events'
+import { Events } from './pages/Public/Events'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { NotFound } from './pages/NotFound'
+import { NotFound } from './utils/NotFound'
 import { UserDetail } from './pages/UserDetail'
-import EventDetails from './pages/EventDetails'
+import EventDetails from './pages/Public/EventDetails'
 import { Logout } from './pages/Logout'
 import Signin from './pages/Register'
 import Register from './pages/Register'
 import { ListEventsUser } from './pages/ListEventsUser'
-import { EditCreateEvent } from './pages/EditCreateEvent'
+import { EditCreateEvent } from './pages/User/EditCreateEvent'
 
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
       {/* PAGES  */}
       <div className='min-h-full bg-blue-50 dark:bg-blue-900'>
         <Routes>
-          <Route path='/' element={<Home />} />
+          <Route index element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/logout' element={<Logout />} />
           <Route path='/register' element={<Register />} />

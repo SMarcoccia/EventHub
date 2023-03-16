@@ -30,7 +30,8 @@ export const ListEventsUser = () => {
     const [startCount, setStartCount] = useState(0)
     let pages=events.totalPages;
     let isOnClick = false;
-    let isPreviousPage =false; let isNextPage = false;
+    let isPreviousPage =false; 
+    const [isNextPage, setIsNextPage] = useState(false);
     let count=0;
     //let isCountEgalIdx = false
     let [isCountEgalIdx, setIsCountEgalIdx] = useState(false)
@@ -122,13 +123,18 @@ export const ListEventsUser = () => {
         console.log("pagination isCountEgalIdx : ", isCountEgalIdx);
 
         if(isCountEgalIdx === false){
-            console.log("pagination avant for if start : ", start, " pagecurrent : ", pageCurrent, " === ", start+offset-1, " : start+offset-1 - pages : ", pages);
+            console.log("pagination avant for if start : ", start, " pagecurrent : ", pageCurrent, " === ", start+offset-1, " : start+offset-1 - pages : ", pages, " isNextPage : ", isNextPage);
             if (pageCurrent === start+offset-1) {
-                start = count;
+                if (isNextPage === false) {
+                    start = count;
+                }else{
+                    start = 0;
+                    count = 0;
+                }
                 //count+=offset;
             }else if(pageCurrent > start+offset-1){
                 count = pageCurrent
-                if (count + offset >= pages-1) {
+                if (count + offset >= pages) {
                     count = pages-offset;
                 }
                 start=count
@@ -156,8 +162,8 @@ export const ListEventsUser = () => {
             console.log("pagination for if i < count+offset : ", i, " < ", count+offset);
             if(i < count+offset) {
                 {li.push(
-                    <li key={i}>
-                    <a onClick={()=>{onClickEvent(i)}} className={`cursor-pointer px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-green-100 hover:text-gray-700 ${pageCurrent === i ? "dark:bg-green-800":"dark:bg-gray-800"} dark:border-gray-700 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white`}>{i+1}</a>
+                    <li key={i} className="items-center">
+                    <a onClick={()=>{onClickEvent(i)}} className={`inline-block w-10 h-10 text-center cursor-pointer px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-green-100 hover:text-gray-700 ${pageCurrent === i ? "dark:bg-green-800":"dark:bg-gray-800"} dark:border-gray-700 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white`}>{i+1}</a>
                     </li>
                 )}
             }
@@ -185,7 +191,7 @@ export const ListEventsUser = () => {
         //if(count < offset)
         fetchEvents(URL_GetEventsPage+count);
         setPageCurrent(count)
-        isNextPage = true;
+        setIsNextPage(true);
         isPreviousPage = false
         setIsCountEgalIdx(false)
     }
@@ -290,13 +296,13 @@ export const ListEventsUser = () => {
 
         <div className="flex justify-center my-9">
             <nav >
-            <ul className="inline-flex -space-x-px">
+            <ul className="inline-flex items-center -space-x-px">
                 <li>
-                <a onClick={()=>previousPage()} className="cursor-pointer px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><FontAwesomeIcon icon={faArrowLeft} /></a>
+                <a onClick={()=>previousPage()} className="cursor-pointer inline-block w-10 h-10 px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><FontAwesomeIcon icon={faArrowLeft} /></a>
                 </li>
                     {pagination()}
                 <li>
-                <a onClick={()=>nextPage()} className="cursor-pointer px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><FontAwesomeIcon icon={faArrowRight} /></a>
+                <a onClick={()=>nextPage()} className="cursor-pointer inline-block w-10 h-10 px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"><FontAwesomeIcon icon={faArrowRight} /></a>
                 </li>
             </ul>
             </nav>

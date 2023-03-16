@@ -16,7 +16,7 @@ const HeaderItem = ({path, title}) => {
     <li className='font-bold cursor-pointer'>
     <Link
         onClick={removeUser}
-        //className={ location.pathname == path ? 'border-b-4 border-pink-700' : ''}
+        className='cursor-pointer px-3 py-2 leading-tight dark:hover:text-green-700'
         to={path}>{title}</Link>
     </li>
     )
