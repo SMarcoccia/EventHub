@@ -1,9 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
-import React, { useEffect, useMemo, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom';
-import { BackButton } from '../../components/BackButton';
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import { BackButton } from '@components/BackButton';
 
 
 // Liste tout les événements d'un utilisateur.
@@ -177,7 +177,7 @@ export const ListEventsUser = () => {
         fetchEvents(URL_GetEventsPage+count);
         setPageCurrent(count)
         isPreviousPage = true;
-        isNextPage = false;
+        setIsNextPage(false);
         console.log("previousPage avant if start===count start : ", start, " === ", count, ", count");
         if (start === count) {
             setIsCountEgalIdx(false)
