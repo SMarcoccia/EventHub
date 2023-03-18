@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { BackButton } from '@components/BackButton'
 import { Loading } from '@components/Loading'
 
-export const EventDetails = () => {
+const EventDetails = () => {
     let user = JSON.parse(localStorage.getItem("user"));
 
     const [events, setEvents] = useState([])
@@ -16,14 +16,11 @@ export const EventDetails = () => {
 
     const fetchEvents = async () => {
         setLoading(true)
-       await axios.get("http://localhost:8081/api/events")
-             .then((res) => 
-             { 
-                 setEvents(res.data)   
-            }).catch((e) => console.log(e))
-            .finally(() => {
-                    setLoading(false)
-            })
+        await axios
+        .get("http://localhost:8081/api/events")
+        .then((res) => { setEvents(res.data)})
+        .catch((e) => console.log(e))
+        .finally(() => { setLoading(false)})
     }
 
     // Cherche l'event qui a dans son URL un slug identique.
@@ -99,3 +96,4 @@ export const EventDetails = () => {
   )
 }
 
+export default EventDetails;

@@ -5,7 +5,7 @@ import { EventCard } from "@components/EventCard"
 import { Loading } from "@components/Loading"
 import { Separateur } from "@components/Separateur"
 
-export const Home = () => {
+const Home = () => {
 
     const [events, setEvents] = useState([])
     const [loading, setLoading] = useState(false)
@@ -91,3 +91,5 @@ export const Home = () => {
     </main>
     )
   }
+
+  export default Home;

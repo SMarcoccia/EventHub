@@ -70,14 +70,12 @@ export const EditCreateEvent = () => {
             }).finally(()=>{setLoading(false)})
     }
 
-    const onSubmit = (event)=>{
+    const handleSubmit = (event)=>{
         event.preventDefault();
         createUpdateEvent();
     }
 
-    const handleSubmit = (e)=>{
-        //console.log("onchange avant if");
-        //console.log(e.target.files[0], e.target.files[0].name);
+    const onChange = (e)=>{
         if (e.target.name !== "file") {
             setFormData({
                 ...formData,
@@ -88,7 +86,6 @@ export const EditCreateEvent = () => {
     }
 
     useEffect(()=>{
-        //createURL
         // On interdit le lancement de fetchEvent si on est sur "créer un événement".
         typeof params.id === "number" || typeof params.id !== "undefined" ? fetchEvent() : null;
     }, [])

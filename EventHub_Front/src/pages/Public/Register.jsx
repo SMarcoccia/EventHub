@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 
-export function Register() {
+const Register= () => {
 
     const [pseudo, setPseudo] = useState("");
     const [name, setName] = useState("");
@@ -37,12 +37,7 @@ export function Register() {
             setError(error.response.data.message);
             console.log(error);
         })
-    
-        
-        
-        
-    
-      }
+    }
 
 
   return (
@@ -92,3 +87,4 @@ export function Register() {
   )
 }
 
+export default Register;

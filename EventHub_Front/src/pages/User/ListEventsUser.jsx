@@ -87,7 +87,6 @@ export const ListEventsUser = () => {
     const onClickEvent = (idx) => {
         fetchEvents(URL_GetEventsPage+idx); 
         isOnClick = true;
-        console.log("onclickevent avant if count : ", count, " === ", idx, " idx : ");
         if (count === idx ) {
             setIsCountEgalIdx(true);
             setStartCount(count-offset)
@@ -99,7 +98,6 @@ export const ListEventsUser = () => {
 
     const pagination = ()=>{
         const li=[];
-        //let count = 0;
         if (pageCurrent >= pages-offset) {
             count = pages-offset;
         }else{
@@ -118,7 +116,6 @@ export const ListEventsUser = () => {
                     start = 0;
                     count = 0;
                 }
-                //count+=offset;
             }else if(pageCurrent > start+offset-1){
                 count = pageCurrent
                 if (count + offset >= pages) {
@@ -139,16 +136,14 @@ export const ListEventsUser = () => {
                 count = 0;
             }
         }
-        //for (let i = (count !== startCount ? count : startCount); i < count+offset ; i++) // ceci marche
-        for (let i=start; i < count+offset ; i++) // ceci marche
+
+        for (let i=start; i < count+offset ; i++) 
         {
-            if(i < count+offset) {
-                {li.push(
-                    <li key={i} className="items-center">
-                    <a onClick={()=>{onClickEvent(i)}} className={`inline-block w-10 h-10 text-center cursor-pointer px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-green-100 hover:text-gray-700 ${pageCurrent === i ? "dark:bg-green-800":"dark:bg-gray-800"} dark:border-gray-700 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white`}>{i+1}</a>
-                    </li>
-                )}
-            }
+            li.push(
+                <li key={i} className="items-center">
+                <a onClick={()=>{onClickEvent(i)}} className={`inline-block w-10 h-10 text-center cursor-pointer px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-green-100 hover:text-gray-700 ${pageCurrent === i ? "dark:bg-green-800":"dark:bg-gray-800"} dark:border-gray-700 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white`}>{i+1}</a>
+                </li>
+            )
         }
         return li;
     }
@@ -160,7 +155,6 @@ export const ListEventsUser = () => {
         setPageCurrent(count)
         isPreviousPage = true;
         setIsNextPage(false);
-        console.log("previousPage avant if start===count start : ", start, " === ", count, ", count");
         if (start === count) {
             setIsCountEgalIdx(false)
         }
@@ -168,9 +162,7 @@ export const ListEventsUser = () => {
     
     const nextPage=()=>{
         let count = pageCurrent+1
-        console.log("nextpage count : ", count, "pages-1 : ", pages-1, "start : ", start);
         if(pageCurrent+1 > pages-1){count-=1} // Evite de voir disparaitre la dernière page.
-        //if(count < offset)
         fetchEvents(URL_GetEventsPage+count);
         setPageCurrent(count)
         setIsNextPage(true);
@@ -179,7 +171,6 @@ export const ListEventsUser = () => {
     }
     
     useEffect(()=>{
-        //console.log("useEffect : "+URL+URI_GetEvents+user.id);
         fetchEvents(URL+URI_GetEvents+user.id);
     }, [])
 
@@ -196,7 +187,7 @@ export const ListEventsUser = () => {
                 <button onClick={()=>goToCreateUpdateEvent()} className="px-4 py-2 rounded-md bg-sky-500 text-sky-100 hover:bg-sky-600">Créer un événement</button>
             </div>
         </div>
-        {/*<div>{console.log("pagecurrent : "+pageCurrent)}</div>*/}
+
         <div className="flex flex-col">
             <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
             <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
@@ -275,8 +266,8 @@ export const ListEventsUser = () => {
             </div>
             </div>
         </div>
-
-        <div className="flex justify-center my-9">
+        {console.log(pages)}
+        { pages ? <div className="flex justify-center my-9">
             <nav >
             <ul className="inline-flex items-center -space-x-px">
                 <li>
@@ -288,7 +279,7 @@ export const ListEventsUser = () => {
                 </li>
             </ul>
             </nav>
-        </div>
+        </div> : ''}
         </div>
     </div>
   )
