@@ -26,7 +26,7 @@ export const ListEventsUser = () => {
     });
     const [loading, setLoading]=useState(false);
     const [pageCurrent, setPageCurrent]=useState(0);
-    const [offset, setOffset]=useState(10);
+    let offset=10;
     const [startCount, setStartCount] = useState(0)
     let pages=events.totalPages;
     let isOnClick = false;
@@ -135,6 +135,12 @@ export const ListEventsUser = () => {
             if (count < 0) {
                 count = 0;
             }
+        }
+
+        if (pages < offset) {
+            offset = pages;
+        }else{
+            offset = 10;
         }
 
         for (let i=start; i < count+offset ; i++) 
