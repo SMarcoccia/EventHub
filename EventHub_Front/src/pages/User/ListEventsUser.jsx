@@ -95,9 +95,6 @@ export const ListEventsUser = () => {
             setIsCountEgalIdx(false)
         }
         setPageCurrent(idx)
-        console.log("onclickevent isCountEgalIdx : ", isCountEgalIdx);
-        console.log("onClickEvent isCountEgalIdx : ", isCountEgalIdx)
-        
     }
 
     const pagination = ()=>{
@@ -113,17 +110,7 @@ export const ListEventsUser = () => {
             }
         }
 
-        //console.log("pagecurrent : ", pageCurrent, " === ", pages-offset, " : pages-offset", "isPreviousPage : ", isPreviousPage, "isNextPage : ", isNextPage);
-        //if(pageCurrent === pages-offset && isPreviousPage){
-        //    console.log("count=pageCurrent-offset : ", count, " - pageCurrent-offset : ", pageCurrent-offset);
-        //    count=pageCurrent-offset+1;
-        //}
-
-
-        console.log("pagination isCountEgalIdx : ", isCountEgalIdx);
-
         if(isCountEgalIdx === false){
-            console.log("pagination avant for if start : ", start, " pagecurrent : ", pageCurrent, " === ", start+offset-1, " : start+offset-1 - pages : ", pages, " isNextPage : ", isNextPage);
             if (pageCurrent === start+offset-1) {
                 if (isNextPage === false) {
                     start = count;
@@ -142,9 +129,6 @@ export const ListEventsUser = () => {
             else{
                 count=0;
             }
-            //start=count 
-            
-            console.log("pagination apres for if start : ", start);
         }else {
             start=startCount+1; 
             count=startCount+1
@@ -154,12 +138,10 @@ export const ListEventsUser = () => {
             if (count < 0) {
                 count = 0;
             }
-            console.log("pagination avant for else start : ", start, "count : ", count, " count+offset : ", count+offset);
         }
         //for (let i = (count !== startCount ? count : startCount); i < count+offset ; i++) // ceci marche
         for (let i=start; i < count+offset ; i++) // ceci marche
         {
-            console.log("pagination for if i < count+offset : ", i, " < ", count+offset);
             if(i < count+offset) {
                 {li.push(
                     <li key={i} className="items-center">
