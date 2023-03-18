@@ -75,7 +75,7 @@ export const EditCreateEvent = () => {
         createUpdateEvent();
     }
 
-    const onChange = (e)=>{
+    const handleSubmit = (e)=>{
         //console.log("onchange avant if");
         //console.log(e.target.files[0], e.target.files[0].name);
         if (e.target.name !== "file") {
@@ -101,7 +101,7 @@ export const EditCreateEvent = () => {
         </div>
         <section className="max-w-4xl mb-6 p-6 mx-auto rounded-md shadow-md bg-gradient-to-r from-blue-300 to-blue-400 mt-20">
         <h1 className="text-xl font-bold text-white capitalize dark:text-white">Création d'un événement</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
                 <div>
                     <label className="text-white dark:text-gray-200" htmlFor="titre">Titre</label>
@@ -167,7 +167,7 @@ export const EditCreateEvent = () => {
             </div>
     
             <div className="flex justify-end mt-6">
-                <button onClick={onSubmit} className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-gray-600">Sauvegarder</button>
+                <button type='submit' className="px-6 py-2 leading-5 text-white transition-colors duration-200 transform bg-blue-500 rounded-md hover:bg-blue-700 focus:outline-none focus:bg-gray-600">Sauvegarder</button>
             </div>
         </form>
     </section>
