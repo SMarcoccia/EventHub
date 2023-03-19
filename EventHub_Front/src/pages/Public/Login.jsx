@@ -20,7 +20,7 @@ const Login = () => {
             .then(response => {
             console.log(response.status)
             if(response.data.succes){
-                navigate("/user-detail");
+                navigate("/user-home");
                 localStorage.setItem("user", JSON.stringify(response.data.user));
             }else{
                 setError(response.data.message);

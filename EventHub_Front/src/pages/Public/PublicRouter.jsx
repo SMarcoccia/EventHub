@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 
 import { Home, Login, Events, Register, EventDetails } from '@public'
 
-import { UserDetail } from '@user/UserDetail'
+import { ULayout } from '@pages/User/ULayout'
 import { ListEventsUser } from '@user/ListEventsUser'
 import { EditCreateEvent } from '@user/EditCreateEvent'
 
@@ -20,7 +20,7 @@ export const PublicRouter = () => {
         <Route path='/events/liste-evenements-utilisateur' element={<ListEventsUser/>} />
         <Route path='/events/editer-un-evenement/:id' element={<EditCreateEvent/>} />
         <Route path='/events/creer-un-evenement' element={<EditCreateEvent/>} />
-        <Route path='/user-detail' element={<UserDetail />} />
+        <Route path='/user-home' element={<ULayout />} />
         <Route path='*' element={<NotFound />} />
     </Routes>
   )

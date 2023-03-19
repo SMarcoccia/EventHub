@@ -10,7 +10,7 @@ export const Header = ({title = "EventHub"}) => {
     
     if(user !== null){
         links.push({path: "/", title: "Accueil"})
-        links.push({path: "/user-detail", title: "Mon compte"})
+        links.push({path: "/user-home", title: "Mon compte"})
         links.push({path: "/", title: "Déconnexion"})
     }else{
         links.push({path: "/register", title: "Inscription"})

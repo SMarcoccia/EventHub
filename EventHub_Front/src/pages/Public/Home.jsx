@@ -77,7 +77,6 @@ const Home = () => {
             { events.length  && !loading ? events.slice(-4).map((p) => (
                 <EventCard key={p.id} event={p} />
             )) : <Loading />}
-
             </div>
 
 

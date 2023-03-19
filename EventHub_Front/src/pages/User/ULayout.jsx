@@ -2,7 +2,7 @@ import { BackButton } from '@components/BackButton';
 import React from 'react'
 import { Link } from 'react-router-dom';
 
-export const UserDetail = () => {
+export const ULayout = () => {
   const user=JSON.parse(localStorage.getItem("user"))
   console.log(user);
   return (
