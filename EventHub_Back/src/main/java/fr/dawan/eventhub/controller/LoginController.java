@@ -36,16 +36,13 @@ public class LoginController {
 		if(u!=null) {
 			
 			if(userService.findByPseudo(user.getPseudo())!=null){
-				response.put("succes", false);
+				response.put("success", false);
 				response.put("message", "L'email et le pseudo sont deja utiliser !");
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-				
-				
 			}		
-			response.put("succes", false);
+			response.put("success", false);
 			response.put("message", "L'email est deja utiliser !");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-			
 		}
 		
 		if(userService.findByPseudo(user.getPseudo())!=null) {
@@ -55,8 +52,6 @@ public class LoginController {
 			
 		}
 		
-		
-		
 		user.setRole(Role.USER);
 		
 		userService.createUser(user);
@@ -64,9 +59,7 @@ public class LoginController {
 		response.put("succes", true);
 		response.put("message", "Utilisateur enregistrer !");
 		
-		
 		return ResponseEntity.ok(response);
-		
 	}
 	
 	
