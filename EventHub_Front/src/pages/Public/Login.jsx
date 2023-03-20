@@ -18,10 +18,10 @@ const Login = () => {
             axios
             .post('http://localhost:8081/api/login', {email: email, password: password,})
             .then(response => {
-            console.log(response.status)
-            if(response.data.succes){
-                navigate("/user-home");
+            if(response.data.success){
                 localStorage.setItem("user", JSON.stringify(response.data.user));
+                console.log("handlesubmit else");
+                navigate("/user/home");
             }else{
                 setError(response.data.message);
             }

@@ -7,7 +7,7 @@ import { BackButton } from '@components/BackButton';
 
 
 // Liste tout les événements d'un utilisateur.
-export const ListEventsUser = () => {
+const ListEventsUser = () => {
 
     const user=JSON.parse(localStorage.getItem("user"));
     const navigation = useNavigate();
@@ -15,7 +15,8 @@ export const ListEventsUser = () => {
     const URL = "http://localhost:8081/api/events/";
     const URI_GetEvents = "events-by-user/" 
     const URL_GetEventsPage=URL+URI_GetEvents+user.id+"?page=";
-    const pathEvent= "/events/";
+    const pathEvent = "/events/";
+    const pathEventEditCreate = "/user/";
     const [events, setEvents]=useState({
         content:[],
         totalPages:'',
@@ -29,8 +30,6 @@ export const ListEventsUser = () => {
     let offset=10;
     const [startCount, setStartCount] = useState(0)
     let pages=events.totalPages;
-    let isOnClick = false;
-    let isPreviousPage =false; 
     const [isNextPage, setIsNextPage] = useState(false);
     let count=0;
     //let isCountEgalIdx = false
@@ -73,7 +72,7 @@ export const ListEventsUser = () => {
     
     // Aller à la page de création ou d'édition d'un événemnet.
     const goToCreateUpdateEvent = (event) => {
-        let slug = pathEvent;
+        let slug = pathEventEditCreate;
         event != null ? (slug+="editer-un-evenement/"+event.id) : (slug+="creer-un-evenement")
         navigation(slug);
     }
@@ -86,7 +85,6 @@ export const ListEventsUser = () => {
 
     const onClickEvent = (idx) => {
         fetchEvents(URL_GetEventsPage+idx); 
-        isOnClick = true;
         if (count === idx ) {
             setIsCountEgalIdx(true);
             setStartCount(count-offset)
@@ -183,7 +181,7 @@ export const ListEventsUser = () => {
     return (
     <div>
         <div className='py-4'>
-            <BackButton path={"/user-home"} />
+            <BackButton path={"/user/home"} />
         </div>
         <div className="container max-w-7xl mx-auto mt-8">
         <div className="mb-4">
@@ -272,7 +270,7 @@ export const ListEventsUser = () => {
             </div>
             </div>
         </div>
-        {console.log(pages)}
+
         { pages ? <div className="flex justify-center my-9">
             <nav >
             <ul className="inline-flex items-center -space-x-px">
@@ -290,3 +288,5 @@ export const ListEventsUser = () => {
     </div>
   )
 }
+
+export default ListEventsUser;

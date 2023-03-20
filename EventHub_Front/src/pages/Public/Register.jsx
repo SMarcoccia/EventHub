@@ -25,7 +25,7 @@ const Register= () => {
         axios
         .post('http://localhost:8081/api/register', userData)
         .then(response => {
-            if(response.data.succes){
+            if(response.data.success){
             //setError(response.data.message);
             window.location.href = '/login';
             console.log(response)

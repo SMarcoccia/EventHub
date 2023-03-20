@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { BackButton } from '@components/BackButton'
 
-export const EditCreateEvent = () => {
-
+const EditCreateEvent = () => {
+    const pathUserListEvents = "/user/liste-evenements-utilisateur";
     const userLocal=JSON.parse(localStorage.getItem("user"));
     const navigation=useNavigate();
     const params=useParams();
@@ -43,16 +43,9 @@ export const EditCreateEvent = () => {
     const createUpdateEvent=async ()=>{
         setLoading(true);
         if (! formData.date_event || formData.date_event === "") {
-            console.log(">>>>>>>>>>>> createupdateevent if avant value : "+formData.date_event);
             let date=new Date();
-            console.log("date : "+date);
-            //console.log("date : "+date.setHours(date.getHours()+1));
-            
-            //let date1 = new Date(date).toLocaleString().replaceAll('/', '-');
             date=date.getFullYear()+"-"+('0'+(date.getMonth()+1)).slice(-2)+"-"+('0'+date.getDate()).slice(-2)+"T"+('0'+date.getHours()).slice(-2)+":"+('0'+date.getMinutes()).slice(-2)+":"+('0'+date.getSeconds()).slice(-2);
-            console.log("date apres conversion : "+date);
             formData.date_event = date
-            console.log("<<<<<<<<<<<< createupdateevent if apres value : "+formData.date_event);
         }
         formData.user = userLocal;
         const formDataFile=new FormData()
@@ -64,7 +57,7 @@ export const EditCreateEvent = () => {
         await axios
             .post(URI, formDataFile, {mode:'cors', config})
             .then(()=>{ 
-                navigation("/events/liste-evenements-utilisateur")
+                navigation(pathUserListEvents)
             }).catch((e)=>{
                 console.log(e);
             }).finally(()=>{setLoading(false)})
@@ -94,7 +87,7 @@ export const EditCreateEvent = () => {
 
         <div>
         <div className='py-4'>
-            <BackButton path={"/events/liste-evenements-utilisateur"} />
+            <BackButton path={pathUserListEvents} />
         </div>
         <section className="max-w-4xl mb-6 p-6 mx-auto rounded-md shadow-md bg-gradient-to-r from-blue-300 to-blue-400 mt-20">
         <h1 className="text-xl font-bold text-white capitalize dark:text-white">Création d'un événement</h1>
@@ -171,4 +164,6 @@ export const EditCreateEvent = () => {
     </div>
       )
 }
+
+export default EditCreateEvent;
 
