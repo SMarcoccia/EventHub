@@ -46,7 +46,7 @@ public class LoginController {
 		}
 		
 		if(userService.findByPseudo(user.getPseudo())!=null) {
-			response.put("succes", false);
+			response.put("success", false);
 			response.put("message", "Pseudo deja utiliser !");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
 			
@@ -56,7 +56,7 @@ public class LoginController {
 		
 		userService.createUser(user);
 		
-		response.put("succes", true);
+		response.put("success", true);
 		response.put("message", "Utilisateur enregistrer !");
 		
 		return ResponseEntity.ok(response);
@@ -71,18 +71,18 @@ public class LoginController {
 
 		
 		if(user == null) {
-			response.put("succes", false);
+			response.put("success", false);
 			response.put("message", "Email incorrect.");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
 		}
 		
 		if(!user.getPassword().equals(loginDTO.getPassword())) {
-			response.put("succes", false);
+			response.put("success", false);
 			response.put("message", "Mot de passe incorrect.");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
 		}
 		
-		response.put("succes", true);
+		response.put("success", true);
 		response.put("message", "Authentification reussite !");		
 		response.put("user",user);
 		
