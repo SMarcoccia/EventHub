@@ -28,7 +28,6 @@ const EditCreateEvent = () => {
         await axios.get(URI+"/"+params.id)
         .then((res)=>{
             setFormData(res.data)
-            console.log(formData);
         })
         .catch((e)=>{console.log(e);})
         .finally(()=>{setLoading(false)})
