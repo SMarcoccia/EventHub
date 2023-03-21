@@ -41,6 +41,10 @@ const ListEventsUser = () => {
         setLoading(true)
         await axios.get(url)
         .then((res)=>{
+            if (res.data.totalPages < pages) {
+                window.location.reload(false);
+            }
+
             // Conversion date au format fr-FR.
             res.data.content=res.data.content.map((event)=>{
                 event.date_event=dateConvertFr(event.date_event)
@@ -145,7 +149,13 @@ const ListEventsUser = () => {
         {
             li.push(
                 <li key={i} className="items-center">
-                <a onClick={()=>{onClickEvent(i)}} className={`inline-block w-10 h-10 text-center cursor-pointer px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-green-100 hover:text-gray-700 ${pageCurrent === i ? "dark:bg-green-800":"dark:bg-gray-800"} dark:border-gray-700 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white`}>{i+1}</a>
+                <a onClick={()=>{onClickEvent(i)}} 
+                    className={`inline-block w-10 h-10 text-center cursor-pointer px-3 py-2 leading-tight text-gray-500 bg-white
+                                border border-gray-300 hover:bg-green-100 hover:text-gray-700 
+                                ${pageCurrent === i ? "dark:bg-green-800":"dark:bg-gray-800"} 
+                                dark:border-gray-700 dark:text-gray-400 dark:hover:bg-green-700 dark:hover:text-white`}>
+                    {i+1}
+                </a>
                 </li>
             )
         }
@@ -157,7 +167,6 @@ const ListEventsUser = () => {
         if (count < 0) {count=0}
         fetchEvents(URL_GetEventsPage+count);
         setPageCurrent(count)
-        isPreviousPage = true;
         setIsNextPage(false);
         if (start === count) {
             setIsCountEgalIdx(false)
@@ -170,7 +179,6 @@ const ListEventsUser = () => {
         fetchEvents(URL_GetEventsPage+count);
         setPageCurrent(count)
         setIsNextPage(true);
-        isPreviousPage = false
         setIsCountEgalIdx(false)
     }
     
