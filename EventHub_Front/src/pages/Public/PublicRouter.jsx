@@ -2,9 +2,8 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import { Home, Login, Events, Register, EventDetails } from '@public'
-
-import { NotFound } from '@utils/NotFound'
 import PLayout from './PLayout'
+import { NotFound } from '@utils/NotFound'
 
 const PublicRouter = () => {
   return (
