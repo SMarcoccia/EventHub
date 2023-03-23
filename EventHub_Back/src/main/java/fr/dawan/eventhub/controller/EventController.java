@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,7 @@ public class EventController {
 	@GetMapping(value="/events-by-user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Page<Event>> findAllEventsByIdUser(
 			@PathVariable Long id, 
-			@PageableDefault(size = 20) Pageable pageable){
+			@PageableDefault(size = 20, sort = "date_event", direction = Sort.Direction.DESC) Pageable pageable){
 		Page<Event> events=eventService.findAllEventsByIdUser(id, pageable);
 		if(events != null) {
 			return ResponseEntity.ok(events);
