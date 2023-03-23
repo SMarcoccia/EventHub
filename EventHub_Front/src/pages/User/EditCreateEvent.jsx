@@ -49,7 +49,7 @@ const EditCreateEvent = () => {
         formData.user = userLocal;
         const formDataFile=new FormData()
         formDataFile.append("event", JSON.stringify(formData))   
-        console.log(formData);
+
         if (formFile.file !== null) {
             formDataFile.append("file", formFile, formFile.name)
         }
@@ -118,15 +118,15 @@ const EditCreateEvent = () => {
                 </div>
                 <div>
                     <label className="text-white dark:text-gray-200" htmlFor="prix">Prix</label>
-                    <input id="prix" type="number" step="0.01" value={formData.prix} onChange={onChange} name="prix" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"/>
+                    <input id="prix" type="number" step="0.01" value={formData.prix || ''} onChange={onChange} name="prix" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"/>
                 </div>
                 <div>
                     <label className="text-white dark:text-gray-200" htmlFor="textarea">Résumé</label>
-                    <textarea id="textarea" type="textarea" value={formData.resume} onChange={onChange} name="resume" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"></textarea>
+                    <textarea id="textarea" type="textarea" value={formData.resume || ''} onChange={onChange} name="resume" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"></textarea>
                 </div>
                 <div>
                     <label className="text-white dark:text-gray-200" htmlFor="textarea">Description</label>
-                    <textarea id="textarea" type="textarea" value={formData.description} onChange={onChange} name="description" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"></textarea>
+                    <textarea id="textarea" type="textarea" value={formData.description || ''} onChange={onChange} name="description" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"></textarea>
                 </div>
                 <div>
                     <label className="block text-sm font-medium text-white">
