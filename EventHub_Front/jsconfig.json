@@ -5,10 +5,11 @@
         "paths": {
             "@components/*":["components/*"],
             "@pages/*":["pages/*"],
-            "@utils/*":["utils/*"],
+            "@utils/*":["_utils/*"],
             "@admin/*":["pages/admin/*"],
             "@public/*":["pages/public/*"],
             "@user/*":["pages/user/*"],
+            "@img/*":["img*"],
         }
     }
 }
