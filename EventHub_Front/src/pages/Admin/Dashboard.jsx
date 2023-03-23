@@ -1,8 +1,11 @@
+import SideMenu from '@components/admin/SideMenu'
 import React from 'react'
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <>
+      <div className='Dashboard'>Dashboard</div>
+    </>
   )
 }
 
