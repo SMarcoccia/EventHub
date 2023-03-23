@@ -10,10 +10,11 @@ export default defineConfig({
             '@': resolve(__dirname, './src/'),
             '@components': resolve(__dirname, "./src/components/"),
             '@pages': resolve(__dirname, "./src/pages/"),
-            '@utils': resolve(__dirname, "./src/utils"),
+            '@utils': resolve(__dirname, "./src/_utils"),
             '@admin': resolve(__dirname, "./src/pages/admin/"),
             '@public': resolve(__dirname, "./src/pages/public"),
             '@user': resolve(__dirname, "./src/pages/user"),
+            '@img': resolve(__dirname, "./public/img"),
         },
     },
 })
