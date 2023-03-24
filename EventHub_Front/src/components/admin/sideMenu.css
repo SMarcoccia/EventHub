@@ -1,0 +1,10 @@
+ul li{
+    padding: 0.75rem 0.5rem;
+    font-weight: bold;
+    line-height: 1.25;
+}
+
+ul li:hover{
+    color: rgb(21 128 61);
+}
+
