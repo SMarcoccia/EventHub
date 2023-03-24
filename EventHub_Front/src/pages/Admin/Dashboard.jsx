@@ -1,4 +1,3 @@
-import SideMenu from '@components/admin/SideMenu'
 import React from 'react'
 
 const Dashboard = () => {
