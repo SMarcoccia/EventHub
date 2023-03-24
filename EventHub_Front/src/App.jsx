@@ -1,12 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { Footer } from '@components/public/Footer'
-import { Header } from '@components/Header'
 import PublicRouter from '@public/PublicRouter'
 import AdminRouter from '@pages/Admin/AdminRouter'
 import UserRouter from '@pages/User/UserRouter'
-
-
-
 
 function App() {
 
