@@ -21,30 +21,28 @@ return (
     <header className='flex justify-between items-center bg-gradient-to-r from-blue-300 to-blue-400'>
     {/* LOGO */}
     <div className='container mx-5 justify-between py-5 flex items-center'>
+        <div
+            onClick={() => navigate('/')}
+            className='flex gap-3 items-center cursor-pointer'>
+        <img 
+            src="../../public/img/logo.png" 
+            alt="logo EventHub"
+            width={40}
+            height={40} 
+        />
+        <h3 className='text-xl font-bold'>{title}</h3>
+        </div>
 
-    <div
-        onClick={() => navigate('/')}
-        className='flex gap-3 items-center cursor-pointer'>
-    <img 
-        src="../../public/img/logo.png" 
-        alt="logo EventHub"
-        width={40}
-        height={40} 
-    />
-    <h3 className='text-xl font-bold'>{title}</h3>
+        {/* LIENS */}
+
+        <nav>
+        <ul className='flex justify-between gap-10'>
+            {
+                links.map(({title, path}) =>( <HeaderItem key={title} path={path} title={title} />
+            ))}
+        </ul>
+        </nav>
     </div>
-
-    {/* LIENS */}
-
-    <nav>
-    <ul className='flex justify-between gap-10 '>
-        {
-            links.map(({title, path}) =>( <HeaderItem key={title} path={path} title={title} />
-        ))}
-    </ul>
-    </nav>
-    </div>
-
 </header>
 )
 }
