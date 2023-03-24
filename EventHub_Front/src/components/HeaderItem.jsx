@@ -13,10 +13,10 @@ export const HeaderItem = ({path, title}) => {
     }
 
     return (
-    <li className='font-bold cursor-pointer'>
+    <li className='font-bold cursor-pointe'>
     <Link
         onClick={removeUser}
-        className='cursor-pointer px-3 py-2 leading-tight dark:hover:text-green-700'
+        className='px-3 py-2 leading-tight dark:hover:text-green-700'
         to={path}>{title}
     </Link>
     </li>
