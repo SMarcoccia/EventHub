@@ -3,7 +3,7 @@ import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { BackButton } from '@components/BackButton';
+import { BackButton } from '@components/public/BackButton';
 
 
 // Liste tout les événements d'un utilisateur.

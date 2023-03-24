@@ -10,8 +10,6 @@ const PublicRouter = () => {
     <Routes>
         <Route element={<PLayout/>}>
           <Route index element={<Home />} />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
           <Route path='/events' element={<Events />} />
           <Route path='/events/:slug' element={<EventDetails />} />
           <Route path='*' element={<NotFound />} />

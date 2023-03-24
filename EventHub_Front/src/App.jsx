@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import PublicRouter from '@public/PublicRouter'
 import AdminRouter from '@pages/Admin/AdminRouter'
 import UserRouter from '@pages/User/UserRouter'
+import AuthRouter from '@pages/Auth/AuthRouter'
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
             <Route path='/*' element={<PublicRouter/>}/>
             <Route path='/admin/*' element={<AdminRouter/>}/>
             <Route path='/user/*' element={<UserRouter/>}/>
+            <Route path='/auth/*' element={<AuthRouter/>}/>
         </Routes>
     </div>
        

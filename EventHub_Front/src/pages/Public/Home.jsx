@@ -1,9 +1,11 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import { EventCard } from "@components/EventCard"
-import { Loading } from "@components/Loading"
-import { Separateur } from "@components/Separateur"
+import { EventCard } from "@components/public/EventCard"
+
+import { Separateur } from "@components/public/Separateur"
+import { Loading } from "@components/public/Loading"
+
 
 const Home = () => {
 
@@ -40,11 +42,9 @@ const Home = () => {
             <div className="lg:w-1/2 w-full flex flex-col justify-between">
                 <div className="flex gap-10">
                     {user == null ? 
-                    <Link to={"/register"}>
+                    <Link to={"/auth/register"}>
                     <button className="py-4 px-10 bg-blue-700 text-blue-50 shadow-sm shadow-black hover:bg-blue-300 hover:text-gray-900">
-                        
-                            S'inscrire
-                        
+                        S'inscrire
                     </button>
                     </Link>
                     :

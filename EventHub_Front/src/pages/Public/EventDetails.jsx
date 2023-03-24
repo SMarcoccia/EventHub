@@ -1,8 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { BackButton } from '@components/BackButton'
-import { Loading } from '@components/Loading'
+import { BackButton } from '@components/public/BackButton'
+import { Loading } from '@components/public/Loading'
 
 const EventDetails = () => {
     let user = JSON.parse(localStorage.getItem("user"));

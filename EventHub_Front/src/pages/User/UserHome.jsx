@@ -1,4 +1,4 @@
-import { BackButton } from '@components/BackButton'
+import { BackButton } from '@components/public/BackButton'
 import React from 'react'
 import { Link } from 'react-router-dom'
 

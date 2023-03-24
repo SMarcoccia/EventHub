@@ -14,6 +14,7 @@ export default defineConfig({
             '@admin': resolve(__dirname, "./src/pages/admin/"),
             '@public': resolve(__dirname, "./src/pages/public"),
             '@user': resolve(__dirname, "./src/pages/user"),
+            '@auth': resolve(__dirname, "./src/pages/auth"),
             '@img': resolve(__dirname, "./public/img"),
         },
     },

@@ -9,6 +9,7 @@
             "@admin/*":["pages/admin/*"],
             "@public/*":["pages/public/*"],
             "@user/*":["pages/user/*"],
+            "@auth/*":["pages/auth/*"],
             "@img/*":["img*"],
         }
     }
