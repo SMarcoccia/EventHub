@@ -3,6 +3,8 @@ import PublicRouter from '@public/PublicRouter'
 import AdminRouter from '@pages/Admin/AdminRouter'
 import UserRouter from '@pages/User/UserRouter'
 import AuthRouter from '@pages/Auth/AuthRouter'
+import AuthGuard from '@helpers/AuthGuard'
+
 
 function App() {
 
@@ -16,7 +18,11 @@ function App() {
         <Routes>
             {/* wildcard (*) permet de dire qu'il y a d'autres routes */}
             <Route path='/*' element={<PublicRouter/>}/>
-            <Route path='/admin/*' element={<AdminRouter/>}/>
+            <Route path='/admin/*' element={
+                <AuthGuard>
+                    <AdminRouter/>
+                </AuthGuard>
+            }/>
             <Route path='/user/*' element={<UserRouter/>}/>
             <Route path='/auth/*' element={<AuthRouter/>}/>
         </Routes>

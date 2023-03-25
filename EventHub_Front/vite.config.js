@@ -11,6 +11,7 @@ export default defineConfig({
             '@components': resolve(__dirname, "./src/components/"),
             '@pages': resolve(__dirname, "./src/pages/"),
             '@utils': resolve(__dirname, "./src/_utils"),
+            '@helpers': resolve(__dirname, "./src/_helpers"),
             '@admin': resolve(__dirname, "./src/pages/admin/"),
             '@public': resolve(__dirname, "./src/pages/public"),
             '@user': resolve(__dirname, "./src/pages/user"),

@@ -6,6 +6,7 @@
             "@components/*":["components/*"],
             "@pages/*":["pages/*"],
             "@utils/*":["_utils/*"],
+            "@helpers/*":["_helpers/*"],
             "@admin/*":["pages/admin/*"],
             "@public/*":["pages/public/*"],
             "@user/*":["pages/user/*"],
