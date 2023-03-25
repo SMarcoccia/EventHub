@@ -58,7 +58,7 @@ const Login = () => {
                     <button type="submit" className="w-full text-white bg-primary-600 hover:bg-sky-700 focus:ring-4 focus:outline-none focus:ring-purple-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Se connecter</button>
                     
                     <p className="text-sm font-bold text-white dark:text-white-400">
-                        Pas encore de compte ?<Link className="font-medium text-primary-600 hover:underline dark:text-primary-500" to={"/register"}> S'inscrire ici </Link>
+                        Pas encore de compte ?<Link className="font-medium text-primary-600 hover:underline dark:text-primary-500" to={"/auth/register"}> S'inscrire ici </Link>
                     </p>
                 </form>
             </div>

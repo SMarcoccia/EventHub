@@ -77,7 +77,7 @@ const Register= () => {
                   
                   <button type="submit" className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Créer mon compte</button>
                   <p className="text-sm font-bold text-white dark:text-white-400">
-                      Vous avez deja un compte ? <Link className="font-medium text-primary-600 hover:underline dark:text-primary-500" to={"/login"}> Connectez vous ici </Link>
+                      Vous avez deja un compte ? <Link className="font-medium text-primary-600 hover:underline dark:text-primary-500" to={"/auth/login"}> Connectez vous ici </Link>
                   </p>
               </form>
           </div>
