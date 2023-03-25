@@ -7,7 +7,12 @@ import imgLogo from "@img/logo.png";
 const SideMenu = ({title="EventHub"}) => {
     const admin=JSON.parse(localStorage.getItem("admin"))
     const navigate=useNavigate();
-    const path = {home: '/', dashboard: '/admin/dashboard', listusers: '/admin/user/listes-utilisateurs'}
+    const path = {home: '/', dashboard: '/admin/dashboard', listusers: '/admin/user/listes-utilisateurs', deconnexion: '/'}
+
+    const removeAdmin = ()=>{
+        localStorage.clear();
+    }
+
     return (
     <>
         {/* LOGO */}
@@ -26,12 +31,13 @@ const SideMenu = ({title="EventHub"}) => {
         <nav>
         <ul className='flex justify-between gap-10'>
             <li className='font-bold'><Link to={path.home}>Accueil</Link></li>
-            <li><Link to={path.dashboard}>Dashboard</Link></li>
+            <li><Link to={path.dashboard}>Mon Compte</Link></li>
             <li>Utilisteurs :
                 <ul>
                     <li><Link to={path.listusers}>Liste</Link></li>
                 </ul>
             </li>
+            <li><Link to={path.deconnexion} onClick={removeAdmin}>Déconnexion</Link></li>
         </ul>
         </nav>    
     </>
