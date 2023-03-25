@@ -7,7 +7,7 @@ import imgLogo from "@img/logo.png";
 const SideMenu = ({title="EventHub"}) => {
     const admin=JSON.parse(localStorage.getItem("admin"))
     const navigate=useNavigate();
-    const path = {home: '/', dashboard: '/admin/dashboard', listusers: '/admin/user/listes-utilisateurs', deconnexion: '/'}
+    const path = {home: '/', dashboard: '/admin/home', listusers: '/admin/user/listes-utilisateurs', deconnexion: '/'}
 
     const removeAdmin = ()=>{
         localStorage.clear();
