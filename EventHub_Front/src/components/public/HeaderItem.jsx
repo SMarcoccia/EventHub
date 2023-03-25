@@ -3,8 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 
 export const HeaderItem = ({path, title}) => {
     const user= JSON.parse(localStorage.getItem("user"))
-    const location = useLocation()
-    
+
     const removeUser = () => {
         if (user !== null && title === "Déconnexion") {
             localStorage.clear();

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { HeaderItem } from './HeaderItem'
+import imgLogo from "@img/logo.png";
 import "./header.css"
 
 const Header = ({title = "EventHub"}) => {
@@ -24,7 +25,7 @@ const Header = ({title = "EventHub"}) => {
                 onClick={() => navigate('/')}
                 className='flex gap-3 items-center cursor-pointer'>
             <img 
-                src="../../public/img/logo.png" 
+                src={imgLogo} 
                 alt="logo-EventHub"
                 width={40}
                 height={40} 
@@ -36,7 +37,7 @@ const Header = ({title = "EventHub"}) => {
 
             <nav>
             <ul className='flex justify-between gap-10'>
-                {
+                { 
                     links.map(({title, path}) =>( <HeaderItem key={title} path={path} title={title} />
                 ))}
             </ul>
