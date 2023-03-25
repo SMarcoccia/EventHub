@@ -10,7 +10,11 @@ const Header = ({title = "EventHub"}) => {
     
     if(user !== null){
         links.push({path: "/", title: "Accueil"})
-        links.push({path: "/user/home", title: "Mon compte"})
+        if (user.role === "USER") {
+            links.push({path: "/user/home", title: "Mon compte"})
+        }else{
+            links.push({path: "/admin/home", title: "Mon compte"})
+        }
         links.push({path: "/", title: "Déconnexion"})
     }else{
         links.push({path: "/auth/register", title: "Inscription"})
