@@ -13,16 +13,13 @@ function App() {
 
 
     {/* PAGES  */}
-    <div className='min-h-full bg-blue-50 dark:bg-blue-900'>
         <Routes>
-            {/* wildcard (*) permet de dire qu'il y a d'autre route */}
+            {/* wildcard (*) permet de dire qu'il y a d'autres routes */}
             <Route path='/*' element={<PublicRouter/>}/>
             <Route path='/admin/*' element={<AdminRouter/>}/>
             <Route path='/user/*' element={<UserRouter/>}/>
             <Route path='/auth/*' element={<AuthRouter/>}/>
         </Routes>
-    </div>
-       
     </div>
     </Router>
   )
