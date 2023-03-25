@@ -3,12 +3,8 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const UserHome = () => {
-    const user=JSON.parse(localStorage.getItem("user"))
   return (
     <div>
-        <div className='py-4'>
-            <BackButton path={"/"} />
-        </div>
         <section className="bg-blue-50 dark:bg-blue-900">
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <a className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
