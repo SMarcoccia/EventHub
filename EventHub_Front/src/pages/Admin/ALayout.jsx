@@ -1,4 +1,4 @@
-import Header from '@components/admin/Header'
+import AHeader from '@components/admin/AHeader'
 import Footer from '@components/public/Footer'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom'
 const ALayout = () => {
   return (
     <div className='ALayout'>
-        <Header />
+        <AHeader />
         <div id="admin">
 			<div id="admin_body"><Outlet/></div>
         </div>
