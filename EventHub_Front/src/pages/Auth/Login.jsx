@@ -18,13 +18,12 @@ const Login = () => {
             axios
             .post('http://localhost:8081/api/login', {email: email, password: password,})
             .then(response => {
-            if(response.data.success){
-                localStorage.setItem("user", JSON.stringify(response.data.user));
-                console.log("handlesubmit else");
-                navigate("/user/home");
-            }else{
-                setError(response.data.message);
-            }
+                if(response.data.success){
+                    localStorage.setItem("user", JSON.stringify(response.data.user));
+                    navigate(response.data.user.role === "USER" ? "/user/home" : "/admin/home");
+                }else{
+                    setError(response.data.message);
+                }
             }).catch(error=>{
             setError(error.response.data.message);
             console.error(error);
