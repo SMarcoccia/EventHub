@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { HeaderItem } from './HeaderItem'
 import imgLogo from "@img/logo.png";
 import "./header.css"
+import AHeader from '@components/admin/AHeader';
 
 const Header = ({title = "EventHub"}) => {
     const user=JSON.parse(localStorage.getItem("user"))
@@ -14,6 +15,7 @@ const Header = ({title = "EventHub"}) => {
             links.push({path: "/user/home", title: "Mon compte"})
         }else{
             links.push({path: "/admin/home", title: "Mon compte"})
+            links.push({path: "/admin/user/listes-utilisateurs", title: "Liste utilisateurs"})
         }
         links.push({path: "/", title: "Déconnexion"})
     }else{

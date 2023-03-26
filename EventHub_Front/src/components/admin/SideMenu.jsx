@@ -12,7 +12,7 @@ const SideMenu = ({title="EventHub"}) => {
     const removeAdmin = ()=>{
         localStorage.clear();
     }
-
+   
     return (
     <>
         {/* LOGO */}
@@ -29,14 +29,10 @@ const SideMenu = ({title="EventHub"}) => {
         </div>
         {/* LIENS */}
         <nav>
-        <ul className='flex justify-between gap-10'>
-            <li className='font-bold'><Link to={path.home}>Accueil</Link></li>
+        <ul className='flex justify-between gap-10 font-bold'>
+            <li><styleLink to={path.home}>Accueil</styleLink></li>
             <li><Link to={path.dashboard}>Mon Compte</Link></li>
-            <li>Utilisteurs :
-                <ul>
-                    <li><Link to={path.listusers}>Liste</Link></li>
-                </ul>
-            </li>
+            <li><Link to={path.listusers}>Liste utilisateurs</Link></li>
             <li><Link to={path.deconnexion} onClick={removeAdmin}>Déconnexion</Link></li>
         </ul>
         </nav>    
