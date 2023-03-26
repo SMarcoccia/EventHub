@@ -23,7 +23,11 @@ function App() {
                     <AdminRouter/>
                 </AuthGuard>
             }/>
-            <Route path='/user/*' element={<UserRouter/>}/>
+            <Route path='/user/*' element={
+                <AuthGuard>
+                    <UserRouter/>
+                </AuthGuard>
+             }/>
             <Route path='/auth/*' element={<AuthRouter/>}/>
         </Routes>
     </div>
