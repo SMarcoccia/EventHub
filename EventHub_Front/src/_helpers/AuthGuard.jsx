@@ -1,5 +1,3 @@
-import AdminRouter from '@pages/Admin/AdminRouter';
-import UserRouter from '@pages/User/UserRouter';
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 

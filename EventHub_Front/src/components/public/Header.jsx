@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom'
 import { HeaderItem } from './HeaderItem'
 import imgLogo from "@img/logo.png";
 import "./header.css"
-import AHeader from '@components/admin/AHeader';
 
 const Header = ({title = "EventHub"}) => {
     const user=JSON.parse(localStorage.getItem("user"))
