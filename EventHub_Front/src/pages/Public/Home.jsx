@@ -2,7 +2,6 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { EventCard } from "@components/public/EventCard"
-
 import { Separateur } from "@components/public/Separateur"
 import { Loading } from "@components/public/Loading"
 

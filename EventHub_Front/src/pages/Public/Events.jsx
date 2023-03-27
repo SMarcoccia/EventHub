@@ -4,33 +4,38 @@ import { Loading } from "@components/public/Loading"
 import { EventCard } from "@components/public/EventCard"
 
 const Events = () => {
-  const API_URL = "http://localhost:8081/api/events"
+    const API_URL = "http://localhost:8081/api/events?page=1"
 
-  const [events, setEvents] = useState([])
-  const [filteredEvents, setFilteredEvents] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [search, setSearch] = useState("")
-  const [category, setCategory] = useState("Tout")
+    const [events, setEvents]=useState({
+        content:[],
+        totalPages:'',
+        totalElements:'',
+        pageSize:'',
+        lastPage: false,
+        pageNumber:''
+    }); 
+    const [filteredEvents, setFilteredEvents] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [search, setSearch] = useState("")
+    const [category, setCategory] = useState("Tout")
 
 
-  const resetFilter = () => {
-    setSearch("")
-    setCategory("Tout")
-  }
+    const resetFilter = () => {
+        setSearch("")
+        setCategory("Tout")
+    }
 
-
-
-  const fetchEvents = async () => {
-      setLoading(true)
-     await axios.get(API_URL)
-           .then((res) => 
-           { 
-               setEvents(res.data)   
-          }).catch((e) => console.log(e))
-          .finally(() => {
-                  setLoading(false)
-          })
-  }
+    const fetchEvents = async () => {
+        setLoading(true)
+        await axios.get(API_URL)
+            .then((res) => 
+            { 
+                setEvents(res.data)   
+            }).catch((e) => console.log(e))
+            .finally(() => {
+                    setLoading(false)
+            })
+    }
   useEffect(() => {
     fetchEvents()
    }, [])
@@ -39,7 +44,7 @@ const Events = () => {
      let result;
      // checker la categorie
      if(category != "Tout" ) {
-       result = events.filter((event) => {
+       result = events.content.filter((event) => {
          return (
           event.type === category && (
             event.titre.toLowerCase().includes(search.toLowerCase()) ||
@@ -48,7 +53,7 @@ const Events = () => {
        })
 
      }else {
-      result = events.filter((event) => {
+      result = events.content.filter((event) => {
         return (
           event.titre.toLowerCase().includes(search.toLowerCase()) ||
           event.description.toLowerCase().includes(search.toLowerCase())
@@ -113,7 +118,7 @@ const Events = () => {
 
               {/* LISTE DES PRODUITS */}
               <div className="mt-10 mb-20 gap-7 sm:grid md:grid-cols-2 xl:grid-cols-4">
-            { events.length  && !loading ? filteredEvents.map((p) => (
+            { events.content.length  && !loading ? filteredEvents.map((p) => (
                 <EventCard key={p.id} event={p} />
             )) : <Loading />}
 
