@@ -33,8 +33,8 @@ public class EventController {
 
 	// Trouver tout les événements.
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
-	public List<Event> findAll(){
-		return eventService.findAll();
+	public Page<Event> findAll(@PageableDefault(size = 20, sort = "date_event", direction = Sort.Direction.DESC) Pageable pageable){
+		return eventService.findAll(pageable);
 	}
 	
 	// Trouver un événement par son id.

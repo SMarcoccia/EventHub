@@ -16,7 +16,7 @@ public interface EventService {
 	Page<Event> findAllEventsByIdUser(Long id, Pageable pageable);
 	
 	Event findById(Long id);
-	List<Event> findAll();
+	Page<Event> findAll(Pageable pageable);
 	void deleteEvent(Long id);
 	Event createUpdateEvent(String JsonEvent, MultipartFile file) throws IOException;
 }

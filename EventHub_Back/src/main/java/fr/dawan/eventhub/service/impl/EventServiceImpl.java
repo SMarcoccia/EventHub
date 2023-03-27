@@ -32,8 +32,8 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
-	public List<Event> findAll() {
-		return eventRepository.findAll();
+	public Page<Event> findAll(Pageable pageable) {
+		return eventRepository.findAll(pageable);
 	}
 
 	@Override
