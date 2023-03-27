@@ -7,7 +7,14 @@ import { Loading } from '@components/public/Loading'
 const EventDetails = () => {
     let user = JSON.parse(localStorage.getItem("user"));
 
-    const [events, setEvents] = useState([])
+    const [events, setEvents]=useState({
+        content:[],
+        totalPages:'',
+        totalElements:'',
+        pageSize:'',
+        lastPage: false,
+        pageNumber:''
+    }); 
     const [loading, setLoading] = useState(false)
     const params = useParams()
  
@@ -17,15 +24,16 @@ const EventDetails = () => {
     const fetchEvents = async () => {
         setLoading(true)
         await axios
-        .get("http://localhost:8081/api/events")
+        .get("http://localhost:8081/api/events?page=1")
         .then((res) => { setEvents(res.data)})
         .catch((e) => console.log(e))
         .finally(() => { setLoading(false)})
     }
 
     // Cherche l'event qui a dans son URL un slug identique.
-    const currentEvent = events.find(
+    const currentEvent = events.content.find(
         (p) => {
+            console.log("params.slug : ", params.slug)
             if(p.titre.replaceAll(/[` .!?`]/gi, '-').toLowerCase()+p.id === params.slug){
                 return p;
             }
