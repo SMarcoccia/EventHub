@@ -11,4 +11,7 @@ import fr.dawan.eventhub.entities.Event;
 public interface EventRepository extends JpaRepository<Event, Long> {
 	@Query("FROM Event e WHERE e.user.id=:id")
 	Page<Event> findAllEventByIdUser(@Param("id") Long id, Pageable pageable);
+	
+	@Query("FROM Event")
+	Page<Event> findAllEvent(Pageable pageable);
 }
