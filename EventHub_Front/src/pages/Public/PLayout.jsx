@@ -7,7 +7,7 @@ const PLayout = () => {
     return (
         <>
         <Header /> 
-        <div id="public_body"><Outlet/></div>
+        <div className='container' id="public_body"><Outlet/></div>
         <Footer />
         </>
     )
