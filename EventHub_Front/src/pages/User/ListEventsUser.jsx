@@ -189,11 +189,11 @@ const ListEventsUser = () => {
 
     return (
     <div>
-        <div className='py-4'>
+        <div className='py-4 ml-7'>
             <BackButton path={"/user/home"} />
         </div>
         <div className="container max-w-7xl mx-auto mt-8">
-        <div className="mb-4">
+        <div className="mb-4 ml-7">
             <h1 className="font-serif text-3xl font-bold underline decoration-gray-400">Votre liste des événements</h1>
             <div className="flex justify-between mx-5">
                 <div className="font-serif mt-5 text-1xl decoration-gray-400">Vous avez {events.totalElements} événements <span className='ml-5'>Page {pageCurrent+1}</span></div>
@@ -202,7 +202,6 @@ const ListEventsUser = () => {
         </div>
 
         <div className="flex flex-col">
-            <div className="overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
             <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
             <table className="min-w-full">
             <thead>
@@ -276,7 +275,6 @@ const ListEventsUser = () => {
                 )}
             </tbody>
             </table>
-            </div>
             </div>
         </div>
 
