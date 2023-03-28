@@ -8,17 +8,24 @@ import { Loading } from "@components/public/Loading"
 
 const Home = () => {
 
-    const [events, setEvents] = useState([])
+    const [events, setEvents]=useState({
+        content:[],
+        totalPages:'',
+        totalElements:'',
+        pageSize:'',
+        lastPage: false,
+        pageNumber:''
+    }); 
     const [loading, setLoading] = useState(false)
     const user=JSON.parse(localStorage.getItem("user"))
 
 
     const fetchEvents = async () => {
         setLoading(true)
-       await axios.get("http://localhost:8081/api/events")
+       await axios.get("http://localhost:8081/api/events?page=1")
              .then((res) => 
              { 
-                console.log(res.data);
+                console.log("res.data : ", res.data);
                 setEvents(res.data)   
             }).catch((e) => console.log(e))
             .finally(() => {
@@ -26,11 +33,8 @@ const Home = () => {
             })
     }
         
-    
     useEffect(() => {
-
      fetchEvents()
-
     }, [])
 
 
@@ -50,9 +54,7 @@ const Home = () => {
                     <a></a>}
                     <Link to={"/events"}>
                     <button className="py-4 px-10 bg-blue-50 text-blue-700 shadow-sm shadow-black hover:bg-blue-300 hover:text-gray-900">
-                        
-                            Rechercher des événements
-                        
+                        Rechercher des événements
                     </button>
                     </Link>
                 </div>
@@ -68,12 +70,11 @@ const Home = () => {
         {/* EVENEMENTS LES PLUS POPULAIRES */}
         <section className="container">
             <div>
-                <h3 className="text-2xl font-bold">Les Meilleurs événements</h3>
-                <p>Profitez des meilleurs événements avant leur fin</p>
+                <h3 className="text-2xl font-bold">Les événements les plus récents</h3>
             </div>
             {/* CARDEVENEMENT */}
             <div className="mt-10 mb-20 gap-7 sm:grid md:grid-cols-2 xl:grid-cols-4 ">
-            { events.length  && !loading ? events.slice(-4).map((p) => (
+            { events.content.length  && !loading ? events.content.slice(-4).map((p) => (
                 <EventCard key={p.id} event={p} />
             )) : <Loading />}
             </div>
