@@ -74,27 +74,27 @@ const Events = () => {
         // ils sont remplis
         <main className="my-10 container mx-auto">
           {/* DESCRIPTION */}
+          <div className="ml-7">
           <div>
             <h3 className="text-2xl font-bold">Faites votre choix</h3>
             <p>Profitez des meilleurs événements avant leur fin</p>
           </div>
             {/* FORMULAIRE */}
             <div className="my-4 flex gap-6">
-              <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="py-2 px-6 leading-none bg-gray-900 text-slate-100  focus:outline-none focus:border-pink-700  border-b-2 border-pink-50"
-              placeholder="Evénement..." 
-              type="search"  />
-              <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-               className="py-2 px-6 bg-gray-900 text-slate-100"
-               name="cat"
-                id="cat" 
-               >
-                 <option 
-                 value="Tout">Tout</option>
+                <input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    className="py-2 px-6 leading-none bg-gray-900 text-slate-100  focus:outline-none focus:border-pink-700  border-b-2 border-pink-50"
+                    placeholder="Evénement..." 
+                    type="search"  />
+                <select
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
+                    className="py-2 px-6 bg-gray-900 text-slate-100"
+                    name="cat"
+                    id="cat" >
+                    <option 
+                    value="Tout">Tout</option>
                         <option value="ART">Art</option>
                         <option value="AUTRE">Autre</option>
                         <option value="CULTUREL">Culture</option>
@@ -103,21 +103,21 @@ const Events = () => {
                         <option value="SPORTIF">Sportif</option>
                 </select>
 
-              {search.length > 1 && 
-              <button
-              onClick={resetFilter}
-              className="font-bold text-2xl text-pink-700">X</button>
-          }
-
+                {
+                    search.length > 1 && 
+                    <button
+                    onClick={resetFilter}
+                    className="font-bold text-2xl text-pink-700">X</button>
+                }   
             </div>
 
-             {/* RESULTAT */}
-             <div>
-               <p>Résultat : <span>{filteredEvents.length}</span></p>
-             </div>
-
-              {/* LISTE DES PRODUITS */}
-              <div className="mt-10 mb-20 gap-7 sm:grid md:grid-cols-2 xl:grid-cols-4">
+            {/* RESULTAT */}
+            <div>
+            <p>Résultat : <span>{filteredEvents.length}</span></p>
+            </div>
+            </div>
+            {/* LISTE DES PRODUITS */}
+              <div className="mt-10 mb-20 ml-7 gap-7 sm:grid md:grid-cols-2 xl:grid-cols-4">
             { events.content.length  && !loading ? filteredEvents.map((p) => (
                 <EventCard key={p.id} event={p} />
             )) : <Loading />}
