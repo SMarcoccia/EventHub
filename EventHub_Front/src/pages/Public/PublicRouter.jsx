@@ -1,7 +1,7 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
-import { Home, Login, Events, Register, EventDetails } from '@public'
+import { Home, Events, EventDetails } from '@public'
 import PLayout from './PLayout'
 import { NotFound } from '@utils/NotFound'
 
