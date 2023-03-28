@@ -57,7 +57,7 @@ const ListEventsUser = () => {
         .catch((e)=>{console.log(e);})
         .finally(()=>{setLoading(false)})
     } 
-
+    // TODO : à mettre dans service.
     const dateConvertFr = (date)=>{
         date=new Date(date);
         date = ('0'+date.getDate()).slice(-2)+"-"+('0'+(date.getMonth()+1)).slice(-2)+"-"+date.getFullYear()+" "+('0'+date.getHours()).slice(-2)+":"+('0'+date.getMinutes()).slice(-2);
