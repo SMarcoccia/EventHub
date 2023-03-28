@@ -8,7 +8,7 @@ const ALayout = () => {
     <div className='ALayout'>
         <AHeader />
         <div id="admin">
-			<div id="admin_body"><Outlet/></div>
+			<div className='container' id="admin_body"><Outlet/></div>
         </div>
         <Footer />
     </div>
