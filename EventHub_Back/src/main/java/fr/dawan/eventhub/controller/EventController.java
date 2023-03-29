@@ -32,8 +32,8 @@ public class EventController {
 	private EventService eventService;
 
 
-	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Page<Event>> findAlleventsByDateDesc(
+	@GetMapping(value="/{type}", produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Page<Event>> findAllEventsByDateDesc(
 			@PathVariable TypeEvent type,
 			@PageableDefault(sort="date_event", direction=Sort.Direction.DESC) Pageable pageable){
 		Page<Event> events = eventService.findAlleventsByDateDesc(type, pageable);
