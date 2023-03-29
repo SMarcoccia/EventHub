@@ -5,7 +5,6 @@ export const BackButton = ({path}) => {
 
     const navigate = useNavigate()
     const back =  () => {
-        console.log(path);
         navigate(path)
     }
     return (
