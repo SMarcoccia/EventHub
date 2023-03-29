@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import fr.dawan.eventhub.Enum.TypeEvent;
 import fr.dawan.eventhub.entities.Event;
 import fr.dawan.eventhub.repositories.EventRepository;
 import fr.dawan.eventhub.service.EventService;
@@ -36,6 +37,11 @@ public class EventServiceImpl implements EventService {
 		return eventRepository.findAll();
 	}
 
+	@Override
+	public Page<Event> findAlleventsByDateDesc(TypeEvent type, Pageable pageable){
+		return eventRepository.findAlleventsByDateDesc(type, pageable);
+	}
+	
 	@Override
 	public void deleteEvent(Long id) {
 		eventRepository.deleteById(id);
