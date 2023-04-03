@@ -1,11 +1,16 @@
 package fr.dawan.eventhub.service.impl;
 
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalQuery;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +23,12 @@ import fr.dawan.eventhub.Enum.TypeEvent;
 import fr.dawan.eventhub.entities.Event;
 import fr.dawan.eventhub.repositories.EventRepository;
 import fr.dawan.eventhub.service.EventService;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -26,6 +37,9 @@ public class EventServiceImpl implements EventService {
 	
 	@Autowired
 	private EventRepository eventRepository;
+	
+	@PersistenceContext
+	private EntityManager em;
 	
 	@Override
 	public Event findById(Long id) {
@@ -38,8 +52,23 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Page<Event> findAlleventsByDateDesc(TypeEvent type, Pageable pageable){
-		return eventRepository.findAlleventsByDateDesc(type, pageable);
+	public Page<Event> findAllEventsByTypeAndDateDesc(Map<String, String> map, Pageable pageable){
+
+		CriteriaBuilder cb =  em.getCriteriaBuilder();
+		CriteriaQuery<Event> cq = cb.createQuery(Event.class);
+		Root<Event> root = cq.from(Event.class);
+		
+		cq.select(root);
+		
+		if( ! map.get("type").isEmpty()) {		
+			cq.where(cb.equal(root.get("type"), TypeEvent.valueOf(map.get("type"))));
+		}
+		
+		cq.orderBy(cb.desc((root.get("date_event"))));
+		TypedQuery<Event> tq = em.createQuery(cq);
+		tq.setFirstResult(pageable.getPageNumber()*pageable.getPageSize());
+		tq.setMaxResults(pageable.getPageSize());
+		return new PageImpl<Event>(tq.getResultList(), pageable, tq.getResultList().size());
 	}
 	
 	@Override
@@ -54,7 +83,6 @@ public class EventServiceImpl implements EventService {
 		System.out.println(eventTmp);
 		if(file != null) {
 			eventTmp.setImg(file.getBytes());
-			System.out.println("Dans createupdateevent if");
 		}
 		return eventRepository.save(eventTmp);
 	}
@@ -72,7 +100,6 @@ public class EventServiceImpl implements EventService {
 		} catch (JsonProcessingException e) {
 			e.printStackTrace();
 		}
-		System.out.println("Dans jsonstringtojson : "+event);
 		return event;
 	}
 }

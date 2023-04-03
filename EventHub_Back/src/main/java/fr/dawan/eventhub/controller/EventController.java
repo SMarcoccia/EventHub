@@ -1,6 +1,7 @@
 package fr.dawan.eventhub.controller;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,11 +16,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import fr.dawan.eventhub.Enum.TypeEvent;
 import fr.dawan.eventhub.entities.Event;
 import fr.dawan.eventhub.service.EventService;
 
@@ -32,16 +33,18 @@ public class EventController {
 	private EventService eventService;
 
 
-	@GetMapping(value="/{type}", produces=MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Page<Event>> findAllEventsByDateDesc(
-			@PathVariable TypeEvent type,
-			@PageableDefault(sort="date_event", direction=Sort.Direction.DESC) Pageable pageable){
-		Page<Event> events = eventService.findAlleventsByDateDesc(type, pageable);
+			@RequestParam Map<String, String> map,
+			@PageableDefault(size=20, sort="date_event", direction=Sort.Direction.DESC) Pageable pageable){
+
+		Page<Event> events = eventService.findAllEventsByTypeAndDateDesc(map, pageable);
 		if(events != null) {
 			return ResponseEntity.ok(events);
 		}
 		
 		return ResponseEntity.notFound().build();
+		
 	}
 	
 	// Trouver un événement par son id.
