@@ -4,6 +4,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { BackButton } from '@components/public/BackButton';
+import Pagination from '@components/public/Pagination';
 
 
 
@@ -13,11 +14,13 @@ const ListEventsUser = () => {
     const user=JSON.parse(localStorage.getItem("user"));
     const navigation = useNavigate();
 
-    const URL = "http://localhost:8081/api/events/";
-    const URI_GetEvents = "events-by-user/" 
+    const URL = "http://localhost:8081/api/events";
+    const URI_GetEvents = "/events-by-user/" 
     const URL_GetEventsPage=URL+URI_GetEvents+user.id+"?page=";
     const pathEvent = "/events/";
     const pathEventEditCreate = "/user/";
+    const API_URL="http://localhost:8081/api/events/events-by-user/"+user.id
+
     const [events, setEvents]=useState({
         content:[],
         totalPages:'',
@@ -28,13 +31,13 @@ const ListEventsUser = () => {
     });
     const [loading, setLoading]=useState(false);
     const [pageCurrent, setPageCurrent]=useState(0);
-    let offset=10;
     const [startCount, setStartCount] = useState(0)
-    let pages=events.totalPages;
     const [isNextPage, setIsNextPage] = useState(false);
-    let count=0;
     //let isCountEgalIdx = false
     let [isCountEgalIdx, setIsCountEgalIdx] = useState(false)
+    let offset=10;
+    let pages=events.totalPages;
+    let count=0;
     let start = 0;
 
     // Récupération de tous les événements d'un utilisateur.
@@ -51,6 +54,7 @@ const ListEventsUser = () => {
                 event.date_event=dateConvertFr(event.date_event)
                 return event;
             })
+            //console.log("listeventuser : ", res.data);
             setEvents(res.data)
             
         })
@@ -86,17 +90,6 @@ const ListEventsUser = () => {
     const goToReadEvent = (event) => {
         const slug=pathEvent + event.titre.replaceAll(/[` .!?`]/gi, '-').toLowerCase()+event.id
         navigation(slug);
-    }
-
-    const onClickEvent = (idx) => {
-        fetchEvents(URL_GetEventsPage+idx); 
-        if (count === idx ) {
-            setIsCountEgalIdx(true);
-            setStartCount(count-offset)
-        }else{
-            setIsCountEgalIdx(false)
-        }
-        setPageCurrent(idx)
     }
 
     const pagination = ()=>{
@@ -163,6 +156,17 @@ const ListEventsUser = () => {
         return li;
     }
     
+    const onClickEvent = (idx) => {
+        fetchEvents(URL_GetEventsPage+idx); 
+        if (count === idx ) {
+            setIsCountEgalIdx(true);
+            setStartCount(count-offset)
+        }else{
+            setIsCountEgalIdx(false)
+        }
+        setPageCurrent(idx)
+    }
+
     const previousPage=()=>{
         let count = pageCurrent-1;
         if (count < 0) {count=0}
@@ -176,7 +180,7 @@ const ListEventsUser = () => {
     
     const nextPage=()=>{
         let count = pageCurrent+1
-        if(pageCurrent+1 > pages-1){count-=1} // Evite de voir disparaitre la dernière page.
+        if(count > pages-1){count-=1} // Evite de voir disparaitre la dernière page.
         fetchEvents(URL_GetEventsPage+count);
         setPageCurrent(count)
         setIsNextPage(true);
@@ -292,6 +296,7 @@ const ListEventsUser = () => {
             </nav>
         </div> : ''}
         </div>
+        <Pagination pages={events.totalPages} fetchEvents={fetchEvents} category={""}/>
     </div>
   )
 }
