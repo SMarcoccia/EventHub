@@ -9,7 +9,7 @@ const SideMenu = ({title="EventHub"}) => {
     const navigate=useNavigate();
     const path = {home: '/', dashboard: '/admin/home', listusers: '/admin/user/listes-utilisateurs', deconnexion: '/'}
 
-    const removeAdmin = ()=>{
+    const logoutAdmin = ()=>{
         localStorage.clear();
     }
    
@@ -33,7 +33,7 @@ const SideMenu = ({title="EventHub"}) => {
             <li><styleLink to={path.home}>Accueil</styleLink></li>
             <li><Link to={path.dashboard}>Mon Compte</Link></li>
             <li><Link to={path.listusers}>Liste utilisateurs</Link></li>
-            <li><Link to={path.deconnexion} onClick={removeAdmin}>Déconnexion</Link></li>
+            <li><Link to={path.deconnexion} onClick={logoutAdmin}>Déconnexion</Link></li>
         </ul>
         </nav>    
     </>
