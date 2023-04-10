@@ -32,9 +32,9 @@ public class EventController {
 	@Autowired
 	private EventService eventService;
 
-
+	// Trouver tous les événements par type et date descendante.
 	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Page<Event>> findAllEventsByDateDesc(
+	public ResponseEntity<Page<Event>> findAllEventsByTypeAndDateDesc(
 			@RequestParam Map<String, String> map,
 			@PageableDefault(size=20, sort="date_event", direction=Sort.Direction.DESC) Pageable pageable){
 
