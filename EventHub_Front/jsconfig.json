@@ -5,6 +5,8 @@
         "paths": {
             "@components/*":["components/*"],
             "@pages/*":["pages/*"],
+            "@services/*":["_services/*"],
+            "@assets/*":["_assets/*"],
             "@utils/*":["_utils/*"],
             "@helpers/*":["_helpers/*"],
             "@admin/*":["pages/admin/*"],
