@@ -30,12 +30,11 @@ export const EventCard = ({event}) => {
             {titre}
         </div>
     </div>
-    <div className="px-6 py-4 flex items-center justify-between">
-    <p className="text-2xl">{event.prix}$</p>
-        <button
-        className="bg-pink-50 text-pink-700 shadow-sm shadow-black hover:bg-pink-300 hover:text-gray-900 font-bold py-2 px-4">
-            +
-        </button>
+    <div className="px-6 py-0 flex items-center justify-between">
+        <p className="text-2xl">{event.date_event.slice(0, 11)}</p>
+    </div>
+    <div className="px-6 py-0 flex items-center justify-between">
+        <p className="text-2xl">{event.prix}$</p>
     </div>
     </div>
     )
