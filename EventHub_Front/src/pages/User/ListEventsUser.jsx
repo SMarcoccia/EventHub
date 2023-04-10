@@ -5,13 +5,13 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { BackButton } from '@components/public/BackButton';
 import Pagination from '@components/public/Pagination';
-
+import { accountService } from '@services/accountService';
 
 
 // Liste tout les événements d'un utilisateur.
 const ListEventsUser = () => {
 
-    const user=JSON.parse(localStorage.getItem("user"));
+    const user=accountService.getUser();
     const navigation = useNavigate();
 
     const URL = "http://localhost:8081/api/events";

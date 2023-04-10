@@ -1,3 +1,4 @@
+import { accountService } from "@services/accountService";
 import axios from "axios";
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
@@ -30,12 +31,18 @@ const Login = () => {
             .post('http://localhost:8081/api/login', credentials)
             .then(response => {
                 if(response.data.success){
-                    localStorage.setItem("user", JSON.stringify(response.data.user));
-                    navigate(response.data.user.role === "USER" ? "/user/home" : "/admin/home");
+                    try {
+                        // Convertit le JSON request en JSON object Javascript, car le JSON request n'est pas reconnue comme un JSON Object Javascript et stocké dans le localstorage.
+                        accountService.setUser(response.data.user);
+                        navigate(response.data.user.role === "USER" ? "/user/home" : "/admin/home");
+                    } catch (e) {
+                        console.log(e);
+                    }
                 }else{
                     setError(response.data.message);
                 }
             }).catch(error=>{
+                console.log(error);
                 setError(error.response.data.message);
             })
         }

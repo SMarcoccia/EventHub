@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 import { HeaderItem } from './HeaderItem'
+import { accountService } from "@services/accountService";
 import imgLogo from "@img/logo.png";
 import "./header.css"
 
 const Header = ({title = "EventHub"}) => {
-    const user=JSON.parse(localStorage.getItem("user"))
+    const user=accountService.getUser();
+    console.log("user : ", user);
     const navigate = useNavigate()
     const links=[]
     

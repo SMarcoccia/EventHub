@@ -1,8 +1,10 @@
+import { accountService } from '@services/accountService';
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+
 export const HeaderItem = ({path, title}) => {
-    const user= JSON.parse(localStorage.getItem("user"))
+    const user=accountService.getUser();
 
     const removeUser = () => {
         if (user !== null && title === "Déconnexion") {
