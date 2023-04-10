@@ -1,9 +1,10 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import ALayout from './ALayout'
-import { ListUsers } from '@admin/User'
+
 import { NotFound } from '@utils/NotFound'
 import AdminHome from './AdminHome'
+import { ListUsers } from './User'
 
 const AdminRouter = () => {
   return (
