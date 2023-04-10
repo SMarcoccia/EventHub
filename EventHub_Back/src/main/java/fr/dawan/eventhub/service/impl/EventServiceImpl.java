@@ -66,9 +66,18 @@ public class EventServiceImpl implements EventService {
 		
 		cq.orderBy(cb.desc((root.get("date_event"))));
 		TypedQuery<Event> tq = em.createQuery(cq);
+		
+		// Autre façon : 
+//		List<Event> list = tq.getResultList();
+//		int from = pageable.getPageNumber()*pageable.getPageSize();
+//		int to = from+pageable.getPageSize();
+//		return new PageImpl<Event>(list.subList(from, to), pageable, list.size());
+
+		int size = tq.getResultList().size();
+		System.out.println("size : "+size);
 		tq.setFirstResult(pageable.getPageNumber()*pageable.getPageSize());
 		tq.setMaxResults(pageable.getPageSize());
-		return new PageImpl<Event>(tq.getResultList(), pageable, tq.getResultList().size());
+		return new PageImpl<Event>(tq.getResultList(), pageable, size);
 	}
 	
 	@Override
