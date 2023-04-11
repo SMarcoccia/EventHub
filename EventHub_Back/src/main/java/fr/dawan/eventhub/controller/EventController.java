@@ -59,7 +59,7 @@ public class EventController {
 	}
 	
 	// Trouver tous les événements d'un utilisateur.
-	@GetMapping(value="/events-by-user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+	@GetMapping(value="/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Page<Event>> findAllEventsByIdUser(
 			@PathVariable Long id, 
 			@PageableDefault(size = 20, sort = "date_event", direction = Sort.Direction.DESC) Pageable pageable){
