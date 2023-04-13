@@ -17,7 +17,7 @@ export const EventCard = ({event}) => {
     
     return (
     <div
-        className="w-64 h-96 bg-transparent overflow-hidden shadow-md shadow-black group cursor-pointer transition duration-200 ease-in transform z-1 sm:hover:scale-105 bg-gradient-to-r from-blue-300 to-blue-400 dark:border-gray-700">
+        className="w-64 h-96 m-auto mb-10 bg-transparent overflow-hidden shadow-md shadow-black group cursor-pointer transition duration-200 ease-in transform z-1 sm:hover:scale-105 bg-gradient-to-r from-blue-300 to-blue-400 dark:border-gray-700">
     <img
         onClick={goToEvent}
         className="w-full h-48 object-cover"
