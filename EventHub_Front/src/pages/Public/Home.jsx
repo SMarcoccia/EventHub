@@ -22,10 +22,9 @@ const Home = () => {
 
     const fetchEvents = async () => {
         setLoading(true)
-       await axios.get("http://localhost:8081/api/events?page=1")
+       await axios.get("http://localhost:8081/api/events/list/0?page=0&type=")
              .then((res) => 
              { 
-                console.log("res.data : ", res.data);
                 setEvents(res.data)   
             }).catch((e) => console.log(e))
             .finally(() => {
