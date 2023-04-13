@@ -22,16 +22,28 @@ const Home = () => {
 
     const fetchEvents = async () => {
         setLoading(true)
-       await axios.get("http://localhost:8081/api/events/list/0?page=0&type=")
-             .then((res) => 
-             { 
-                setEvents(res.data)   
-            }).catch((e) => console.log(e))
-            .finally(() => {
-                    setLoading(false)
+        await axios.get("http://localhost:8081/api/events/list/0?page=0&type=")
+        .then((res) => 
+        {
+                // Conversion date au format fr-FR.
+            res.data.content=res.data.content.map((event)=>{
+                event.date_event=dateConvertFr(event.date_event)
+                return event;
             })
+            setEvents(res.data)   
+        }).catch((e) => console.log(e))
+        .finally(() => {
+                setLoading(false)
+        })
     }
         
+    // TODO : à mettre dans service.
+    const dateConvertFr = (date)=>{
+        date=new Date(date);
+        date = ('0'+date.getDate()).slice(-2)+"-"+('0'+(date.getMonth()+1)).slice(-2)+"-"+date.getFullYear()+" "+('0'+date.getHours()).slice(-2)+":"+('0'+date.getMinutes()).slice(-2);
+        return date;
+    }
+
     useEffect(() => {
      fetchEvents()
     }, [])
@@ -69,12 +81,12 @@ const Home = () => {
         <Separateur />
     
         {/* EVENEMENTS LES PLUS POPULAIRES */}
-        <section className="container mx-10">
-            <div>
+        <section className="container">
+            <div className="text-center">
                 <h3 className="text-2xl font-bold">Les événements les plus récents</h3>
             </div>
             {/* CARDEVENEMENT */}
-            <div className="mt-10 mb-20 gap-7 sm:grid md:grid-cols-2 xl:grid-cols-4 ">
+            <div className="sm:flex sm:justify-center justify-around mt-10 mb-20">
             { events.content.length  && !loading ? events.content.slice(-4).map((p) => (
                 <EventCard key={p.id} event={p} />
             )) : <Loading />}
