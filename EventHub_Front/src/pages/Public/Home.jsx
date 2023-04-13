@@ -40,18 +40,23 @@ const Home = () => {
 
     return (
         <main>
+        <div className="flex justify-center px-6 py-10">
+            <h1 className="text-4xl font-bold">Événements pour tous sur la région Rhône-Alpes</h1>
+        </div>
+        <div className="lg:w-1/2 m-auto my-10">
+            <img className="rounded-2xl" src="../../public/img/photoHome.jpg" alt="photo-event" />
+        </div>
         {/* DESCRIPTION */}
-        <section className="lg:flex block gap-5 my-44 container mx-auto">
-            <div className="lg:w-1/2 w-full flex flex-col justify-between">
+        <section className="lg:flex justify-center block gap-5 my-10 container mx-auto">
+            <div className="flex flex-col justify-between">
                 <div className="flex gap-10">
-                    {user == null ? 
+                    {user === null ? 
                     <Link to={"/auth/register"}>
                     <button className="py-4 px-10 bg-blue-700 text-blue-50 shadow-sm shadow-black hover:bg-blue-300 hover:text-gray-900">
                         S'inscrire
                     </button>
                     </Link>
-                    :
-                    <a></a>}
+                    :''}
                     <Link to={"/events"}>
                     <button className="py-4 px-10 bg-blue-50 text-blue-700 shadow-sm shadow-black hover:bg-blue-300 hover:text-gray-900">
                         Rechercher des événements
@@ -59,16 +64,13 @@ const Home = () => {
                     </Link>
                 </div>
             </div>
-            <div className="lg:w-1/2 w-full mr-5">
-                <img className="rounded-2xl" src="../../public/img/photoHome.jpg" alt="photo-event" />
-            </div>
     
         </section>
         {/* SEPATEUR */}
         <Separateur />
     
         {/* EVENEMENTS LES PLUS POPULAIRES */}
-        <section className="container">
+        <section className="container mx-10">
             <div>
                 <h3 className="text-2xl font-bold">Les événements les plus récents</h3>
             </div>
