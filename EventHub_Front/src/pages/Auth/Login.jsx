@@ -1,3 +1,4 @@
+import { BackButton } from "@components/public/BackButton";
 import { accountService } from "@services/accountService";
 import axios from "axios";
 import { useState } from "react"
@@ -50,6 +51,9 @@ const Login = () => {
 
     return (
         <section className="bg-blue-50 dark:bg-blue-900">
+            <div className="ml-7 my-10">
+                <BackButton path={"/"}/>
+            </div>
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
             <a className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
             EventHub    
