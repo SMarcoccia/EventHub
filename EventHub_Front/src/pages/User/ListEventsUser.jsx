@@ -14,12 +14,14 @@ const ListEventsUser = () => {
     const user=accountService.getUser();
     const navigation = useNavigate();
 
-    const URL = "http://localhost:8081/api/events";
-    const URI_GetEvents = "/events-by-user/" 
+    const URL = "http://localhost:8081/api/events/list/";
+    const URI_GetEvents = "user/" 
     const URL_GetEventsPage=URL+URI_GetEvents+user.id+"?page=";
-    const pathEvent = "/events/";
+    const pathEvent = "events/";
     const pathEventEditCreate = "/user/";
-    const API_URL="http://localhost:8081/api/events/events-by-user/"+user.id
+    const numPage = 0;
+    const category = ""
+    const API_URL="http://localhost:8081/api/events/user/"+user.id
 
     const [events, setEvents]=useState({
         content:[],
@@ -45,6 +47,7 @@ const ListEventsUser = () => {
         setLoading(true)
         await axios.get(url)
         .then((res)=>{
+            // On reload si on supprime le dernier élément de la dernière page de la pagination. Evite d'avoir un tableau vide et on revient à la première page.
             if (res.data.totalPages < pages) {
                 window.location.reload(false);
             }
@@ -188,7 +191,7 @@ const ListEventsUser = () => {
     }
     
     useEffect(()=>{
-        fetchEvents(URL+URI_GetEvents+user.id);
+        fetchEvents(URL+user.id+"?page="+numPage+"&type="+category);
     }, [])
 
     return (
