@@ -14,7 +14,7 @@ const Pagination = (props) => {
     let offset=10;
     let count=0;
     let start=0;
-    
+    let nbPages=0;
     
     const pagination = ()=>{
         const li=[];
@@ -56,7 +56,13 @@ const Pagination = (props) => {
             }
         }
 
-        for (let i=start; i < count+offset ; i++) 
+        if (props.pages < offset) {
+            nbPages=props.pages;
+        }else{
+            nbPages=count+offset;
+        }
+
+        for (let i=start; i < nbPages ; i++) 
         {
             li.push(
                 <li key={i} className="items-center">
@@ -119,11 +125,11 @@ const Pagination = (props) => {
         <nav >
         <ul className="inline-flex items-center -space-x-px">
             <li>
-            <a onClick={pageCurrent === 0 ? '':()=>previousPage()} className={`${pageCurrent === 0 ? "":"cursor-pointer dark:hover:bg-gray-700 dark:hover:text-white"} inline-block w-10 h-10 px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400`}><FontAwesomeIcon icon={faArrowLeft} /></a>
+            <a onClick={pageCurrent === 0 ? ()=>'' : ()=>previousPage()} className={`${pageCurrent === 0 ? "":"cursor-pointer dark:hover:bg-gray-700 dark:hover:text-white"} inline-block w-10 h-10 px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400`}><FontAwesomeIcon icon={faArrowLeft} /></a>
             </li>
                 {pagination()}
             <li>
-            <a onClick={pageCurrent+1 > props.pages-1 ? '' : ()=>nextPage()} className={`${pageCurrent+1 > props.pages-1 ? '':"cursor-pointer dark:hover:bg-gray-700 dark:hover:text-white"} inline-block w-10 h-10 px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400`}><FontAwesomeIcon icon={faArrowRight} /></a>
+            <a onClick={pageCurrent+1 > props.pages-1 ? ()=>'' : ()=>nextPage()} className={`${pageCurrent+1 > props.pages-1 ? '':"cursor-pointer dark:hover:bg-gray-700 dark:hover:text-white"} inline-block w-10 h-10 px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400`}><FontAwesomeIcon icon={faArrowRight} /></a>
             </li>
         </ul>
         </nav>
