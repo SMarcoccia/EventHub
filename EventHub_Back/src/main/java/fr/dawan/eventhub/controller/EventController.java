@@ -32,21 +32,6 @@ public class EventController {
 	@Autowired
 	private EventService eventService;
 
-	// Trouver tous les événements par type et date descendante.
-	@GetMapping(produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Page<Event>> findAllEventsByTypeAndDateDesc(
-			@RequestParam Map<String, String> map,
-			@PageableDefault(size=20, sort="date_event", direction=Sort.Direction.DESC) Pageable pageable){
-
-		Page<Event> events = eventService.findAllEventsByTypeAndDateDesc(map, pageable);
-		if(events != null) {
-			return ResponseEntity.ok(events);
-		}
-		
-		return ResponseEntity.notFound().build();
-		
-	}
-	
 	// Trouver un événement par son id.
 	@GetMapping(value="/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Event> findEventPerId(@PathVariable Long id) {
@@ -58,12 +43,14 @@ public class EventController {
 		return ResponseEntity.notFound().build();	
 	}
 	
-	// Trouver tous les événements d'un utilisateur.
-	@GetMapping(value="/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Page<Event>> findAllEventsByIdUser(
-			@PathVariable Long id, 
-			@PageableDefault(size = 20, sort = "date_event", direction = Sort.Direction.DESC) Pageable pageable){
-		Page<Event> events=eventService.findAllEventsByIdUser(id, pageable);
+	// Récupérer tous les événements ou ceux d'un utilisateur enregistré par type et par date descendante. 
+	@GetMapping(value={"/list/{id}"}, produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Page<Event>> findAllEventsByIdUserOrTypeDateDesc(
+			@PathVariable Long id,
+			@RequestParam Map<String, String> map,
+			@PageableDefault(size=20, sort="date_event", direction=Sort.Direction.DESC) Pageable pageable){
+			
+		Page<Event> events=eventService.findAllEventsByIdUserAndTypeDateDesc(id, map, pageable);
 		if(events != null) {
 			return ResponseEntity.ok(events);
 		}
