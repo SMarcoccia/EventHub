@@ -3,10 +3,14 @@ import { useEffect, useState } from "react"
 import { Loading } from "@components/public/Loading"
 import { EventCard } from "@components/public/EventCard"
 import Pagination from "@components/public/Pagination"
+import { accountService } from "@services/accountService"
+import { BackButton } from "@components/public/BackButton"
 
 const Events = () => {
+    const user=accountService.getUser();
     const URL = "http://localhost:8081/api/events"
-    const URL_GetEventsPage=URL+"?page=";
+    const URL_List = URL+"/list/";
+    const URL_Page="?page=";
     let numPage = '0';
     let typeEvent = '&type='
     let events= {
@@ -20,7 +24,7 @@ const Events = () => {
 
     // Pour pallier au problème d'asynchrone du useState cela permettra d'avoir les données modifier immédiatement dans le render.
     const [eventsBis, setEventsBis] = useState(events)
-    //const [filteredEvents, setFilteredEvents] = useState([])
+    const [filteredEvents, setFilteredEvents] = useState([])
     const [loading, setLoading] = useState(false)
     const [search, setSearch] = useState("")
     const [category, setCategory] = useState("")
@@ -33,16 +37,19 @@ const Events = () => {
     const fetchEvents = async (numPage, filter) => {
         setLoading(true)
         let API_URL ="";
-        if (user && Object.keys(user).length === 0 && Object.getPrototypeOf(user) === Object.prototype) {
-            API_URL=URL_GetEventsPage+numPage+typeEvent+filter
-        }else{
-            API_URL=URL+"/events-by-user/"+user.id+"?page="+numPage
-            console.log("API_URL : ", API_URL);
+
+        if (window.location.pathname === "/events") {
+            // Liste de tous les Evénements.
+            API_URL=URL_List+0+URL_Page+numPage+typeEvent+filter 
+        }else if(window.location.pathname === "/user/liste-evenements-utilisateur"){
+            // Evénements  utlisateur de l'utilisateur.
+            API_URL=URL+"/user/"+user.id+"?page="+numPage 
         }
+
         await axios.get(API_URL)
             .then((res) => 
             { 
-                // Reload si paginatino est à la fin.
+                // Reload si dans la pagination on est à la dernière page.
                 //if (res.data.totalPages < pages) {
                 //    window.location.reload(false);
                 //}
@@ -73,31 +80,32 @@ const Events = () => {
     },  [category])
 
 
-    //useEffect(() => {
-    //    console.log("category : ", category);
-    //    fetchEvents(numPage, category) 
-    //    let result;
-    //    // checker la categorie
-    //    if(category != "Tout" ) {
-    //    result = events.content.filter((event) => {
-    //        return (
-    //        event.type === category && (
-    //            event.titre.toLowerCase().includes(search.toLowerCase()) ||
-    //            event.description.toLowerCase().includes(search.toLowerCase()))
-    //        )
-    //    })
-    //    }else {
-    //    result = events.content.filter((event) => {
-    //        return (
-    //        event.titre.toLowerCase().includes(search.toLowerCase()) ||
-    //        event.description.toLowerCase().includes(search.toLowerCase())
-    //        )
-    //    })
-    //    }
+    useEffect(() => {
+        //console.log("category : ", category);
+        //fetchEvents(numPage, category) 
+        console.log(search);
+        let result;
+        // checker la categorie
+        if(category != "Tout" ) {
+        result = events.content.filter((event) => {
+            return (
+            event.type === category && (
+                event.titre.toLowerCase().includes(search.toLowerCase()) ||
+                event.description.toLowerCase().includes(search.toLowerCase()))
+            )
+        })
+        }else {
+        result = events.content.filter((event) => {
+            return (
+            event.titre.toLowerCase().includes(search.toLowerCase()) ||
+            event.description.toLowerCase().includes(search.toLowerCase())
+            )
+        })
+        }
         
-    //    //setFilteredEvents(result)
+        setFilteredEvents(result)
 
-    //}, [events, search, category])
+    }, [search, category])
 
     return (
 
@@ -107,6 +115,9 @@ const Events = () => {
         // Afficher un bouton pour effacer les filtres seulement quand
         // ils sont remplis
         <main className="my-10 container mx-auto">
+            <div className="ml-7 my-10">
+                <BackButton path={"/"}/>
+            </div>
             {/* DESCRIPTION */}
             <div className="ml-7">
             <div>
@@ -151,13 +162,11 @@ const Events = () => {
             </div>
             </div>
             {/* LISTE DES PRODUITS */}
-              <div className="mt-10 mb-20 ml-7 gap-7 sm:grid md:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-10 mb-20 ml-7 gap-7 sm:grid md:grid-cols-2 xl:grid-cols-4">
             {/*{ events.content.length  && !loading ? filteredEvents.map((p) => (*/}
-
-            { eventsBis.content.length  && !loading ? eventsBis.content.map((p) => (
-                <EventCard key={p.id} event={p} />
-            )) : <Loading />}
-
+                { eventsBis.content.length  && !loading ? eventsBis.content.map((p) => (
+                    <EventCard key={p.id} event={p} />
+                )) : <Loading />}
             </div>
             <Pagination pages={eventsBis.totalPages} fetchEvents={fetchEvents} category={category}/>
         </main>
