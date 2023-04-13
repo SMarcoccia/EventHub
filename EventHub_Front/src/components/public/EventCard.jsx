@@ -11,9 +11,10 @@ export const EventCard = ({event}) => {
     
     const navigate = useNavigate()
     localStorage.setItem("path", window.location.pathname);
-    const goToEvent = () => {
-        navigate("/events/" + event.titre.replaceAll(/[` .!?`]/gi, '-').toLowerCase()+event.id)
-    } 
+
+    const goToEvent=()=>{
+        navigate("/events/"+event.id);
+    }
     
     return (
     <div
