@@ -5,13 +5,14 @@ import imgLogo from "@img/logo.png";
 import "./header.css"
 
 const Header = ({title = "EventHub"}) => {
+
     const user=accountService.getUser();
-    console.log("user : ", user);
     const navigate = useNavigate()
     const links=[]
     
     if(user !== null){
         links.push({path: "/", title: "Accueil"})
+        links.push({path: "/events", title: "Recherchez"})    
         if (user.role === "USER") {
             links.push({path: "/user/home", title: "Mon compte"})
         }else{
