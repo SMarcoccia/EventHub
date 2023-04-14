@@ -73,6 +73,13 @@
 		  <artifactId>datafaker</artifactId>
 		  <version>1.1.0</version>
 		</dependency>
+		
+		<!--Permet d'afficher les requête sql et remplace les points d'interrogation par les valeurs envoyées pour Hibernate.		-->
+		<dependency>
+		    <groupId>org.apache.logging.log4j</groupId>
+		    <artifactId>log4j-core</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
