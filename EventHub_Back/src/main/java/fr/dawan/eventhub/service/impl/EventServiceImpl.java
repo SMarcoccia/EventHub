@@ -59,13 +59,18 @@ public class EventServiceImpl implements EventService {
 		
 		cq.select(root);
 		if(id != 0) {
+			// Jointure pour pour récupérer l'id de l'utilisateur.
 			Join<Event, User> join=root.join("user", JoinType.INNER);
 			cq.where(cb.equal(join.get("id"), id));
 		}
 		
 		if( ! map.get("type").isEmpty()) {		
-			System.out.println("dans get type avant where");
 			cq.where(cb.equal(root.get("type"), TypeEvent.valueOf(map.get("type"))));
+		}
+		System.out.println("search : "+map.get("search"));
+		System.out.println("root.get(\"titre\") : "+root.get("titre"));
+		if( ! map.get("search").isEmpty()) {
+			cq.where(cb.like(root.get("titre"), map.get("search")));
 		}
 		
 		cq.orderBy(cb.desc((root.get("date_event"))));
@@ -78,7 +83,6 @@ public class EventServiceImpl implements EventService {
 //		return new PageImpl<Event>(list.subList(from, to), pageable, list.size());
 
 		int size = tq.getResultList().size();
-		System.out.println("size : "+size);
 		tq.setFirstResult(pageable.getPageNumber()*pageable.getPageSize());
 		tq.setMaxResults(pageable.getPageSize());
 		return new PageImpl<Event>(tq.getResultList(), pageable, size);
