@@ -1,9 +1,11 @@
 package fr.dawan.eventhub.service.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.query.sqm.tree.predicate.SqmWhereClause;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -28,6 +30,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 
@@ -56,22 +59,28 @@ public class EventServiceImpl implements EventService {
 		CriteriaBuilder cb=em.getCriteriaBuilder();
 		CriteriaQuery<Event> cq = cb.createQuery(Event.class);
 		Root<Event> root = cq.from(Event.class);
-		
+		List<Predicate> p=new ArrayList<Predicate>();
+
 		cq.select(root);
+
 		if(id != 0) {
 			// Jointure pour pour récupérer l'id de l'utilisateur.
 			Join<Event, User> join=root.join("user", JoinType.INNER);
-			cq.where(cb.equal(join.get("id"), id));
+			p.add(cb.equal(join.get("id"), id));
+		}
+
+		if( ! map.get("type").isEmpty()) {	
+			p.add(cb.equal(root.get("type"), TypeEvent.valueOf(map.get("type"))));
+		}
+
+		if( ! map.get("search").isEmpty()) {
+			p.add(cb.like(root.get("titre"), map.get("search")+"%"));
 		}
 		
-		if( ! map.get("type").isEmpty()) {		
-			cq.where(cb.equal(root.get("type"), TypeEvent.valueOf(map.get("type"))));
+		if(p.toArray(new Predicate[]{}).length != 0){
+			cq.where(p.toArray(new Predicate[]{}));
 		}
-		System.out.println("search : "+map.get("search"));
-		System.out.println("root.get(\"titre\") : "+root.get("titre"));
-		if( ! map.get("search").isEmpty()) {
-			cq.where(cb.like(root.get("titre"), map.get("search")));
-		}
+		
 		
 		cq.orderBy(cb.desc((root.get("date_event"))));
 		TypedQuery<Event> tq = em.createQuery(cq);
@@ -81,8 +90,10 @@ public class EventServiceImpl implements EventService {
 //		int from = pageable.getPageNumber()*pageable.getPageSize();
 //		int to = from+pageable.getPageSize();
 //		return new PageImpl<Event>(list.subList(from, to), pageable, list.size());
-
 		int size = tq.getResultList().size();
+		if(size == 0) {
+			return null;
+		}
 		tq.setFirstResult(pageable.getPageNumber()*pageable.getPageSize());
 		tq.setMaxResults(pageable.getPageSize());
 		return new PageImpl<Event>(tq.getResultList(), pageable, size);
