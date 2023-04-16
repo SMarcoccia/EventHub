@@ -1,6 +1,7 @@
 package fr.dawan.eventhub.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -45,16 +47,23 @@ public class EventController {
 	
 	// Récupérer tous les événements ou ceux d'un utilisateur enregistré par type et par date descendante. 
 	@GetMapping(value={"/list/{id}"}, produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Page<Event>> findAllEventsByIdUserOrTypeDateDesc(
+	public ResponseEntity<?> findAllEventsByIdUserOrTypeDateDesc(
 			@PathVariable Long id,
 			@RequestParam Map<String, String> map,
 			@PageableDefault(size=20, sort="date_event", direction=Sort.Direction.DESC) Pageable pageable){
-			
+		
+		Map<String, Object> response = new HashMap<>();
 		Page<Event> events=eventService.findAllEventsByIdUserAndTypeDateDesc(id, map, pageable);
+		
 		if(events != null) {
-			return ResponseEntity.ok(events);
+			response.put("success", true);
+			response.put("message", "Données récupérées avec succès");
+			response.put("events", events);
+		}else {
+			response.put("success", false);
+			response.put("message", "Aucun éléments trouvés");
 		}
-		return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(response);
 	}
 	
 	// Supprimer un événement
