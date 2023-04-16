@@ -1,7 +1,5 @@
 package fr.dawan.eventhub.Enum;
 
-
-
 public enum TypeEvent {
 	
 	SPORTIF,
