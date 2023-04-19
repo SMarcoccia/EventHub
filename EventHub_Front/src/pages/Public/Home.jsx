@@ -1,47 +1,54 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { Children, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { EventCard } from "@components/public/EventCard"
 import { Separateur } from "@components/public/Separateur"
 import { Loading } from "@components/public/Loading"
+import { accountService } from "@services/accountService"
+import { formatDateService } from "@services/formatDateService"
 
 
 const Home = () => {
 
     const [events, setEvents]=useState({
-        content:[],
-        totalPages:'',
-        totalElements:'',
-        pageSize:'',
-        lastPage: false,
-        pageNumber:''
+        events: {
+            content:[],
+            totalPages:'',
+            totalElements:'',
+            pageSize:'',
+            lastPage: false,
+            pageNumber:''},
+        message:'',
+        success:''
+        
     }); 
-    const [loading, setLoading] = useState(false)
-    const user=JSON.parse(localStorage.getItem("user"))
+
+    const [loading, setLoading] = useState(false);
+    const user=accountService.getUser();
 
 
     const fetchEvents = async () => {
         setLoading(true)
-        await axios.get("http://localhost:8081/api/events/list/0?page=0&type=")
+        await axios.get("http://localhost:8081/api/events/list/0?page=0&type=&search=")
         .then((res) => 
         {
-                // Conversion date au format fr-FR.
-            res.data.content=res.data.content.map((event)=>{
-                event.date_event=dateConvertFr(event.date_event)
+            // Conversion date au format fr-FR.
+            res.data.events.content=res.data.events.content.map((event)=>{
+                event.date_event=formatDateService.dateConvertFr(event.date_event)
                 return event;
             })
-            setEvents(res.data)   
+            setEvents(res.data) 
+            //if(events.events === undefined){
+            //    return;
+            //}
+            //console.log("Dans fetchevents : ", events);  
+            //console.log("Dans fetchevents : ", events.events);  
+            //console.log("Dans fetchevents : ", events.events);  
+            //console.log("Dans fetchevents events.events.content : ", events.events.content);  
         }).catch((e) => console.log(e))
         .finally(() => {
                 setLoading(false)
         })
-    }
-        
-    // TODO : à mettre dans service.
-    const dateConvertFr = (date)=>{
-        date=new Date(date);
-        date = ('0'+date.getDate()).slice(-2)+"-"+('0'+(date.getMonth()+1)).slice(-2)+"-"+date.getFullYear()+" "+('0'+date.getHours()).slice(-2)+":"+('0'+date.getMinutes()).slice(-2);
-        return date;
     }
 
     useEffect(() => {
@@ -79,23 +86,17 @@ const Home = () => {
         </section>
         {/* SEPATEUR */}
         <Separateur />
-    
         {/* EVENEMENTS LES PLUS POPULAIRES */}
         <section className="container">
             <div className="text-center">
-                <h3 className="text-2xl font-bold">Les événements les plus récents</h3>
+                <h3 className="text-2xl font-bold">Les événements les plus attendus</h3>
             </div>
             {/* CARDEVENEMENT */}
             <div className="sm:flex sm:justify-center justify-around mt-10 mb-20">
-            { events.content.length  && !loading ? events.content.slice(-4).map((p) => (
-                <EventCard key={p.id} event={p} />
+            { events.events.content.length  && !loading ? events.events.content.slice(-4).map((p) => (
+                <EventCard key={p.id} event={p} name={"Home"}/>
             )) : <Loading />}
             </div>
-
-
-
-                
-    
         </section>
         {/* SEPATEUR */}
         <Separateur />
