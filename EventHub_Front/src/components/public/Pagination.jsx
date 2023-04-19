@@ -79,21 +79,22 @@ const Pagination = (props) => {
         return li;
     }
 
-    const onClickEvent = (idx) => {
-        props.fetchEvents(idx, props.category); 
-        if (count === idx ) {
+    const onClickEvent = (page) => {
+        props.numPage(page); // Permet de renvoyer au parent la page courrante.
+        props.fetchEvents(page, props.category, props.search); 
+        if (count === page ) {
             setIsCountEgalIdx(true);
             setStartCount(count-offset)
         }else{
             setIsCountEgalIdx(false)
         }
-        setPageCurrent(idx)
+        setPageCurrent(page)
     }
 
     const previousPage=()=>{
         let count = pageCurrent-1;
         if (count < 0) {count=0}
-        props.fetchEvents(count, props.category);
+        props.fetchEvents(count, props.category, props.search);
         setPageCurrent(count)
         setIsNextPage(false);
         if (start === count) {
@@ -108,7 +109,7 @@ const Pagination = (props) => {
         if(count > props.pages-1){
             count-=1; // Evite de voir disparaitre la dernière page.
         }
-        props.fetchEvents(count, props.category);
+        props.fetchEvents(count, props.category, props.search);
         setPageCurrent(count)
         setIsNextPage(true);
         setIsCountEgalIdx(false)
@@ -120,7 +121,6 @@ const Pagination = (props) => {
 
     return (
         <>
-        
         { props.pages ? <div className="flex justify-center my-9">
         <nav >
         <ul className="inline-flex items-center -space-x-px">
