@@ -7,7 +7,7 @@ const ULayout = () => {
     return(
     <>
         <Header />
-        <div className='container' id='user_body'><Outlet/></div>
+        <div className='container min-h-screen' id='user_body'><Outlet/></div>
         <Footer />
     </>
   )
