@@ -3,14 +3,16 @@ import { Link, useNavigate } from 'react-router-dom'
 import './sideMenu.css'
 // Image Logo :
 import imgLogo from "@img/logo.png";
+import { accountService } from '@services/accountService';
 
 const SideMenu = ({title="EventHub"}) => {
-    const admin=JSON.parse(localStorage.getItem("admin"))
+
+    const admin= accountService.getUser();
     const navigate=useNavigate();
     const path = {home: '/', dashboard: '/admin/home', listusers: '/admin/user/listes-utilisateurs', deconnexion: '/'}
 
     const logoutAdmin = ()=>{
-        localStorage.clear();
+        accountService.logout();
     }
    
     return (
