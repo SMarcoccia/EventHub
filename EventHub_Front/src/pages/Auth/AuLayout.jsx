@@ -5,13 +5,11 @@ import { Outlet } from 'react-router-dom'
 
 const AuLayout = () => {
   return (
-    <div id='AuLayout'>
+    <>
         <Header/>
-        <div id='auth'>
-            <div id='auth_body'><Outlet/></div>
-        </div>
+        <div className='container' id='auth_body'><Outlet/></div>
         <Footer/>
-    </div>
+    </>
   )
 }
 
