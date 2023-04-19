@@ -8,12 +8,12 @@ import { NotFound } from '@utils/NotFound'
 const PublicRouter = () => {
   return (
     <Routes>
-        <Route element={<PLayout/>}>
-          <Route index element={<Home />} />
-          <Route path='/events' element={<Events />} />
-          <Route path='/events/:slug' element={<EventDetails />} />
-          <Route path='*' element={<NotFound />} />
-        </Route>
+      <Route element={<PLayout/>}>
+        <Route index element={<Home />} />
+        <Route path='/events' element={<Events />} />
+        <Route path='/events/:slug' element={<EventDetails />} />
+        <Route path='*' element={<NotFound />} />
+      </Route>
     </Routes>
   )
 }
