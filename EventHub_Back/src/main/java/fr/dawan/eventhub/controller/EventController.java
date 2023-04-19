@@ -68,13 +68,17 @@ public class EventController {
 	
 	// Supprimer un événement
 	@DeleteMapping(value="/{id}")
-	public ResponseEntity<String> deleteEvent(@PathVariable Long id){
+	public ResponseEntity<?> deleteEvent(@PathVariable Long id){
+		Map<String, Object> response = new HashMap<>();
 		try {
 			eventService.deleteEvent(id);
+			response.put("success", true);
+			response.put("message", "L'événement à été supprimé avec succès");
 		} catch (Exception e) {
-			return ResponseEntity.notFound().build();
+			response.put("success", false);
+			response.put("message", "L'événement à déjà été supprimé ou n'existe pas");
 		}
-		return ResponseEntity.ok("L'evenement à déjà été supprimé");
+		return ResponseEntity.ok(response);
 	}
 	
 	// Création, édition d'un événemnet.
