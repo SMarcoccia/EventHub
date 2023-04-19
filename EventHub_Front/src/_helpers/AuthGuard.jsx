@@ -5,7 +5,7 @@ import React from 'react'
 const AuthGuard = ({children}) => {
     const user = accountService.getUser();
     
-    if(user === null){
+    if( ! accountService.isLogged()){
         return <Navigate to="/"/>
     }else{
         if (children.type.name === "AdminRouter" && user.role === "USER") {
