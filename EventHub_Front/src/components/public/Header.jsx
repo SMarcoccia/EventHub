@@ -9,9 +9,8 @@ const Header = ({title = "EventHub"}) => {
     const user=accountService.getUser();
     const navigate = useNavigate()
     const links=[]
-    
+    links.push({path: "/", title: "Accueil"})
     if(user !== null){
-        links.push({path: "/", title: "Accueil"})
         links.push({path: "/events", title: "Recherchez"})    
         if (user.role === "USER") {
             links.push({path: "/user/home", title: "Mon compte"})
