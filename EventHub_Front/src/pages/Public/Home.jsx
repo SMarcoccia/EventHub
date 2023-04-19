@@ -38,13 +38,6 @@ const Home = () => {
                 return event;
             })
             setEvents(res.data) 
-            //if(events.events === undefined){
-            //    return;
-            //}
-            //console.log("Dans fetchevents : ", events);  
-            //console.log("Dans fetchevents : ", events.events);  
-            //console.log("Dans fetchevents : ", events.events);  
-            //console.log("Dans fetchevents events.events.content : ", events.events.content);  
         }).catch((e) => console.log(e))
         .finally(() => {
                 setLoading(false)
