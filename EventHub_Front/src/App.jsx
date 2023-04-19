@@ -11,9 +11,7 @@ function App() {
 
   return (
     <Router>
-    <div className='flex flex-col justify-between text-gray-900 min-h-screen font-sans bg-blue-50 dark:bg-blue-900'>
-
-
+    <div className='text-gray-900 flex flex-col justify-between min-h-screen font-sans bg-blue-50 dark:bg-blue-900'>
     {/* PAGES  */}
         <Routes>
             {/* wildcard (*) permet de dire qu'il y a d'autres routes */}
