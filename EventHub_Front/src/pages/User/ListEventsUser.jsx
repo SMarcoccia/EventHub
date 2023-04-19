@@ -12,7 +12,7 @@ import SearchEvents from '@components/public/SearchEvents';
 const ListEventsUser = () => {
 
     const user=accountService.getUser();
-    const navigation = useNavigate();
+    const navigate = useNavigate();
 
     //const URL = "http://localhost:8081/api/events/list/";
     //const URI_GetEvents = "user/" 
@@ -95,17 +95,11 @@ const ListEventsUser = () => {
     const goToCreateUpdateEvent = (event) => {
         let slug = pathEventEditCreate;
         event != null ? (slug+="editer-un-evenement/"+event.id) : (slug+="creer-un-evenement")
-        navigation(slug);
+        navigate(slug);
     }
 
-    //// Aller à la page de détail d'un événement.
-    //const goToReadEvent = (event) => {
-    //    const slug=pathEvent + event.titre.replaceAll(/[` .!?`]/gi, '-').toLowerCase()+event.id
-    //    navigation(slug);
-    //}
-
     const goToEvent=(event)=>{
-        navigation("/events/"+event.id, {state: {name: ListEventsUser.name}});
+        navigate("/events/"+event.id, {state: {name: ListEventsUser.name}});
     }
 
     // Suppression d'un événement.
