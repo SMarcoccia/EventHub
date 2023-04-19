@@ -5,14 +5,17 @@ import { EventCard } from "@components/public/EventCard"
 import Pagination from "@components/public/Pagination"
 import { accountService } from "@services/accountService"
 import { BackButton } from "@components/public/BackButton"
+import { formatDateService } from "@services/formatDateService"
+import SearchEvents from "@components/public/SearchEvents"
 
 const Events = () => {
     const user=accountService.getUser();
-    const URL = "http://localhost:8081/api/events"
-    const URL_List = URL+"/list/";
+    const URL="http://localhost:8081/api/events"
+    const URL_List=URL+"/list/";
     const URL_Page="?page=";
-    let numPage = '0';
-    let typeEvent = '&type='
+    const URL_Type='&type='
+    const URL_Search="&search="
+
     let events= {
         content:[],
         totalPages:'',
@@ -22,153 +25,84 @@ const Events = () => {
         pageNumber:''
     }; 
 
+    const [numPage, setNumPage]=useState(0);
     // Pour pallier au problème d'asynchrone du useState cela permettra d'avoir les données modifier immédiatement dans le render.
-    const [eventsBis, setEventsBis] = useState(events)
-    const [filteredEvents, setFilteredEvents] = useState([])
-    const [loading, setLoading] = useState(false)
-    const [search, setSearch] = useState("")
-    const [category, setCategory] = useState("")
+    const [eventsBis, setEventsBis] = useState(events);
+    const [loading, setLoading] = useState(false);
+    const [search, setSearch] = useState("");
+    const [category, setCategory] = useState("");
+    const [errorMsg, setErrorMsg]=useState("");
     
-    const resetFilter = () => {
-        setSearch("")
-        setCategory("")
-    }
-
-    const fetchEvents = async (numPage, filter) => {
+    const fetchEvents = async (numPage, type, search) => {
         setLoading(true)
         let API_URL ="";
+        let userId=0;
 
-        if (window.location.pathname === "/events") {
-            // Liste de tous les Evénements.
-            API_URL=URL_List+0+URL_Page+numPage+typeEvent+filter 
-        }else if(window.location.pathname === "/user/liste-evenements-utilisateur"){
-            // Evénements  utlisateur de l'utilisateur.
-            API_URL=URL+"/user/"+user.id+"?page="+numPage 
+        if(window.location.pathname === "/user/liste-evenements-utilisateur"){
+            // Les événements de l'utilisateur.
+            userId=user.id;
         }
 
+        API_URL=URL_List+userId+URL_Page+numPage+URL_Type+type+URL_Search+search;
         await axios.get(API_URL)
-            .then((res) => 
+            .then(res =>
             { 
-                // Reload si dans la pagination on est à la dernière page.
-                //if (res.data.totalPages < pages) {
-                //    window.location.reload(false);
-                //}
-                
-                // Conversion date au format fr-FR.
-                res.data.content=res.data.content.map((event)=>{
-                    event.date_event=dateConvertFr(event.date_event)
-                    return event;
-                })
-
-                Object.assign(events, res.data)   
-                setEventsBis(events)
-            }).catch((e) => console.log(e))
+                if(res.data.success)
+                {
+                    try {
+                        // Conversion date au format fr-FR.
+                        res.data.events.content=res.data.events.content.map((event)=>{
+                            event.date_event=formatDateService.dateConvertFr(event.date_event)
+                            return event;
+                        })
+        
+                        Object.assign(events, res.data.events)   
+                        setEventsBis(events)
+                        setErrorMsg("")
+                    } catch (e) {
+                        console.log(e);
+                    }
+                }else{
+                    setEventsBis("")
+                    setErrorMsg(res.data.message);
+                }
+            }).catch((e) => {
+                console.log(e)
+                setErrorMsg(e.res.data.message)
+            })
             .finally(() => {
                     setLoading(false)
             })
     }
 
-    // TODO : à mettre dans service.
-    const dateConvertFr = (date)=>{
-        date=new Date(date);
-        date = ('0'+date.getDate()).slice(-2)+"-"+('0'+(date.getMonth()+1)).slice(-2)+"-"+date.getFullYear()+" "+('0'+date.getHours()).slice(-2)+":"+('0'+date.getMinutes()).slice(-2);
-        return date;
-    }
-
     useEffect(() => {
-        fetchEvents(numPage, category)
-    },  [category])
-
-
-    useEffect(() => {
-        //console.log("category : ", category);
-        //fetchEvents(numPage, category) 
-        console.log(search);
-        let result;
-        // checker la categorie
-        if(category != "Tout" ) {
-        result = events.content.filter((event) => {
-            return (
-            event.type === category && (
-                event.titre.toLowerCase().includes(search.toLowerCase()) ||
-                event.description.toLowerCase().includes(search.toLowerCase()))
-            )
-        })
-        }else {
-        result = events.content.filter((event) => {
-            return (
-            event.titre.toLowerCase().includes(search.toLowerCase()) ||
-            event.description.toLowerCase().includes(search.toLowerCase())
-            )
-        })
-        }
-        
-        setFilteredEvents(result)
+        fetchEvents(numPage, category, search)
 
     }, [search, category])
 
     return (
-
-        // La barre comparera avec le titre et la description
-        // Le select pour la catégorie
-        // les filtre sont cumulables 
-        // Afficher un bouton pour effacer les filtres seulement quand
-        // ils sont remplis
         <main className="my-10 container mx-auto">
             <div className="ml-7 my-10">
                 <BackButton path={"/"}/>
             </div>
+            
             {/* DESCRIPTION */}
             <div className="ml-7">
-            <div>
-                <h3 className="text-2xl font-bold">Faites votre choix</h3>
-                <p>Profitez des meilleurs événements avant leur fin</p>
-            </div>
-            {/* FORMULAIRE */}
-            <div className="my-4 flex gap-6">
-                <input
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="py-2 px-6 leading-none bg-gray-900 text-slate-100  focus:outline-none focus:border-pink-700  border-b-2 border-pink-50"
-                    placeholder="Evénement..." 
-                    type="search"  />
-                <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="py-2 px-6 bg-gray-900 text-slate-100"
-                    name="cat"
-                    id="cat" >
-                        <option value="">Tout</option>
-                        <option value="ART">Art</option>
-                        <option value="AUTRE">Autre</option>
-                        <option value="CULTUREL">Culture</option>
-                        <option value="EXPO">Expo</option>
-                        <option value="MUSIQUE">Musique</option>
-                        <option value="SPORTIF">Sportif</option>
-                </select>
-
-                {
-                    search.length > 1 && 
-                    <button
-                    onClick={resetFilter}
-                    className="font-bold text-2xl text-pink-700">X</button>
-                }   
+                <SearchEvents fetchEvents={fetchEvents} numPage={numPage} errorMsg={errorMsg} totalElements={eventsBis.totalElements}/>
             </div>
 
-            {/* RESULTAT */}
-            <div>
-            <p>Résultat : <span>{eventsBis.totalElements}</span></p>
-            {/*<p>Résultat : <span>{filteredEvents.length}</span></p>*/}
-            </div>
-            </div>
             {/* LISTE DES PRODUITS */}
-            <div className="mt-10 mb-20 ml-7 gap-7 sm:grid md:grid-cols-2 xl:grid-cols-4">
-            {/*{ events.content.length  && !loading ? filteredEvents.map((p) => (*/}
+            {errorMsg === "" && <div className="mt-10 mb-20 ml-7 gap-7 sm:grid md:grid-cols-2 xl:grid-cols-4">
                 { eventsBis.content.length  && !loading ? eventsBis.content.map((p) => (
-                    <EventCard key={p.id} event={p} />
+                    <EventCard key={p.id} event={p} name={Events.name}/>
                 )) : <Loading />}
-            </div>
-            <Pagination pages={eventsBis.totalPages} fetchEvents={fetchEvents} category={category}/>
+            </div> }
+            
+            {errorMsg && <div className="flex justify-center mb-4 rounded-lg bg-info-100 px-6 py-5 text-2xl text-info-800">
+                {errorMsg}
+            </div>}
+
+            <Pagination fetchEvents={fetchEvents} pages={eventsBis.totalPages}  category={category} search={search} numPage={setNumPage}/>
         </main>
     )
   }
