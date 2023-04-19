@@ -8,8 +8,9 @@ export const HeaderItem = ({path, title}) => {
 
     const removeUser = () => {
         if (user !== null && title === "Déconnexion") {
-            localStorage.clear();
-            window.location.reload(); // Le rechargement de la page permet d'afficher à nouveau le bouton s'inscrire si on se déconnecte.
+            accountService.logout();
+            // Le rechargement de la page permet d'afficher à nouveau le bouton s'inscrire si on se déconnecte.
+            window.location.reload(); 
         }
     }
 
