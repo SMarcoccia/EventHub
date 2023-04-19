@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { BackButton } from '@components/public/BackButton'
+import { formatDateService } from '@services/formatDateService';
 
 const EditCreateEvent = () => {
     const pathUserListEvents = "/user/liste-evenements-utilisateur";
@@ -11,6 +12,9 @@ const EditCreateEvent = () => {
     const URI="http://localhost:8081/api/events"; const URL=""; const  URL_IMG="";
     const [loading, setLoading]=useState(false);
     const [formFile, setFormFile]=useState({file: null})
+    const [errorMsg, setErrorMsg]=useState("");
+
+    // Attention la date doit-être obligatoire.
     const [formData, setFormData]=useState({
         date_event: "",
         description: "",
@@ -41,11 +45,6 @@ const EditCreateEvent = () => {
     }
     const createUpdateEvent=async ()=>{
         setLoading(true);
-        if (! formData.date_event || formData.date_event === "") {
-            let date=new Date();
-            date=date.getFullYear()+"-"+('0'+(date.getMonth()+1)).slice(-2)+"-"+('0'+date.getDate()).slice(-2)+"T"+('0'+date.getHours()).slice(-2)+":"+('0'+date.getMinutes()).slice(-2)+":"+('0'+date.getSeconds()).slice(-2);
-            formData.date_event = date
-        }
         formData.user = userLocal;
         const formDataFile=new FormData()
         formDataFile.append("event", JSON.stringify(formData))   
@@ -64,7 +63,12 @@ const EditCreateEvent = () => {
 
     const handleSubmit = (event)=>{
         event.preventDefault();
-        createUpdateEvent();
+        if(formData.date_event.length == 0){
+            setErrorMsg("La date est obligatoire")
+        }else{
+            createUpdateEvent();
+            setErrorMsg("");
+        }
     }
 
     const onChange = (e)=>{
@@ -85,7 +89,7 @@ const EditCreateEvent = () => {
     return (
 
         <div>
-        <div className='py-4'>
+        <div className='ml-7 my-10'>
             <BackButton path={pathUserListEvents} />
         </div>
         <section className="max-w-4xl mb-6 p-6 mx-auto rounded-md shadow-md bg-gradient-to-r from-blue-300 to-blue-400 mt-20">
@@ -102,7 +106,7 @@ const EditCreateEvent = () => {
                     <input id="lieu" type="text" value={formData.lieu} onChange={onChange} name="lieu" className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"/>
                 </div>
                 <div>
-                    <label className="text-white dark:text-gray-200" htmlFor="date">Date</label>
+                    <label className="text-white dark:text-gray-200" htmlFor="date">Date <span className="text-red-500">{errorMsg}</span></label>
                     <input id="date" type="datetime-local" value={formData.date_event} onChange={onChange} name="date_event"  className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"/>
                 </div>
                 <div>
