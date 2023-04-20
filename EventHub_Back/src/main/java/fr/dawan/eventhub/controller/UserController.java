@@ -24,18 +24,21 @@ public class UserController {
 	@Autowired
 	private UserService service;
 	
+	// Trouver tous les utilisateurs.	
 	@CrossOrigin
 	@GetMapping(produces="application/json")
 	public List<User> findAll(){
 		return service.findAll();
 	}
 	
+	// Trouver tous les utilisateur qui on un rôle Admin.	
 	@CrossOrigin
 	@GetMapping(value="/admin", produces="application/json")
 	public List<User> findAllAdmin(){
 		return service.findAllAdmin();
 	}
 	
+	// Trouver un utilisateur par son id.	
 	@CrossOrigin
 	@GetMapping(value="/{id}", produces = "application/json")
 	public ResponseEntity<User> findUserPerId(@PathVariable Long id) {
@@ -47,6 +50,7 @@ public class UserController {
 		return ResponseEntity.notFound().build();	
 	}
 	
+	// Supprimer un utilisateur.	
 	@CrossOrigin
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<String> deleteUser(@PathVariable Long id) {
@@ -58,12 +62,14 @@ public class UserController {
 		return ResponseEntity.ok("L'utilisateur à déjà été supprimé.");
 	}
 	
+	// Mettre à jour les données de l'utilisateur.	
 	@CrossOrigin
 	@PutMapping(value="/{id}", produces="application/json", consumes ="application/json")
 	public User updateUser(@PathVariable Long id, @RequestBody User user) {
 		return service.updateUser(user);
 	}
 	
+	// Créer un utilisateur.	
 	@CrossOrigin
 	@PostMapping(produces="application/json", consumes="application/json")
 	public User createUser(@RequestBody User user) {
