@@ -1,3 +1,8 @@
+import Axios from "./callerService";
+
+let getRequest=(url)=>{
+    return Axios.get(url)
+}
 
 let setUser = (user)=>{
     localStorage.setItem("user", JSON.stringify(user));
@@ -19,5 +24,5 @@ let logout = ()=>{
 
 
 export const accountService={
-    setUser, getUser, logout, isLogged
+    getRequest, setUser, getUser, logout, isLogged
 }
