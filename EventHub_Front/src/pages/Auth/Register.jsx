@@ -15,7 +15,6 @@ const Register= () => {
         password:"",
     })
 
-
     const onChange=(e)=>{
         setCredentials({
             ...credentials,
@@ -30,7 +29,6 @@ const Register= () => {
         .post('http://localhost:8081/api/register', credentials)
         .then(response => {
             if(response.data.success){
-                //setError(response.data.message);
                 window.location.href = '/auth/login';
             }else{
                 setError(response.data.message);
