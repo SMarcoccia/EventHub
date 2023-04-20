@@ -3,6 +3,7 @@ package fr.dawan.eventhub.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,24 +24,25 @@ public class UserController {
 	
 	@Autowired
 	private UserService service;
+	private final String MT_AJV= MediaType.APPLICATION_JSON_VALUE;
 	
 	// Trouver tous les utilisateurs.	
 	@CrossOrigin
-	@GetMapping(produces="application/json")
+	@GetMapping(produces=MT_AJV)
 	public List<User> findAll(){
 		return service.findAll();
 	}
 	
 	// Trouver tous les utilisateur qui on un rôle Admin.	
 	@CrossOrigin
-	@GetMapping(value="/admin", produces="application/json")
+	@GetMapping(value="/admin", produces=MT_AJV)
 	public List<User> findAllAdmin(){
 		return service.findAllAdmin();
 	}
 	
 	// Trouver un utilisateur par son id.	
 	@CrossOrigin
-	@GetMapping(value="/{id}", produces = "application/json")
+	@GetMapping(value="/{id}", produces = MT_AJV)
 	public ResponseEntity<User> findUserPerId(@PathVariable Long id) {
 		User user=service.findById(id);
 		if(user != null)
@@ -64,14 +66,14 @@ public class UserController {
 	
 	// Mettre à jour les données de l'utilisateur.	
 	@CrossOrigin
-	@PutMapping(value="/{id}", produces="application/json", consumes ="application/json")
+	@PutMapping(value="/{id}", produces=MT_AJV, consumes =MT_AJV)
 	public User updateUser(@PathVariable Long id, @RequestBody User user) {
 		return service.updateUser(user);
 	}
 	
 	// Créer un utilisateur.	
 	@CrossOrigin
-	@PostMapping(produces="application/json", consumes="application/json")
+	@PostMapping(produces=MT_AJV, consumes=MT_AJV)
 	public User createUser(@RequestBody User user) {
 		return service.createUser(user);
 	}
