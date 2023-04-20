@@ -57,6 +57,7 @@ const Home = () => {
         <div className="lg:w-1/2 m-auto my-10">
             <img className="rounded-2xl" src="../../public/img/photoHome.jpg" alt="photo-event" />
         </div>
+        
         {/* DESCRIPTION */}
         <section className="lg:flex justify-center block gap-5 my-10 container mx-auto">
             <div className="flex flex-col justify-between">
@@ -75,10 +76,11 @@ const Home = () => {
                     </Link>
                 </div>
             </div>
-    
         </section>
+
         {/* SEPATEUR */}
         <Separateur />
+
         {/* EVENEMENTS LES PLUS POPULAIRES */}
         <section className="container">
             <div className="text-center">
@@ -87,7 +89,7 @@ const Home = () => {
             {/* CARDEVENEMENT */}
             <div className="sm:flex sm:justify-center justify-around mt-10 mb-20">
             { events.events.content.length  && !loading ? events.events.content.slice(-4).map((p) => (
-                <EventCard key={p.id} event={p} name={"Home"}/>
+                <EventCard key={p.id} event={p} name={Home.name}/>
             )) : <Loading />}
             </div>
         </section>
