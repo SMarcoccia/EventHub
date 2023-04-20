@@ -1,8 +1,14 @@
 package fr.dawan.eventhub.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,8 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.dawan.eventhub.entities.Event;
 import fr.dawan.eventhub.entities.User;
 import fr.dawan.eventhub.service.UserService;
 
@@ -23,28 +31,28 @@ import fr.dawan.eventhub.service.UserService;
 public class UserController {
 	
 	@Autowired
-	private UserService service;
+	private UserService userService;
 	private final String MT_AJV= MediaType.APPLICATION_JSON_VALUE;
 	
 	// Trouver tous les utilisateurs.	
 	@CrossOrigin
 	@GetMapping(produces=MT_AJV)
 	public List<User> findAll(){
-		return service.findAll();
+		return userService.findAll();
 	}
 	
 	// Trouver tous les utilisateur qui on un rôle Admin.	
 	@CrossOrigin
 	@GetMapping(value="/admin", produces=MT_AJV)
 	public List<User> findAllAdmin(){
-		return service.findAllAdmin();
+		return userService.findAllAdmin();
 	}
 	
 	// Trouver un utilisateur par son id.	
 	@CrossOrigin
 	@GetMapping(value="/{id}", produces = MT_AJV)
 	public ResponseEntity<User> findUserPerId(@PathVariable Long id) {
-		User user=service.findById(id);
+		User user=userService.findById(id);
 		if(user != null)
 		{
 			return ResponseEntity.ok(user);
@@ -57,7 +65,7 @@ public class UserController {
 	@DeleteMapping(value="/{id}")
 	public ResponseEntity<String> deleteUser(@PathVariable Long id) {
 		try {
-			service.deleteUser(id);
+			userService.deleteUser(id);
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
@@ -68,13 +76,13 @@ public class UserController {
 	@CrossOrigin
 	@PutMapping(value="/{id}", produces=MT_AJV, consumes =MT_AJV)
 	public User updateUser(@PathVariable Long id, @RequestBody User user) {
-		return service.updateUser(user);
+		return userService.updateUser(user);
 	}
 	
 	// Créer un utilisateur.	
 	@CrossOrigin
 	@PostMapping(produces=MT_AJV, consumes=MT_AJV)
 	public User createUser(@RequestBody User user) {
-		return service.createUser(user);
+		return userService.createUser(user);
 	}
 }
