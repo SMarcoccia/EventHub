@@ -1,11 +1,12 @@
 import axios from "axios"
-import { Children, useEffect, useState } from "react"
+import { Children, useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { EventCard } from "@components/public/EventCard"
 import { Separateur } from "@components/public/Separateur"
 import { Loading } from "@components/public/Loading"
 import { accountService } from "@services/accountService"
 import { formatDateService } from "@services/formatDateService"
+import { eventService } from "@services/eventService"
 
 
 const Home = () => {
@@ -24,28 +25,36 @@ const Home = () => {
     }); 
 
     const [loading, setLoading] = useState(false);
+    const [errorMsg, setErrorMsg]=useState("");
     const user=accountService.getUser();
 
 
     const fetchEvents = async () => {
         setLoading(true)
-        await axios.get("http://localhost:8081/api/events/list/0?page=0&type=&search=")
-        .then((res) => 
-        {
-            // Conversion date au format fr-FR.
-            res.data.events.content=res.data.events.content.map((event)=>{
-                event.date_event=formatDateService.dateConvertFr(event.date_event)
-                return event;
-            })
-            setEvents(res.data) 
-        }).catch((e) => console.log(e))
-        .finally(() => {
-                setLoading(false)
-        })
+        const res=await eventService.getAllEventsByUser(0, 0, "", "")
+        console.log("res : ", res);
+        try {
+            if(res.data.success){
+                // Conversion date au format fr-FR.
+                res.data.events.content=res.data.events.content.map((event)=>{
+                    event.date_event=formatDateService.dateConvertFr(event.date_event)
+                    return event;
+                })
+                setEvents(res.data);
+                setErrorMsg("")
+            }else{
+                setEvents("");
+                setErrorMsg(res.data.message);
+            }
+        } catch (error) {
+            setErrorMsg(error.res.data.message)
+        } finally{
+            setLoading(false)
+        }
     }
 
     useEffect(() => {
-     fetchEvents()
+        fetchEvents()
     }, [])
 
 
