@@ -3,14 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 const Pagination = (props) => {
-    const URL = "http://localhost:8081/api/events/";
-    const URL_GetEventsPage=URL+"?page=";
 
     const [startCount, setStartCount] = useState(0)
     const [isNextPage, setIsNextPage] = useState(false)
-    const [pageCurrent, setPageCurrent]=useState(0)
     let [isCountEgalIdx, setIsCountEgalIdx] = useState(false)
-
+    
+    let pageCurrent=props.numPage;
     let offset=10;
     let count=0;
     let start=0;
@@ -18,6 +16,7 @@ const Pagination = (props) => {
     
     const pagination = ()=>{
         const li=[];
+
         if (pageCurrent >= props.pages-offset) {
             count = props.pages-offset;
         }else{
@@ -80,7 +79,7 @@ const Pagination = (props) => {
     }
 
     const onClickEvent = (page) => {
-        props.numPage(page); // Permet de renvoyer au parent la page courrante.
+        props.setNumPage(page); // Permet de renvoyer au parent la page courrante.
         props.fetchEvents(page, props.category, props.search); 
         if (count === page ) {
             setIsCountEgalIdx(true);
@@ -88,14 +87,14 @@ const Pagination = (props) => {
         }else{
             setIsCountEgalIdx(false)
         }
-        setPageCurrent(page)
+        pageCurrent=page;
     }
 
     const previousPage=()=>{
         let count = pageCurrent-1;
         if (count < 0) {count=0}
         props.fetchEvents(count, props.category, props.search);
-        setPageCurrent(count)
+        pageCurrent=count;
         setIsNextPage(false);
         if (start === count) {
             setIsCountEgalIdx(false)
@@ -110,13 +109,14 @@ const Pagination = (props) => {
             count-=1; // Evite de voir disparaitre la dernière page.
         }
         props.fetchEvents(count, props.category, props.search);
-        setPageCurrent(count)
+        pageCurrent=count;
         setIsNextPage(true);
         setIsCountEgalIdx(false)
     }
 
     useEffect(() => {
-        setPageCurrent(count);
+        pageCurrent=props.numPage;
+        props.setCategory(props.category)
     },  [props.category])
 
     return (
