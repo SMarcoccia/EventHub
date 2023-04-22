@@ -7,6 +7,7 @@ import { accountService } from '@services/accountService';
 import { formatDateService } from '@services/formatDateService';
 import SearchEvents from '@components/public/SearchEvents';
 import { Loading } from '@components/public/Loading';
+import { eventService } from '@services/eventService';
 
 
 // Liste tout les événements d'un utilisateur.
@@ -16,11 +17,6 @@ const ListEventsUser = () => {
 
     const user=accountService.getUser();
     const pathEventEditCreate = "/user/";
-    const URL="http://localhost:8081/api/events"
-    const URL_List=URL+"/list/";
-    const URL_Page="?page=";
-    const URL_Type='&type='
-    const URL_Search="&search="
 
     let events={
         content:[],
@@ -43,16 +39,13 @@ const ListEventsUser = () => {
 
     const fetchEvents = async (numPage, type, search) => {
         setLoading(true)
-        let API_URL ="";
-        let userId=0;
+        let userId=0; 
 
         if(window.location.pathname === "/user/liste-evenements-utilisateur"){
             userId=user.id;
         }
 
-        API_URL=URL_List+userId+URL_Page+numPage+URL_Type+type+URL_Search+search;
-
-        const res=await accountService.getRequest(API_URL);
+        const res=await eventService.getAllEventsByUser(userId, numPage, type, search);
         try {
             if(res.data.success){
                 res.data.events.content=res.data.events.content.map((event)=>{
@@ -68,7 +61,7 @@ const ListEventsUser = () => {
             }
         } catch (error) {
             setErrorMsg(error.res.data.message)
-        }finally{
+        } finally{
             setLoading(false);
         }
     }
@@ -87,7 +80,7 @@ const ListEventsUser = () => {
     // Suppression d'un événement.
     const deleteEvent = async (event) => {
         setLoading(true)
-        await axios.delete(URL+"/"+event.id)
+        await eventService.deleteEvent(event.id)
         .then((res)=>{
             if(res.data.success){
                 fetchEvents(numPage, category, search);
@@ -110,7 +103,7 @@ const ListEventsUser = () => {
     }, [])
     
     return (
-    <div>
+    <main className="my-10 container mx-auto">
         <div className='ml-7 my-10'>
             <BackButton path={"/user/home"} />
         </div>
@@ -119,7 +112,7 @@ const ListEventsUser = () => {
         
         {/* DESCRIPTION */}
         <div className="flex justify-between mx-10 mt-10">
-            <div><SearchEvents fetchEvents={fetchEvents} numPage={numPage} errorMsg={errorMsg} totalElements={eventsBis.totalElements}/></div>
+            <div><SearchEvents fetchEvents={fetchEvents} numPage={numPage} setNumPage={setNumPage} category={category} setCategory={setCategory} errorMsg={errorMsg} totalElements={eventsBis.totalElements}/></div>
             <div className="flex items-end">
                 <button onClick={()=>goToCreateUpdateEvent(null)} className="px-4 py-2 rounded-md bg-sky-500 text-sky-100 hover:bg-sky-600">Créer un événement</button>
             </div>
@@ -205,14 +198,14 @@ const ListEventsUser = () => {
                                 </button></td>
                         </tr>
                         )} 
-                    </tbody>: <tbody><td colSpan="6" className='text-center'><Loading/></td></tbody>}
+                    </tbody>: <tbody><tr><td colSpan="6" className='text-center'><Loading/></td></tr></tbody>}
                     </table>
                     </div>
                 </div>
             </div>
-            <Pagination pages={eventsBis.totalPages} fetchEvents={fetchEvents} category={""} search={search} numPage={setNumPage}/>
+            <Pagination pages={eventsBis.totalPages} fetchEvents={fetchEvents} category={category} setCategory={setCategory} search={search} numPage={numPage} setNumPage={setNumPage}/>
         </div>}
-    </div>
+    </main>
   )
 }
 
