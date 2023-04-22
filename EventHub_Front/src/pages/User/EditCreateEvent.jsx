@@ -3,13 +3,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { BackButton } from '@components/public/BackButton'
 import { formatDateService } from '@services/formatDateService';
+import { eventService } from '@services/eventService';
 
 const EditCreateEvent = () => {
-    const pathUserListEvents = "/user/liste-evenements-utilisateur";
     const userLocal=JSON.parse(localStorage.getItem("user"));
     const navigation=useNavigate();
+    const pathUserListEvents = "/user/liste-evenements-utilisateur";
     const params=useParams();
-    const URI="http://localhost:8081/api/events"; const URL=""; const  URL_IMG="";
     const [loading, setLoading]=useState(false);
     const [formFile, setFormFile]=useState({file: null})
     const [errorMsg, setErrorMsg]=useState("");
@@ -27,9 +27,10 @@ const EditCreateEvent = () => {
         user:""
     });
 
+    // Récupération de l'événement.
     const fetchEvent=async ()=>{
         setLoading(true)
-        await axios.get(URI+"/"+params.id)
+        await eventService.getEvent(params.id)
         .then((res)=>{
             setFormData(res.data)
         })
@@ -52,8 +53,8 @@ const EditCreateEvent = () => {
         if (formFile.file !== null) {
             formDataFile.append("file", formFile, formFile.name)
         }
-        await axios
-            .post(URI, formDataFile, {mode:'cors', config})
+
+        await eventService.editCreateEvent(formDataFile, {mode:'cors', config})
             .then(()=>{ 
                 navigation(pathUserListEvents)
             }).catch((e)=>{
