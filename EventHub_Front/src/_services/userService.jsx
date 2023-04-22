@@ -1,9 +1,13 @@
 import Axios from "./callerService";
 
-const getAllEventsUser=()=>{
-    return Axios.get()
+const register=(data)=>{
+    return Axios.post("register", data)
+}
+
+const login=(data)=>{
+    return Axios.post("login", data)
 }
 
 export const userService={
-
+    register, login
 }
