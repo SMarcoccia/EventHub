@@ -1,4 +1,5 @@
 import { BackButton } from '@components/public/BackButton';
+import { userService } from '@services/userService';
 import axios from 'axios';
 import React, { useState } from 'react'
 import { useEffect } from 'react';
@@ -25,8 +26,7 @@ const Register= () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
     
-        axios
-        .post('http://localhost:8081/api/register', credentials)
+        await userService.register(credentials)
         .then(response => {
             if(response.data.success){
                 window.location.href = '/auth/login';
