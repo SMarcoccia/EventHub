@@ -3,17 +3,17 @@ import React, { useEffect, useState } from 'react'
 function SearchEvents(props) {
 
     const [search, setSearch] = useState("");
-    const [category, setCategory] = useState("");
     const zeroEvent="0";
 
     const resetFilter = () => {
         setSearch("")
-        setCategory("")
+        props.setCategory("")
     }
 
     useEffect(() => {
-        props.fetchEvents(props.numPage, category, search)
-    }, [search, category])
+        props.setNumPage(0);
+        props.fetchEvents(0, props.category, search)
+    }, [props.category, search])
 
     return (
         <div>
@@ -28,8 +28,8 @@ function SearchEvents(props) {
                 placeholder="Evénement..." 
                 type="search"  />
             <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
+                value={props.category}
+                onChange={(e) => props.setCategory(e.target.value)}
                 className="py-2 px-6 bg-gray-900 text-slate-100"
                 name="cat"
                 id="cat" >
@@ -50,7 +50,9 @@ function SearchEvents(props) {
             }   
         </div>
             {/* RESULTAT */}
-            <p className="font-serif mt-5 text-1xl decoration-gray-400">Résultat : <span className='mr-10'>{props.errorMsg ? zeroEvent : props.totalElements}</span>Page {props.errorMsg ? zeroEvent : props.numPage+1}</p>
+            <p className="font-serif mt-5 text-1xl decoration-gray-400">
+                Résultat : <span className='mr-10'>
+                    {props.errorMsg ? zeroEvent : props.totalElements}</span>Page {props.errorMsg ? zeroEvent : props.numPage+1}</p>
         </div>
   )
 }
