@@ -1,5 +1,6 @@
 import { BackButton } from "@components/public/BackButton";
 import { accountService } from "@services/accountService";
+import { userService } from "@services/userService";
 import axios from "axios";
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
@@ -28,8 +29,7 @@ const Login = () => {
         if(credentials.email == '' && credentials.password == ''){
             setError("Champs vide")
         }else{
-            axios
-            .post('http://localhost:8081/api/login', credentials)
+            await userService.login(credentials)
             .then(response => {
                 if(response.data.success){
                     try {
