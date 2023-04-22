@@ -65,10 +65,9 @@ public class LoginController {
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO){
-		User user = userService.findByEmail(loginDTO.getEmail());
-		
-		Map<String, Object> response = new HashMap<>();
 
+		User user = userService.findByEmail(loginDTO.getEmail());
+		Map<String, Object> response = new HashMap<>();
 		
 		if(user == null) {
 			response.put("success", false);
