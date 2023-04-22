@@ -5,6 +5,7 @@ import { BackButton } from '@components/public/BackButton'
 import { Loading } from '@components/public/Loading'
 import { accountService } from '@services/accountService'
 import { formatDateService } from '@services/formatDateService'
+import { eventService } from '@services/eventService'
 
 const EventDetails = () => {
     let user = accountService.getUser();
@@ -16,8 +17,7 @@ const EventDetails = () => {
     
     const fetchEvents = async () => {
         setLoading(true)
-        await axios
-        .get("http://localhost:8081/api/events/"+params.slug)
+        await eventService.getEvent(params.id)
         .then((res) => { 
             res.data.date_event=formatDateService.dateConvertFr(res.data.date_event);
             setEvent(res.data)
@@ -62,17 +62,15 @@ const EventDetails = () => {
                             <p><span className="mb-3 font-bold text-xl">Date : </span>{event.date_event}</p>
                         </div>
                         <div className="mb-3">
+                            <p><span className="mb-3 font-bold text-xl">Catégorie : </span>{event.type}</p>
+                        </div>
+                        <div className="mb-3">
                             <p><span className="mb-3 font-bold text-xl">Resumé : </span>{event.resume}</p>
                         </div>
                         <div className="mb-3">
                             <p className="mb-3 font-bold text-xl">Description: </p>
                             <p>{event.description}</p>
                         </div>
-
-                        <div className="mb-3">
-                            <p><span className="mb-3 font-bold text-xl">Catégorie : </span>{event.type}</p>
-                        </div>
-
                         </div>
                 
                         <div className='flex justify-between mt-7'>
