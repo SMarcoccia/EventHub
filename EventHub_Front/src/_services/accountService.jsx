@@ -1,9 +1,11 @@
 
 const setUser = (user)=>{
+    // stringfy convertit un objet en JSON.
     localStorage.setItem("user", JSON.stringify(user));
 }
 
 const getUser = ()=>{
+    // parse convertit un JSON en objet javascript.
     return JSON.parse(localStorage.getItem("user"));
     
 }
