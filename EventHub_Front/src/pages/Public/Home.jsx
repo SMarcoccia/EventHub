@@ -1,62 +1,18 @@
-import axios from "axios"
-import { Children, useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import { EventCard } from "@components/public/EventCard"
 import { Separateur } from "@components/public/Separateur"
 import { Loading } from "@components/public/Loading"
 import { accountService } from "@services/accountService"
-import { formatDateService } from "@services/formatDateService"
 import { eventService } from "@services/eventService"
+import { useQuery } from "react-query"
 
 
 const Home = () => {
 
-    const [events, setEvents]=useState({
-        events: {
-            content:[],
-            totalPages:'',
-            totalElements:'',
-            pageSize:'',
-            lastPage: false,
-            pageNumber:''},
-        message:'',
-        success:''
-        
-    }); 
+    let {isLoading, data} = useQuery('eventsUser', ()=>eventService.getAllEventsByUser(0, 0, "", ""));
 
-    const [loading, setLoading] = useState(false);
-    const [errorMsg, setErrorMsg]=useState("");
     const user=accountService.getUser();
-
-
-    const fetchEvents = async () => {
-        setLoading(true)
-        const res=await eventService.getAllEventsByUser(0, 0, "", "")
-        console.log("res : ", res);
-        try {
-            if(res.data.success){
-                // Conversion date au format fr-FR.
-                res.data.events.content=res.data.events.content.map((event)=>{
-                    event.date_event=formatDateService.dateConvertFr(event.date_event)
-                    return event;
-                })
-                setEvents(res.data);
-                setErrorMsg("")
-            }else{
-                setEvents("");
-                setErrorMsg(res.data.message);
-            }
-        } catch (error) {
-            setErrorMsg(error.res.data.message)
-        } finally{
-            setLoading(false)
-        }
-    }
-
-    useEffect(() => {
-        fetchEvents()
-    }, [])
-
 
     return (
         <main>
@@ -95,9 +51,10 @@ const Home = () => {
             <div className="text-center">
                 <h3 className="text-2xl font-bold">Les événements les plus attendus</h3>
             </div>
+            
             {/* CARDEVENEMENT */}
             <div className="sm:flex sm:justify-center justify-around mt-10 mb-20">
-            { events.events.content.length  && !loading ? events.events.content.slice(-4).map((p) => (
+            { data!==undefined  && !isLoading ? data.events.content.slice(-4).map((p) => (
                 <EventCard key={p.id} event={p} name={Home.name}/>
             )) : <Loading />}
             </div>
