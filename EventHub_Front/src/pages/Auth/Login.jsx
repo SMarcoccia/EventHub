@@ -1,9 +1,10 @@
-import { BackButton } from "@components/public/BackButton";
-import { accountService } from "@services/accountService";
-import { userService } from "@services/userService";
-import axios from "axios";
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom";
+
+import { BackButton } from "@components/public/BackButton";
+
+import { accountService } from "@services";
+import { userService } from "@services";
 
 
 const Login = () => {

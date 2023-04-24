@@ -1,10 +1,11 @@
-import { useState } from "react"
 import { Link } from "react-router-dom"
 import { EventCard } from "@components/public/EventCard"
 import { Separateur } from "@components/public/Separateur"
 import { Loading } from "@components/public/Loading"
-import { accountService } from "@services/accountService"
-import { eventService } from "@services/eventService"
+
+import { accountService } from "@services"
+import { eventService } from "@services"
+
 import { useQuery } from "react-query"
 
 
@@ -51,7 +52,7 @@ const Home = () => {
             <div className="text-center">
                 <h3 className="text-2xl font-bold">Les événements les plus attendus</h3>
             </div>
-            
+
             {/* CARDEVENEMENT */}
             <div className="sm:flex sm:justify-center justify-around mt-10 mb-20">
             { data!==undefined  && !isLoading ? data.events.content.slice(-4).map((p) => (

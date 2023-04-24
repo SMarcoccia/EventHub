@@ -1,13 +1,13 @@
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { Loading } from "@components/public/Loading"
 import { EventCard } from "@components/public/EventCard"
 import Pagination from "@components/public/Pagination"
-import { accountService } from "@services/accountService"
 import { BackButton } from "@components/public/BackButton"
-import { formatDateService } from "@services/formatDateService"
 import SearchEvents from "@components/public/SearchEvents"
-import { eventService } from "@services/eventService"
+
+import { accountService } from "@services"
+import { formatDateService } from "@services"
+import { eventService } from "@services"
 
 const Events = () => {
     const user=accountService.getUser();

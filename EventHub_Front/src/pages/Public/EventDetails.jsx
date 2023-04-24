@@ -1,11 +1,11 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { BackButton } from '@components/public/BackButton'
 import { Loading } from '@components/public/Loading'
-import { accountService } from '@services/accountService'
-import { formatDateService } from '@services/formatDateService'
-import { eventService } from '@services/eventService'
+
+import { accountService } from '@services'
+import { formatDateService } from '@services'
+import { eventService } from '@services'
 
 const EventDetails = () => {
     let user = accountService.getUser();

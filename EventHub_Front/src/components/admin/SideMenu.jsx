@@ -1,9 +1,10 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import './sideMenu.css'
-// Image Logo :
+
 import imgLogo from "@img/logo.png";
-import { accountService } from '@services/accountService';
+import { accountService } from '@services';
+
+import './sideMenu.css'
 
 const SideMenu = ({title="EventHub"}) => {
 

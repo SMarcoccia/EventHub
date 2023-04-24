@@ -1,7 +1,7 @@
-import { accountService } from '@services/accountService';
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import { accountService } from '@services';
 
 export const HeaderItem = ({path, title}) => {
     const user=accountService.getUser();

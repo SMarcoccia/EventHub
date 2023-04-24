@@ -1,13 +1,12 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { BackButton } from '@components/public/BackButton';
 import Pagination from '@components/public/Pagination';
-import { accountService } from '@services/accountService';
-import { formatDateService } from '@services/formatDateService';
 import SearchEvents from '@components/public/SearchEvents';
 import { Loading } from '@components/public/Loading';
-import { eventService } from '@services/eventService';
+import { accountService } from '@services';
+import { formatDateService } from '@services';
+import { eventService } from '@services';
 
 
 // Liste tout les événements d'un utilisateur.

@@ -1,7 +1,8 @@
-import AHeader from '@components/admin/AHeader'
-import Footer from '@components/public/Footer'
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+
+import AHeader from '@components/admin/AHeader'
+import Footer from '@components/public/Footer'
 
 const ALayout = () => {
   return (

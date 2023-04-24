@@ -1,7 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 import { HeaderItem } from './HeaderItem'
-import { accountService } from "@services/accountService";
 import imgLogo from "@img/logo.png";
+
+import { accountService } from "@services/";
+
 import "./header.css"
 
 const Header = ({title = "EventHub"}) => {

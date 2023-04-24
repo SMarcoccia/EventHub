@@ -2,8 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { BackButton } from '@components/public/BackButton'
-import { formatDateService } from '@services/formatDateService';
-import { eventService } from '@services/eventService';
+import { eventService } from '@services';
 
 const EditCreateEvent = () => {
     const userLocal=JSON.parse(localStorage.getItem("user"));

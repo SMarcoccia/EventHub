@@ -1,9 +1,10 @@
-import { BackButton } from '@components/public/BackButton';
-import { userService } from '@services/userService';
-import axios from 'axios';
 import React, { useState } from 'react'
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+
+import { BackButton } from '@components/public/BackButton';
+
+import { userService } from '@services';
+
 
 const Register= () => {
 
