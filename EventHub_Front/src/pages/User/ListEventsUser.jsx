@@ -46,20 +46,15 @@ const ListEventsUser = () => {
 
         const res=await eventService.getAllEventsByUser(userId, numPage, type, search);
         try {
-            if(res.data.success){
-                res.data.events.content=res.data.events.content.map((event)=>{
-                    event.date_event=formatDateService.dateConvertFr(event.date_event)
-                    return event;
-                })
-                Object.assign(events, res.data.events)   
-                setEventsBis(events)
+            if(res.success){
+                setEventsBis(res.events)
                 setErrorMsg("")
             }else{
                 setEventsBis("")
-                setErrorMsg(res.data.message);
+                setErrorMsg(res.message);
             }
         } catch (error) {
-            setErrorMsg(error.res.data.message)
+            setErrorMsg(error.res.message)
         } finally{
             setLoading(false);
         }
