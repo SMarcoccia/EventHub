@@ -2,6 +2,7 @@ import Axios from "./callerService";
 
 import { formatDateService } from "./formatDateService";
 
+
 const deleteEvent=(id)=>{
     return Axios.delete("events/"+id)
 }
@@ -19,10 +20,7 @@ const getEvent=(id)=>{
 // Récupère les événements de l'utilisateur par type et/ou par recherche.
 const getAllEventsByUser= async (userId, numPage, type, search)=>{
     const {data}=await Axios.get("events/list/"+userId+"?page="+numPage+"&type="+type+"&search="+search);
-    data.content=data.events.content.map((event)=>{
-        event.date_event=formatDateService.dateConvertFr(event.date_event)
-        return event;
-    })
+    data.content=formatDateService.convertAllDatesFr(data.events.content, "date_event");
     return data;
 }
 
