@@ -16,22 +16,20 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import fr.dawan.eventhub.Enum.Role;
 import fr.dawan.eventhub.Enum.TypeEvent;
-import fr.dawan.eventhub.entities.User;
 import net.datafaker.Faker;
 
 public class Feather {
 
+	private PasswordEncoder passwordEncoder;
 	private Faker faker;
 
 	private List<String> filenames=new ArrayList<>();
 	
-//	public Map<TypeEvent, List<String>> creatingListEventsByType(){
-//		
-//		
-//		return mapEventImgs;
-//	}
 	
 	private List<String> cities=Arrays.asList(
 			"Lyon","Saint-Étienne","Grenoble","Villeurbanne","Clermont-Ferrand","Annecy",
@@ -169,8 +167,9 @@ public class Feather {
 		    "Toute l'équipe bricole pour ne pas bronzer.",
 		    "La percussionniste prendra feu pour fleurir !prononcer !supprimer ?");
 		
-	public Feather() {
+	public Feather(PasswordEncoder passwordEncoder) {
 		super();
+		this.passwordEncoder=passwordEncoder;
 		this.faker=new Faker();
 	}
 
@@ -219,7 +218,8 @@ public class Feather {
 	}
 	
 	public String addFakerPassword() {
-		return this.faker.lorem().characters(8);
+	    System.out.println(passwordEncoder.encode(this.faker.lorem().characters(8)));
+	    return passwordEncoder.encode(this.faker.lorem().characters(8));
 	}
 	
 	public String addFeatherEmail() {
