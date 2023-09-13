@@ -7,6 +7,20 @@ public class RegisterDTO {
 	private String email;
 	private String password;
 	
+	
+	public RegisterDTO(String pseudo, String name, String lastname, String email, String password) {
+		super();
+		this.pseudo = pseudo;
+		this.name = name;
+		this.lastname = lastname;
+		this.email = email;
+		this.password = password;
+	}
+	
+	public RegisterDTO() {
+		super();
+	}
+	
 	public String getPseudo() {
 		return pseudo;
 	}
@@ -37,20 +51,4 @@ public class RegisterDTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
-	public RegisterDTO(String pseudo, String name, String lastname, String email, String password) {
-		super();
-		this.pseudo = pseudo;
-		this.name = name;
-		this.lastname = lastname;
-		this.email = email;
-		this.password = password;
-	}
-	
-	public RegisterDTO() {
-		super();
-	}
-	
-	
-
 }
