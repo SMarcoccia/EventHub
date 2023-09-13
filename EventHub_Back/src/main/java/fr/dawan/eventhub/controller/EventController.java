@@ -51,10 +51,9 @@ public class EventController {
 			@PathVariable Long id,
 			@RequestParam Map<String, String> map,
 			@PageableDefault(size=20, sort="date_event", direction=Sort.Direction.DESC) Pageable pageable){
-		
 		Map<String, Object> response = new HashMap<>();
 		Page<Event> events=eventService.findAllEventsByIdUserAndTypeDateDesc(id, map, pageable);
-		
+		System.out.println("maptostring : "+map.toString());
 		if(events != null) {
 			response.put("success", true);
 			response.put("message", "Données récupérées avec succès");
@@ -68,12 +67,23 @@ public class EventController {
 	
 	// Supprimer un événement
 	@DeleteMapping(value="/{id}")
-	public ResponseEntity<?> deleteEvent(@PathVariable Long id){
+	public ResponseEntity<?> deleteEvent(
+			@PathVariable Long id,
+			@PageableDefault(size=20, sort="date_event", direction=Sort.Direction.DESC) Pageable pageable){
+		// Récupération de l'utilisateur par l'événement id :
+		Long idUser=eventService.findById(id).getUser().getId();
+		// Les paramètres utilisé pour renvoyer les événements : 		
+		Map<String, String> map = new HashMap<>();
+		map.put("page", "0");
+		map.put("type", "");
+		map.put("search", "");
+
 		Map<String, Object> response = new HashMap<>();
 		try {
 			eventService.deleteEvent(id);
 			response.put("success", true);
 			response.put("message", "L'événement à été supprimé avec succès");
+			response.put("events", eventService.findAllEventsByIdUserAndTypeDateDesc(idUser, map, pageable));
 		} catch (Exception e) {
 			response.put("success", false);
 			response.put("message", "L'événement à déjà été supprimé ou n'existe pas");
