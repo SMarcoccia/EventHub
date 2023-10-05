@@ -4,8 +4,8 @@ import { BackButton } from '@components/public/BackButton';
 import Pagination from '@components/public/Pagination';
 import SearchEvents from '@components/public/SearchEvents';
 import { Loading } from '@components/public/Loading';
+
 import { accountService } from '@services';
-import { formatDateService } from '@services';
 import { eventService } from '@services';
 
 
@@ -77,7 +77,7 @@ const ListEventsUser = () => {
         await eventService.deleteEvent(event.id)
         .then((res)=>{
             if(res.data.success){
-                fetchEvents(numPage, category, search);
+                setEventsBis(res.data.events);
             }
             setSuccessDeleteEvent(res.data.success);
             setMsgDeleteEvent(res.data.message);
