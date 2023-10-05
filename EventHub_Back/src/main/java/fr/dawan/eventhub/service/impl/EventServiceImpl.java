@@ -20,8 +20,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import fr.dawan.eventhub.Enum.TypeEvent;
 import fr.dawan.eventhub.entities.Event;
-import fr.dawan.eventhub.entities.User;
 import fr.dawan.eventhub.repositories.EventRepository;
+import fr.dawan.eventhub.security.entities.AppUser;
 import fr.dawan.eventhub.service.EventService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -65,7 +65,7 @@ public class EventServiceImpl implements EventService {
 
 		if(id != 0) {
 			// Jointure pour pour récupérer l'id de l'utilisateur.
-			Join<Event, User> join=root.join("user", JoinType.INNER);
+			Join<Event, AppUser> join=root.join("user", JoinType.INNER);
 			p.add(cb.equal(join.get("id"), id));
 		}
 
