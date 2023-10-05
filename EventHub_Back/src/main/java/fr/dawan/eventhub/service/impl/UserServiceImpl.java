@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.dawan.eventhub.Enum.Role;
-import fr.dawan.eventhub.entities.User;
 import fr.dawan.eventhub.repositories.UserRepository;
+import fr.dawan.eventhub.security.entities.AppUser;
 import fr.dawan.eventhub.service.UserService;
 
 
@@ -20,22 +20,22 @@ public class UserServiceImpl implements UserService{
 	private UserRepository userRepository;
 	
 	@Override
-	public User findById(Long id) {
+	public AppUser findById(Long id) {
 		return userRepository.findById(id).get();
 	}
 	
 	@Override
-	public List<User> findAllAdmin() {
+	public List<AppUser> findAllAdmin() {
 		return userRepository.findAllByRole(Role.ADMIN);
 	}
 
 	@Override
-	public List<User> findAllUser() {
+	public List<AppUser> findAllUser() {
 		return userRepository.findAllByRole(Role.USER);
 	}
 
 	@Override
-	public List<User> findAll() {
+	public List<AppUser> findAll() {
 		return userRepository.findAll();
 	}
 
@@ -45,18 +45,18 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User createUser(User user) {
+	public AppUser createUser(AppUser user) {
 		return userRepository.save(user);
 	}
 
 	@Override
-	public User updateUser(User user) {
+	public AppUser updateUser(AppUser user) {
 		return userRepository.save(user);
 	}
 
 	@Override
-	public User findByEmail(String email) {
-		User user = userRepository.findByEmail(email);
+	public AppUser findByEmail(String email) {
+		AppUser user = userRepository.findByEmail(email);
 		if(user != null) {
 			return user;
 		}
@@ -65,8 +65,8 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public User findByPseudo(String pseudo) {
-		User user = userRepository.findByPseudo(pseudo);
+	public AppUser findByPseudo(String pseudo) {
+		AppUser user = userRepository.findByPseudo(pseudo);
 		if(user != null) {
 			return user;
 		}
