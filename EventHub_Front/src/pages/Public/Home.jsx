@@ -55,6 +55,7 @@ const Home = () => {
 
             {/* CARDEVENEMENT */}
             <div className="sm:flex sm:justify-center justify-around mt-10 mb-20">
+            {/* Si l'on a pas d'id dans les valeurs du tableau on peut utilisé les index du tableau en 2e paramètres de map */}
             { data!==undefined  && !isLoading ? data.events.content.slice(-4).map((p) => (
                 <EventCard key={p.id} event={p} name={Home.name}/>
             )) : <Loading />}
