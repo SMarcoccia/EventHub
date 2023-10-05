@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fr.dawan.eventhub.Enum.Role;
 import fr.dawan.eventhub.dtos.LoginDTO;
-import fr.dawan.eventhub.entities.User;
+import fr.dawan.eventhub.security.entities.AppUser;
 import fr.dawan.eventhub.service.UserService;
 
 
@@ -28,9 +28,9 @@ public class LoginController {
 	
 	
 	@PostMapping("/register")
-	public ResponseEntity<?> register(@RequestBody User user){
+	public ResponseEntity<?> register(@RequestBody AppUser user){
 		
-		User u = userService.findByEmail(user.getEmail());
+		AppUser u = userService.findByEmail(user.getEmail());
 		Map<String, Object> response = new HashMap<>();
 		
 		if(u!=null) {
@@ -66,7 +66,7 @@ public class LoginController {
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO){
 
-		User user = userService.findByEmail(loginDTO.getEmail());
+		AppUser user = userService.findByEmail(loginDTO.getEmail());
 		Map<String, Object> response = new HashMap<>();
 		
 		if(user == null) {
