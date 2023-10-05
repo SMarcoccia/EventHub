@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 
 import fr.dawan.eventhub.Enum.TypeEvent;
+import fr.dawan.eventhub.security.entities.AppUser;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -34,7 +35,7 @@ public class Event {
 	private byte[] img;
 	
 	@ManyToOne
-	private User user;
+	private AppUser user;
 	
 	
 	
@@ -44,7 +45,7 @@ public class Event {
 	}
 	
 	public Event(TypeEvent type, String titre, String description, String resume, LocalDateTime date_event, String lieu,
-			Double prix, byte[] img, User user) {
+			Double prix, byte[] img, AppUser user) {
 		super();
 		this.type = type;
 		this.titre = titre;
@@ -129,11 +130,11 @@ public class Event {
 		this.img = img;
 	}
 
-	public User getUser() {
+	public AppUser getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(AppUser user) {
 		this.user = user;
 	}
 
