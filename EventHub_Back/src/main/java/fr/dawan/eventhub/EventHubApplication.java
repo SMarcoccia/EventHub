@@ -12,8 +12,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+import fr.dawan.eventhub.security.service.AccountService;
 
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -26,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 //import fr.dawan.eventhub.service.EventService;
 //import fr.dawan.eventhub.service.UserService;
 //import fr.dawan.eventhub.service.impl.EventServiceImpl;
+
 
 @SpringBootApplication
 public class EventHubApplication implements CommandLineRunner{
@@ -49,13 +50,27 @@ public class EventHubApplication implements CommandLineRunner{
 //		return users.get(new Random().nextInt(users.size()));
 //	}
 	
-    	@Bean
-    	PasswordEncoder passwordEncoder() {return new BCryptPasswordEncoder();}
+//    	@Bean
+//    	PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
     
 	public static void main(String[] args) {
 		SpringApplication.run(EventHubApplication.class, args);
 	}
 	
+	@Bean
+	CommandLineRunner commandLineRunnerUserDetails(AccountService accountService) {
+	    return args->{
+		accountService.addNewRole("USER");
+		accountService.addNewRole("ADMIN");
+		accountService.addNewUser("user", "toto", "1234", "user@gmail.com", "1234", "toto");
+		accountService.addNewUser("admin", "king", "1234", "admin@gmail.com", "1234", "vileplume");
+		
+		// Hydrate la table intermédiaire (ManyToMany). 
+		accountService.addRoleToUser("user", "USER");
+		accountService.addRoleToUser("admin", "USER");
+		accountService.addRoleToUser("admin", "ADMIN");
+	    };
+	}
 	
 	@Override
 	public void run(String... args) throws Exception {
