@@ -1,19 +1,20 @@
 package fr.dawan.eventhub.service;
 
 import java.util.List;
-import fr.dawan.eventhub.entities.User;
+
+import fr.dawan.eventhub.security.entities.AppUser;
 
 public interface UserService {
 	
-	User findById(Long id);
-	User findByEmail(String email);
-	User findByPseudo(String pseudo);
-	List<User> findAllAdmin();
-	List<User> findAllUser();
-	List<User> findAll();
+	AppUser findById(Long id);
+	AppUser findByEmail(String email);
+	AppUser findByPseudo(String pseudo);
+	List<AppUser> findAllAdmin();
+	List<AppUser> findAllUser();
+	List<AppUser> findAll();
 	void deleteUser(Long id);
-	User createUser(User user);
-	User updateUser(User user);
+	AppUser createUser(AppUser user);
+	AppUser updateUser(AppUser user);
 	
 
 }
