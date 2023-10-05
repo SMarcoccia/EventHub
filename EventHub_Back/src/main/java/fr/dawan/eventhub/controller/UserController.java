@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.dawan.eventhub.entities.Event;
-import fr.dawan.eventhub.entities.User;
+import fr.dawan.eventhub.security.entities.AppUser;
 import fr.dawan.eventhub.service.UserService;
 
 @RestController
@@ -37,22 +37,22 @@ public class UserController {
 	// Trouver tous les utilisateurs.	
 	@CrossOrigin
 	@GetMapping(produces=MT_AJV)
-	public List<User> findAll(){
+	public List<AppUser> findAll(){
 		return userService.findAll();
 	}
 	
 	// Trouver tous les utilisateur qui on un rôle Admin.	
 	@CrossOrigin
 	@GetMapping(value="/admin", produces=MT_AJV)
-	public List<User> findAllAdmin(){
+	public List<AppUser> findAllAdmin(){
 		return userService.findAllAdmin();
 	}
 	
 	// Trouver un utilisateur par son id.	
 	@CrossOrigin
 	@GetMapping(value="/{id}", produces = MT_AJV)
-	public ResponseEntity<User> findUserPerId(@PathVariable Long id) {
-		User user=userService.findById(id);
+	public ResponseEntity<AppUser> findUserPerId(@PathVariable Long id) {
+		AppUser user=userService.findById(id);
 		if(user != null)
 		{
 			return ResponseEntity.ok(user);
@@ -75,14 +75,14 @@ public class UserController {
 	// Mettre à jour les données de l'utilisateur.	
 	@CrossOrigin
 	@PutMapping(value="/{id}", produces=MT_AJV, consumes =MT_AJV)
-	public User updateUser(@PathVariable Long id, @RequestBody User user) {
+	public AppUser updateUser(@PathVariable Long id, @RequestBody AppUser user) {
 		return userService.updateUser(user);
 	}
 	
 	// Créer un utilisateur.	
 	@CrossOrigin
 	@PostMapping(produces=MT_AJV, consumes=MT_AJV)
-	public User createUser(@RequestBody User user) {
+	public AppUser createUser(@RequestBody AppUser user) {
 		return userService.createUser(user);
 	}
 }
