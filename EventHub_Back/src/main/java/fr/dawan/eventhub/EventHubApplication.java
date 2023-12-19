@@ -11,8 +11,12 @@ package fr.dawan.eventhub;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import fr.dawan.eventhub.security.config.RSAKeysConfig;
 import fr.dawan.eventhub.security.service.AccountService;
 
 //import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,6 +33,7 @@ import fr.dawan.eventhub.security.service.AccountService;
 
 
 @SpringBootApplication
+@EnableConfigurationProperties(RSAKeysConfig.class)
 public class EventHubApplication implements CommandLineRunner{
 
 //	@Autowired
@@ -50,20 +55,19 @@ public class EventHubApplication implements CommandLineRunner{
 //		return users.get(new Random().nextInt(users.size()));
 //	}
 	
-//    	@Bean
-//    	PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
     
 	public static void main(String[] args) {
 		SpringApplication.run(EventHubApplication.class, args);
 	}
-	
-	@Bean
+
+
+//	@Bean
 	CommandLineRunner commandLineRunnerUserDetails(AccountService accountService) {
 	    return args->{
 		accountService.addNewRole("USER");
 		accountService.addNewRole("ADMIN");
-		accountService.addNewUser("user", "toto", "1234", "user@gmail.com", "1234", "toto");
-		accountService.addNewUser("admin", "king", "1234", "admin@gmail.com", "1234", "vileplume");
+		accountService.addNewUser("user", "toto", "1234", "user@gmail.com", "toto");
+		accountService.addNewUser("admin", "king", "1234", "admin@gmail.com", "vileplume");
 		
 		// Hydrate la table intermédiaire (ManyToMany). 
 		accountService.addRoleToUser("user", "USER");
@@ -71,6 +75,9 @@ public class EventHubApplication implements CommandLineRunner{
 		accountService.addRoleToUser("admin", "ADMIN");
 	    };
 	}
+
+	@Bean
+	PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
 	
 	@Override
 	public void run(String... args) throws Exception {
