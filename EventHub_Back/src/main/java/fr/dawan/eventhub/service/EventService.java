@@ -18,7 +18,7 @@ public interface EventService {
 	Event findById(Long id);
 
 	Page<Event> findAllEventsByIdUser(Long id, Pageable pageable);
-	Page<Event> findAllEventsByIdUserAndTypeDateDesc(Long id, Map<String, String> map, Pageable pageable);
+	Page<Event> findAllEventsByUsernameAndTypeDateDesc(String username, Map<String, String> map, Pageable pageable);
 	
 	void deleteEvent(Long id);
 	Event createUpdateEvent(String jsonEvent, MultipartFile file) throws IOException;
