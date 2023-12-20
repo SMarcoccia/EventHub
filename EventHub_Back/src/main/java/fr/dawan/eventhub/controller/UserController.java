@@ -1,17 +1,11 @@
 package fr.dawan.eventhub.controller;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,53 +13,54 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.dawan.eventhub.entities.Event;
 import fr.dawan.eventhub.security.entities.AppUser;
-import fr.dawan.eventhub.service.UserService;
+import fr.dawan.eventhub.security.service.AccountService;
+import lombok.NoArgsConstructor;
+
 
 @RestController
+@NoArgsConstructor
 @RequestMapping("/api/users")
 public class UserController {
 	
-	@Autowired
-	private UserService userService;
+    	@Autowired
+	private AccountService accountService;
+	
 	private final String MT_AJV= MediaType.APPLICATION_JSON_VALUE;
 	
 	// Trouver tous les utilisateurs.	
-	@CrossOrigin
 	@GetMapping(produces=MT_AJV)
-	public List<AppUser> findAll(){
-		return userService.findAll();
+	@PreAuthorize("hasAuthority(SCOPE_ADMIN)")
+	public List<AppUser> findAllUser(){
+		return accountService.findAllUsers();
 	}
 	
 	// Trouver tous les utilisateur qui on un rôle Admin.	
-	@CrossOrigin
-	@GetMapping(value="/admin", produces=MT_AJV)
-	public List<AppUser> findAllAdmin(){
-		return userService.findAllAdmin();
-	}
+//	@CrossOrigin
+//	@GetMapping(value="/admin", produces=MT_AJV)
+//	public List<AppUser> findAllAdmin(){
+//		return userService.findAllAdmin();
+//	}
 	
 	// Trouver un utilisateur par son id.	
-	@CrossOrigin
-	@GetMapping(value="/{id}", produces = MT_AJV)
-	public ResponseEntity<AppUser> findUserPerId(@PathVariable Long id) {
-		AppUser user=userService.findById(id);
-		if(user != null)
-		{
-			return ResponseEntity.ok(user);
-		}
-		return ResponseEntity.notFound().build();	
-	}
+//	@GetMapping(value="/{id}", produces = MT_AJV)
+//	public ResponseEntity<AppUser> findUserPerId(@PathVariable Long id) {
+//		AppUser user=accountService.findUserById(id);
+//		if(user != null)
+//		{
+//			return ResponseEntity.ok(user);
+//		}
+//		return ResponseEntity.notFound().build();	
+//	}
 	
 	// Supprimer un utilisateur.	
-	@CrossOrigin
 	@DeleteMapping(value="/{id}")
+	@PreAuthorize("hasAuthority(SCOPE_USER)")
 	public ResponseEntity<String> deleteUser(@PathVariable Long id) {
 		try {
-			userService.deleteUser(id);
+			accountService.deleteUser(id);
 		} catch (Exception e) {
 			return ResponseEntity.notFound().build();
 		}
@@ -73,16 +68,16 @@ public class UserController {
 	}
 	
 	// Mettre à jour les données de l'utilisateur.	
-	@CrossOrigin
 	@PutMapping(value="/{id}", produces=MT_AJV, consumes =MT_AJV)
+	@PreAuthorize("hasAuthority(SCOPE_USER)")
 	public AppUser updateUser(@PathVariable Long id, @RequestBody AppUser user) {
-		return userService.updateUser(user);
+		return accountService.updateUser(user);
 	}
 	
 	// Créer un utilisateur.	
-	@CrossOrigin
 	@PostMapping(produces=MT_AJV, consumes=MT_AJV)
+	@PreAuthorize("hasAuthority(SCOPE_USER)")
 	public AppUser createUser(@RequestBody AppUser user) {
-		return userService.createUser(user);
+		return accountService.createUser(user);
 	}
 }
