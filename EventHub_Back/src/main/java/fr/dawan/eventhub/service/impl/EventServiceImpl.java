@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.query.sqm.tree.predicate.SqmWhereClause;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -46,7 +45,7 @@ public class EventServiceImpl implements EventService {
 	
 	@Override
 	public Event findById(Long id) {
-		return eventRepository.findById(id).get();
+	    return eventRepository.findById(id).get();
 	}
 	
 	@Override
@@ -55,18 +54,17 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public Page<Event> findAllEventsByIdUserAndTypeDateDesc(Long id, Map<String, String> map, Pageable pageable){
+	public Page<Event> findAllEventsByUsernameAndTypeDateDesc(String username, Map<String, String> map, Pageable pageable){
 		CriteriaBuilder cb=em.getCriteriaBuilder();
 		CriteriaQuery<Event> cq = cb.createQuery(Event.class);
 		Root<Event> root = cq.from(Event.class);
 		List<Predicate> p=new ArrayList<Predicate>();
 
 		cq.select(root);
-
-		if(id != 0) {
+		if( ! username.equals("-1")) {
 			// Jointure pour pour récupérer l'id de l'utilisateur.
 			Join<Event, AppUser> join=root.join("user", JoinType.INNER);
-			p.add(cb.equal(join.get("id"), id));
+			p.add(cb.equal(join.get("username"), username));
 		}
 
 		if( ! map.get("type").isEmpty()) {	
@@ -111,9 +109,8 @@ public class EventServiceImpl implements EventService {
 	
 	@Override
 	public Event createUpdateEvent(String JsonEvent, MultipartFile file) throws IOException {
-		System.out.println("dans createupdate ");
 		Event eventTmp = this.JsonStringToObject(JsonEvent);
-		System.out.println(eventTmp);
+
 		if(file != null) {
 			eventTmp.setImg(file.getBytes());
 		}
@@ -125,10 +122,11 @@ public class EventServiceImpl implements EventService {
 	private Event JsonStringToObject(String JsonEvent) {
 		Event event = new Event();
 		ObjectMapper objMap=JsonMapper.builder().addModule(new JavaTimeModule()).build();
+	
 		try {
-			event=objMap.readValue(JsonEvent, Event.class);
+		    event=objMap.readValue(JsonEvent, Event.class);
 		} catch (JsonProcessingException e) {
-			e.printStackTrace();
+		    e.printStackTrace();
 		}
 		return event;
 	}
