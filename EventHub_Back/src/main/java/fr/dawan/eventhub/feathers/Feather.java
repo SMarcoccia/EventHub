@@ -19,7 +19,6 @@ import javax.imageio.ImageIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import fr.dawan.eventhub.Enum.Role;
 import fr.dawan.eventhub.Enum.TypeEvent;
 import net.datafaker.Faker;
 
@@ -226,10 +225,10 @@ public class Feather {
 		return addFakerFirstname()+"."+addFakerLastname()+"@gmail.com";
 	}
 
-	public Role addRole() {
-		List<Role> roles=Arrays.asList(Role.USER, Role.ADMIN);
-		return roles.get(new Random().nextInt(roles.size()));
-	}
+//	public Role addRole() {
+//		List<Role> roles=Arrays.asList(Role.USER, Role.ADMIN);
+//		return roles.get(new Random().nextInt(roles.size()));
+//	}
 	
 	public byte[] converterFileImgToByteArray(String pathFolder, String filename) throws IOException {
 		System.out.println(pathFolder+filename);
