@@ -1,7 +1,7 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 
-import Header from '@components/public/Header'
+import Header from '@components/public/PHeader'
 import Footer from '@components/public/Footer'
 
 const AuLayout = () => {
