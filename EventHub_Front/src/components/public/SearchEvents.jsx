@@ -50,7 +50,7 @@ function SearchEvents(props) {
             }   
         </div>
             {/* RESULTAT */}
-            <p className="font-serif mt-5 text-1xl decoration-gray-400">
+            <p className="searchEventRes font-serif mt-5 text-1xl decoration-gray-400">
                 Résultat : <span className='mr-10'>
                     {props.errorMsg ? zeroEvent : props.totalElements}</span>Page {props.errorMsg ? zeroEvent : props.numPage+1}</p>
         </div>
