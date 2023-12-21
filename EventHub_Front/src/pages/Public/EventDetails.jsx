@@ -14,7 +14,10 @@ const EventDetails = () => {
     const [loading, setLoading] = useState(false)
     const params = useParams()
     const location=useLocation();
-    
+
+    const date=event?.date_event.slice(0, 11);
+    const heure=event?.date_event.slice(11, event?.date_event.length);
+
     const fetchEvents = async () => {
         setLoading(true)
         await eventService.getEvent(params.id)
@@ -28,9 +31,9 @@ const EventDetails = () => {
 
     const handlePath=()=>{
         let path='';
-        if ( location.state.name === "Home") {
+        if ( location.state?.name === "Home") {
             path='/';
-        }else if( location.state.name === "Events"){
+        }else if( location.state?.name === "Events"){
             path='/events';
         }else if(user !== null){
             path= "/user/liste-evenements-utilisateur"
@@ -59,7 +62,8 @@ const EventDetails = () => {
                             <p><span className="mb-3 font-bold text-xl">Lieu : </span>{event.lieu}</p>
                         </div>
                         <div className="mb-3">
-                            <p><span className="mb-3 font-bold text-xl">Date : </span>{event.date_event}</p>
+                            {console.log("EventDetails event.date_event : ", event.date_event)}
+                            <p><span className="mb-3 font-bold text-xl">Date : </span>{date + " à " + heure}</p>
                         </div>
                         <div className="mb-3">
                             <p><span className="mb-3 font-bold text-xl">Catégorie : </span>{event.type}</p>
