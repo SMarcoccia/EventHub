@@ -21,7 +21,7 @@ const dateConvertFr = (date)=>{
  */
 const convertAllDatesFr=(data, date)=>{
     data.map((event)=>{
-        event[date]=dateConvertFr(event[date])
+        event[date]=dateConvertFr(event[date]);
         return event;
     })
     return data
