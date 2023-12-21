@@ -2,26 +2,28 @@ import axios from "axios";
 import { accountService } from "./accountService";
 
 const Axios=axios.create({
-    baseURL: "http://localhost:8081/api"
+    baseURL: "http://localhost:8081/"
 })
 
 // Intercepteur pour la mise en place du token dans la requête :
 Axios.interceptors.request.use(request=>{
     if(accountService.isLogged()){
-        request.headers.Authorization='Bearer'+accountService.getToken();
+        request.headers.Authorization='Bearer '+accountService.getToken();
     }
     return request;
 })
 
-// Intercepteur pour vérifier si on a bien le token : 
+// Intercepteur pour vérifier si on a bien le token :
 Axios.interceptors.response.use(response=>{
     return response;
 }, error=>{
-    if(error.response.status === 401){
-        // Attention ici on supprime le user normalement on devrait supprimer le token.
-        // Ne devrait ton pas clear le localstorage.
-        accountService.logout(); 
-        window.location='/auth/login'; // Ici on redirige l'utilisateur et rafraichie la page donc cela nettoie tout le state donc toutes les variables qu'il y a à l'intérieur.
+    if(error.response?.status === 401){
+        // Si on cherche à s'enregistré.
+        if (error.response.config.url === "auth/register") {
+            console.log("error url  : ", error);
+            return Promise.reject(error);
+        }
+        return Promise.reject("Nom d'utilisateur ou mot de passe incorrect");
     }else{
         return Promise.reject(error);
     }
