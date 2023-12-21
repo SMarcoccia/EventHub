@@ -6,8 +6,8 @@ import { BackButton } from "@components/public/BackButton"
 import SearchEvents from "@components/public/SearchEvents"
 
 import { accountService } from "@services"
-import { formatDateService } from "@services"
 import { eventService } from "@services"
+
 
 const Events = () => {
     const user=accountService.getUser();
@@ -31,27 +31,19 @@ const Events = () => {
     
     const fetchEvents = async (numPage, type, search) => {
         setLoading(true)
-        let userId=0;
-
+        let username="-1";
         if(window.location.pathname === "/user/liste-evenements-utilisateur"){
             // Les événements de l'utilisateur.
-            userId=user.id;
+            username=user.username;
         }
         if(type===undefined){type=""}
 
-        await eventService.getAllEvents(userId, numPage, type, search)
+        await eventService.getAllEvents(username, numPage, type, search)
         .then(res =>
         { 
-            console.log("res.data : ", res.data);
             if(res.data.success)
             {
                 try {
-                    // Conversion date au format fr-FR.
-                    res.data.events.content=res.data.events.content.map((event)=>{
-                        event.date_event=formatDateService.dateConvertFr(event.date_event)
-                        return event;
-                    })
-    
                     Object.assign(events, res.data.events)   
                     setEventsBis(events)
                     setErrorMsg("")
@@ -81,7 +73,7 @@ const Events = () => {
                 <BackButton path={"/"}/>
             </div>
             
-            {/* DESCRIPTION */}
+            {/* RECHERCHE EVENEMENT */}
             <div className="ml-7">
                  <SearchEvents fetchEvents={fetchEvents} numPage={numPage} setNumPage={setNumPage} category={category} setCategory={setCategory} errorMsg={errorMsg} totalElements={eventsBis.totalElements}/>
             </div>
