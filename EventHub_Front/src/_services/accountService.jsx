@@ -1,10 +1,11 @@
+import jwtDecode from "jwt-decode";
 
 /**
  * Récupération du payload du token :
  * @returns {Object}
  */
 const getTokenInfo=()=>{
-    return jwt_decode(getToken())
+    return jwtDecode(getToken())
 }
 
 /**
@@ -12,31 +13,33 @@ const getTokenInfo=()=>{
  * @returns {String}
  */
 const getToken=()=>{
-    return localStorage.getItem('token')
+    return localStorage.getItem('access-token')
 }
 
 /**
  * Sauvegarde du token dans le localStorage :
  * @param {String} token 
  */
-const saveToken=(token)=>{
-    localStorage.setItem('token', token)
+const setToken=(token)=>{
+    localStorage.setItem('access-token', token);
 }
 
 /**
  * Suppression du token du loacalStorage :
  */
 const logoutWithToken=()=>{
-    localStorage.removeItem('token');
+    localStorage.removeItem('access-token');
 }
 
 /**
- * Sauvegarde de l'utilisateur dans le localStorage :
- * @param {Object} user 
+ * Sauvegarde les informations de l'utilisateur dans le localStorage :
+ * @param {Object} response 
  */
-const setUser = (user)=>{
-    // stringfy convertit un objet en JSON.
-    localStorage.setItem("user", JSON.stringify(user));
+const setUser = (response)=>{
+    setToken(response.data['access-token']);
+    const user={"username":getTokenInfo().sub, "roles":getTokenInfo().scope, "exp":getTokenInfo().exp*1000-Date.now()}
+    localStorage.setItem("user", JSON.stringify(user))
+    localStorage.setItem("isSessionExpired", false)
 }
 
 /**
@@ -44,9 +47,8 @@ const setUser = (user)=>{
  * @returns {Object}
  */
 const getUser = ()=>{
-    // parse convertit un JSON en objet javascript.
+    // .parse() : convertit un JSON en objet javascript.
     return JSON.parse(localStorage.getItem("user"));
-    
 }
 
 /**
@@ -54,17 +56,21 @@ const getUser = ()=>{
  * @returns {Boolean}
  */
 const isLogged=()=>{
-    let user=getUser();
-    return !!user;    
+    if(getUser()==null){
+        return false
+    }
+    return true;
 }
 
 /**
  * Déconnexion de l'utilisateur :
  */
 const logout = ()=>{
-    localStorage.removeItem("user")
+    localStorage.clear();
+    localStorage.setItem("isSessionExpired", true)
+    window.location.reload(false);
 }
 
 export const accountService={
-    getTokenInfo, getToken, logoutWithToken, saveToken, setUser, getUser, logout, isLogged
+    getTokenInfo, getToken, logoutWithToken, setToken, setUser, getUser, logout, isLogged
 }
