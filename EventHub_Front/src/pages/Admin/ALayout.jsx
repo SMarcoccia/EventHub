@@ -6,13 +6,11 @@ import Footer from '@components/public/Footer'
 
 const ALayout = () => {
   return (
-    <div className='ALayout'>
+    <>
         <AHeader />
-        <div id="admin">
-			<div className='container' id="admin_body"><Outlet/></div>
-        </div>
+        <div className='container' id="admin_body"><Outlet/></div>
         <Footer />
-    </div>
+    </>
   )
 }
 
