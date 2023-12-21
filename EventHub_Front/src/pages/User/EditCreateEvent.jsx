@@ -5,25 +5,31 @@ import { BackButton } from '@components/public/BackButton'
 import { eventService } from '@services';
 
 const EditCreateEvent = () => {
-    const userLocal=JSON.parse(localStorage.getItem("user"));
+    
+    
+    const user=JSON.parse(localStorage.getItem("user"));
     const navigation=useNavigate();
     const pathUserListEvents = "/user/liste-evenements-utilisateur";
     const params=useParams();
+    
+    const [isCreate, setIsCreate]=useState();
     const [loading, setLoading]=useState(false);
     const [formFile, setFormFile]=useState({file: null})
     const [errorMsg, setErrorMsg]=useState("");
+    
 
     // Attention la date doit-être obligatoire.
     const [formData, setFormData]=useState({
         date_event: "",
         description: "",
         img: "",
+        filename:"",
         lieu: "",
         prix: "",
         resume: "",
         titre: "",
         type: "SPORTIF",
-        user:""
+        user:"",
     });
 
     // Récupération de l'événement.
@@ -43,19 +49,20 @@ const EditCreateEvent = () => {
             "Content-Type": "multipart/form-data, application/octet-stream, application/json, application/octet-stream"
         }
     }
+
     const createUpdateEvent=async ()=>{
         setLoading(true);
-        formData.user = userLocal;
+        formData.user = {"username":user.username};
+        formData.filename=formFile.name;
         const formDataFile=new FormData()
         formDataFile.append("event", JSON.stringify(formData))   
 
         if (formFile.file !== null) {
-            formDataFile.append("file", formFile, formFile.name)
+            formDataFile.append("file", formFile);
         }
-
         await eventService.editCreateEvent(formDataFile, {mode:'cors', config})
             .then(()=>{ 
-                navigation(pathUserListEvents)
+                navigation(pathUserListEvents, {state: {message: isCreate ? 'L\'événement à été créé avec succès' : 'L\'événement à été modifier avec succès'}})
             }).catch((e)=>{
                 console.log(e);
             }).finally(()=>{setLoading(false)})
@@ -75,15 +82,22 @@ const EditCreateEvent = () => {
         if (e.target.name !== "file") {
             setFormData({
                 ...formData,
-                [e.target.name]: e.target.value})
+                [e.target.name]: e.target.value
+            })
         }else{
             setFormFile(e.target.files[0])
         }
     }
 
     useEffect(()=>{
-        // On interdit le lancement de fetchEvent si on est sur "créer un événement".
-        typeof params.id === "number" || typeof params.id !== "undefined" ? fetchEvent() : null;
+        // On interdit le lancement de fetchEvent si on est sur : "créer un événement".
+        //typeof params.id === "number" || typeof params.id !== "undefined" ? fetchEvent() : null;
+        if(typeof params.id === "number" || typeof params.id !== "undefined"){
+            setIsCreate(false);
+            fetchEvent();
+        }else{
+            setIsCreate(true);
+        }  
     }, [])
 
     return (
@@ -143,7 +157,7 @@ const EditCreateEvent = () => {
                       </svg>
                       <div className="flex text-sm text-gray-600 justify-center">
                         <label htmlFor="file-upload" className="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                          <span className="">Upload un fichier</span>
+                          <span className="">Ajouter une image</span>
                           <input id="file-upload" onChange={onChange} name="file" type="file" className="sr-only"/>
                         </label>
                       </div>
@@ -152,7 +166,7 @@ const EditCreateEvent = () => {
                         PNG, JPG, GIF jusqu'à 10MB
                       </p>
                       <p className="text-xs text-black font-bold">
-                        { formFile.name !== null ? formFile.name : ''}
+                        { formFile.name !== null ? formFile.name : ''} {formData.filename}
                       </p>
                     </div>
                   </div>
