@@ -1,0 +1,32 @@
+.cardRegister, .cardRegister h1{
+    color: navy;
+  }
+  
+.cardRegister span {
+    border-radius: 5px;
+    padding: 0 10px;
+    color: red;
+    font-weight: 700;
+  
+  }
+  
+.cardRegister span.start {
+    padding: 0 5px;
+}
+
+.cardRegister input{
+    outline: none;
+}
+
+.cardRegister input:focus{
+    border: 0.15rem solid green  
+}
+
+.cardRegister .password, .cardRegister .confirmPassword{
+    position: relative;
+}
+
+
+
+
+  
