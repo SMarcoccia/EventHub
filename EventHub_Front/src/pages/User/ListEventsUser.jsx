@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { BackButton } from '@components/public/BackButton';
 import Pagination from '@components/public/Pagination';
 import SearchEvents from '@components/public/SearchEvents';
@@ -11,7 +11,7 @@ import { eventService } from '@services';
 
 // Liste tout les événements d'un utilisateur.
 const ListEventsUser = () => {
-
+    const location=useLocation();
     const navigate = useNavigate();
 
     const user=accountService.getUser();
@@ -32,19 +32,18 @@ const ListEventsUser = () => {
     const [category, setCategory] = useState("");
     const [search, setSearch] = useState("");
     const [errorMsg, setErrorMsg]=useState("");
-    const [successDeleteEvent, setSuccessDeleteEvent]=useState("");
     const [msgDeleteEvent, setMsgDeleteEvent]=useState("");
+    const [msgCreateUpdateEvent, setMsgCreateUpdateEvent]=useState(location.state?.message);
 
-
+    // Récupération des événements.
     const fetchEvents = async (numPage, type, search) => {
         setLoading(true)
-        let userId=0; 
+        let username=""; 
 
-        if(window.location.pathname === "/user/liste-evenements-utilisateur"){
-            userId=user.id;
+        if(user != null && window.location.pathname === "/user/liste-evenements-utilisateur"){
+            username=user.username;
         }
-
-        const res=await eventService.getAllEventsByUser(userId, numPage, type, search);
+        const res=await eventService.getAllEventsByUser(username, numPage, type, search);
         try {
             if(res.success){
                 setEventsBis(res.events)
@@ -75,12 +74,11 @@ const ListEventsUser = () => {
     const deleteEvent = async (event) => {
         setLoading(true)
         await eventService.deleteEvent(event.id)
-        .then((res)=>{
-            if(res.data.success){
-                setEventsBis(res.data.events);
+        .then((response)=>{
+            if(response.data.success){
+                setEventsBis(response.data.events);
+                setMsgDeleteEvent("L'événement à été supprimé avec succès");
             }
-            setSuccessDeleteEvent(res.data.success);
-            setMsgDeleteEvent(res.data.message);
         })
         .catch((e)=>{console.log(e);})
         .finally(()=>{setLoading(false)})
@@ -88,11 +86,18 @@ const ListEventsUser = () => {
     
     const messageDeleteEvent=()=>{
         setTimeout(() => {
-            setSuccessDeleteEvent(false);
+            setMsgDeleteEvent("");
+        }, 3000);
+    }
+
+    const messageCreateUpdateEvent=()=>{
+        setTimeout(() => {
+            setMsgCreateUpdateEvent("");
         }, 3000);
     }
 
     useEffect(()=>{
+        if(user === null) return
         fetchEvents(numPage, category, search)
     }, [])
     
@@ -102,8 +107,11 @@ const ListEventsUser = () => {
             <BackButton path={"/user/home"} />
         </div>
         <h1 className="flex justify-center font-serif text-3xl font-bold underline decoration-gray-400">Votre liste d'événements</h1>
-        {successDeleteEvent && <div className='mx-10 text-center my-4 py-4 px-10 bg-lime-50 text-lime-700 shadow-sm shadow-black'>{msgDeleteEvent} {messageDeleteEvent()}</div>}
         
+        {/* MESSAGE ACTION */}
+        {msgDeleteEvent && <div className='mx-10 text-center my-4 py-4 px-10 bg-lime-50 text-lime-700 shadow-sm shadow-black'>{msgDeleteEvent} {messageDeleteEvent()}</div>}
+        {msgCreateUpdateEvent && <div className='mx-10 text-center my-4 py-4 px-10 bg-lime-50 text-lime-700 shadow-sm shadow-black'>{msgCreateUpdateEvent} {messageCreateUpdateEvent()}</div>}
+
         {/* DESCRIPTION */}
         <div className="flex justify-between mx-10 mt-10">
             <div><SearchEvents fetchEvents={fetchEvents} numPage={numPage} setNumPage={setNumPage} category={category} setCategory={setCategory} errorMsg={errorMsg} totalElements={eventsBis.totalElements}/></div>
